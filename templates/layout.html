@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+        {% include 'components/head_section.html' %}
+        {% include 'components/css.html' %}
+	</head>
+	<body>
+		<div class="body">
+            {% include 'components/topbar.html' %}
+            {% include 'components/navbar.html' %}
+            {% block content %}
+                <!-- All pages content goes here -->
+            {% endblock %}
+            {% include 'components/footer.html' %}
+		</div>
+    {% include 'components/js.html' %}
+	</body>
+</html>

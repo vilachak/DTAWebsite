@@ -1,0 +1,6 @@
+*.pyc
+*.xml
+*.iml
+logs/
+*/migrations/*
+DTAWebsite/local_settings.py
