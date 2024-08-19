@@ -1,34 +1,47 @@
 <header id="header" data-plugin-options="{'stickyEnabled': true, 'stickyEnableOnBoxed': true, 'stickyEnableOnMobile': false, 'stickyStartAt': 54, 'stickySetTop': '-54px', 'stickyChangeLogo': false}">
     <div class="header-body header-body-bottom-border-fixed box-shadow-none border-top-0">
-        <div class="header-top header-top-small-minheight header-top-simple-border-bottom">
-            <div class="container py-2">
-                <div class="header-row justify-content-between">
-                    <div class="header-column col-auto px-0">
+        <div class="bg-color-light">
+            <div class="container container-custom">
+                <div class="header-row align-items-center p-0 pt-1">
+                    <div class="header-column justify-content-start">
                         <div class="header-row">
-                            <div class="header-nav-top">
-                                <ul class="nav nav-pills position-relative">
-                                    <li class="nav-item d-none d-sm-block">
-                                        <span class="d-flex align-items-center font-weight-medium ws-nowrap text-3 ps-0"><a href="mailto:porto@domain.com" class="text-decoration-none text-color-dark text-color-hover-primary"><i class="icons icon-envelope font-weight-bold position-relative text-4 top-3 me-1"></i> porto@domain.com</a></span>
-                                    </li>
-                                    <li class="nav-item nav-item-left-border nav-item-left-border-remove nav-item-left-border-sm-show">
-                                        <span class="d-flex align-items-center font-weight-medium text-color-dark ws-nowrap text-3"><i class="icons icon-clock font-weight-bold position-relative text-3 top-1 me-2"></i> Mon - Sat 9:00am - 6:00pm</span>
-                                    </li>
-                                </ul>
-                            </div>
+                            <ul class="nav nav-pills text-dark">
+                                <li class="nav-item nav-item-left-border d-none d-md-block">
+                                    <a class="nav-link ps-0 text-dark opacity-8 font-size-custom" href="#">Contact: +91(370)2999283</a>
+                                </li>
+                            </ul>
+                            
                         </div>
                     </div>
-                    <div class="header-column justify-content-end col-auto px-0 d-none d-md-flex">
+
+                    <div class="header-column justify-content-end" id="ease-access">
                         <div class="header-row">
                             <nav class="header-nav-top">
-                                <ul class="header-social-icons social-icons social-icons-clean social-icons-icon-gray social-icons-medium custom-social-icons-divider">
-                                    <li class="social-icons-facebook">
-                                        <a href="http://www.facebook.com/" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                                <ul class="nav nav-pills text-dark">
+                                    <li class="nav-item nav-item-left-border d-none d-md-block">
+                                        <a class="nav-link ps-0 text-dark opacity-8 font-size-custom" href="#main">Skip to Main Content</a>
                                     </li>
-                                    <li class="social-icons-twitter">
-                                        <a href="http://www.twitter.com/" target="_blank" title="Twitter"><i class="fab fa-x-twitter"></i></a>
+                                    <li class="nav-item nav-item-left-border d-none d-md-block ps-3">
+                                        <a class="nav-link ps-0 text-dark opacity-8 font-size-custom" href="{% url 'screen-reader' %}">Screen Reader</a>
                                     </li>
-                                    <li class="social-icons-linkedin">
-                                        <a href="http://www.linkedin.com/" target="_blank" title="Linkedin"><i class="fab fa-linkedin-in"></i></a>
+                                    <li class="nav-item nav-item-left-border nav-item-left-border-remove nav-item-left-border-sm-show">
+                                        <a class="nav-link text-dark opacity-8 pe-0 font-size-custom" href="{% url 'site-map' %}">Sitemap</a>
+                                    </li>
+                                    <li class="nav-item dropdown nav-item-left-border d-none d-sm-block nav-item-left-border-remove nav-item-left-border-md-show">
+                                        <a class="font-size-custom" href="JavaScript:void(0);" id="google_translate_element"></a>
+                                    </li>
+
+                                    <li class="nav-item nav-item-left-border nav-item-left-border-remove nav-item-left-border-sm-show font-size-custom">
+                                        <button class="btn btn-xs btn-primary" onclick="changeFontDecrease()" title="Decrease font by 2%">A-</button>
+                                        <button class="btn btn-xs btn-primary" onclick="changeFontNormal()" title="Set to normal font">A</button>
+                                        <button class="btn btn-xs btn-primary" onclick="changeFontIncrease()" title="Increase font by 2%">A+</button>
+                                    </li>
+                                    <li class="nav-item nav-item-left-border nav-item-left-border-remove nav-item-left-border-sm-show font-size-custom">
+                                        <button class="btn btn-xs btn-warning" onclick="ChangeReset(this)" title="Reset to Normal">T</button>
+                                        <button class="btn btn-xs btn-dark" onclick="ChangeContrast(this)"  title="Dark Contrast">T</button>
+                                    </li>
+                                    <li class="nav-item nav-item-left-border nav-item-left-border-remove nav-item-left-border-sm-show font-size-custom">
+                                        <a href="{% url 'login' %}" class="btn btn-xs btn-danger"><i class="fa fa-sign-in text-color-light"></i></a>
                                     </li>
                                 </ul>
                             </nav>
@@ -37,32 +50,41 @@
                 </div>
             </div>
         </div>
+       
         <div class="header-container container">
             <div class="header-row">
                 <div class="header-column w-100">
                     <div class="header-row justify-content-between">
                         <div class="header-logo z-index-2 col-lg-2 px-0">
-                            <a href="demo-auto-services.html">
-                                <img alt="Porto" width="123" height="48" data-sticky-width="82" data-sticky-height="40" data-sticky-top="84" src="/static/img/demos/auto-services/logo.png">
+                            <a href="/">
+                                <img alt="DTA" width="250"  src="/static/img/ng-logo.png">
                             </a>
                         </div>
                         <div class="header-nav header-nav-links justify-content-end pe-lg-4 me-lg-3">
                             <div class="header-nav-main header-nav-main-arrows header-nav-main-dropdown-no-borders header-nav-main-effect-3 header-nav-main-sub-effect-1">
                                 <nav class="collapse">
                                     <ul class="nav nav-pills" id="mainNav">
-                                        <li><a href="{% url 'home' %}" class="nav-link {% if url == 'home' %}active{% endif %}">Home</a></li>
-                                        <li><a href="{% url 'about' %}" class="nav-link {% if url == 'about' %}active{% endif %}">About</a></li>
+                                        <li><a href="{% url 'home' %}" class="nav-link {{home}}">Home</a></li>
+                                        <li><a href="{% url 'about' %}" class="nav-link {{about}}">About</a></li>
+                                        <li><a href="{% url 'who' %}" class="nav-link {{who_who}}">Who's Who</a></li>
+                                        <li><a href="{% url 'news-events' %}" class="nav-link {{news_events}}">News & Events</a></li>
                                         <li class="dropdown">
-                                            <a href="demo-auto-services-services.html" class="nav-link dropdown-toggle">Media</a>
+                                            <a href="#" class="nav-link dropdown-toggle {{gallery}}">Gallery</a>
                                             <ul class="dropdown-menu">
-                                                <li><a href="demo-auto-services-services-detail.html" class="dropdown-item">Photo Gallery</a></li>
-                                                <li><a href="demo-auto-services-services-detail.html" class="dropdown-item">Video Gallery</a></li>
+                                                <li><a href="{% url 'photo-gallery' %}" class="dropdown-item">Photo Gallery</a></li>
+                                                <li><a href="{% url 'video-gallery' %}" class="dropdown-item">Video Gallery</a></li>
                                             </ul>
                                         </li>
-                                        <li><a href="demo-auto-services-products.html" class="nav-link">Products</a></li>
-                                        <li><a href="demo-auto-services-blog.html" class="nav-link">Blog</a></li>
-                                        <li><a href="demo-auto-services-appointment.html" class="nav-link">Appointment</a></li>
-                                        <li><a href="demo-auto-services-contact.html" class="nav-link">Contact</a></li>
+                                        <li class="dropdown">
+                                            <a href="#" class="nav-link dropdown-toggle {{download}}">Downlaods</a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="{% url 'apar' %}" class="dropdown-item">APAR</a></li>
+                                                <li><a href="{% url 'rti' %}" class="dropdown-item">RTI</a></li>
+                                                <li><a href="{% url 'gpf' %}" class="dropdown-item">GPF</a></li>
+                                                <li><a href="{% url 'pension' %}" class="dropdown-item">Pension</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="{% url 'contact' %}" class="nav-link {{contact}}">Contact</a></li>
                                     </ul>
                                 </nav>
                             </div>
@@ -78,63 +100,96 @@
                                 </div>
                             </li>
                         </ul>
-                        <div class="d-flex col-auto pe-0 ps-0 ps-xl-3">
-                            <div class="header-nav-features ps-0 ms-1">
-                                <div class="header-nav-feature header-nav-features-search d-inline-flex position-relative top-3 border border-top-0 border-bottom-0 custom-remove-mobile-border-left px-4 me-2">
-                                    <a href="#" class="header-nav-features-toggle text-decoration-none" data-focus="headerSearch" aria-label="Search">
-                                        <i class="icons icon-magnifier header-nav-top-icon text-5 font-weight-bold position-relative top-3"></i>
-                                    </a>
-                                    <div class="header-nav-features-dropdown header-nav-features-dropdown-mobile-fixed border-radius-0" id="headerTopSearchDropdown">
-                                        <form role="search" action="page-search-results.html" method="get">
-                                            <div class="simple-search input-group">
-                                                <input class="form-control text-1 rounded" id="headerSearch" name="q" type="search" value="" placeholder="Search...">
-                                                <button class="btn" type="submit" aria-label="Search">
-                                                    <i class="icons icon-magnifier header-nav-top-icon"></i>
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                <div class="header-nav-feature header-nav-features-cart header-nav-features-cart-big d-inline-flex top-2 ms-2">
-                                    <a href="#" class="header-nav-features-toggle" aria-label="">
-                                        <img src="/static/img/icons/icon-cart-big.svg" height="30" alt="" class="header-nav-top-icon-img">
-                                        <span class="cart-info">
-														<span class="cart-qty">1</span>
-													</span>
-                                    </a>
-                                    <div class="header-nav-features-dropdown" id="headerTopCartDropdown">
-                                        <ol class="mini-products-list">
-                                            <li class="item">
-                                                <a href="#" title="Product Short Name" class="product-image"><img src="/static/img/demos/auto-services/products/product-1.jpg" alt="Product Short Name"></a>
-                                                <div class="product-details">
-                                                    <p class="product-name">
-                                                        <a href="#">Product Short Name </a>
-                                                    </p>
-                                                    <p class="qty-price">
-                                                        1X <span class="price">$49</span>
-                                                    </p>
-                                                    <a href="#" title="Remove This Item" class="btn-remove"><i class="fas fa-times"></i></a>
-                                                </div>
-                                            </li>
-                                        </ol>
-                                        <div class="totals">
-                                            <span class="label">Total:</span>
-                                            <span class="price-total"><span class="price">$49</span></span>
-                                        </div>
-                                        <div class="actions">
-                                            <a class="btn btn-dark" href="#">View Cart</a>
-                                            <a class="btn btn-primary" href="#">Checkout</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="btn header-btn-collapse-nav ms-4" data-bs-toggle="collapse" data-bs-target=".header-nav-main nav">
-                            <i class="fas fa-bars"></i>
-                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </header>
+
+<script type="text/javascript">
+    function googleTranslateElementInit() { new google.translate.TranslateElement({ pageLanguage: 'en', includedLanguages: 'bn,gu,hi,kn,ml,mr,pa,ta,te,ur,en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, autoDisplay: false, gaTrack: true, gaId: 'UA-77793572-1' }, 'google_translate_element'); }
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+
+<script>
+    $(document).ready(function () {
+    var size = parseInt($('*').css("font-size"));
+    var sizes = parseInt(sessionStorage.getItem("TextSize"));
+    if (sizes != null) {
+        size = sizes;
+    }
+    $('*').css("font-size", size);
+
+    //  color contrast
+    var bgColor = sessionStorage.getItem("BgColor");
+    var fontColor =sessionStorage.getItem("FontColor");
+
+    if (bgColor != null) {
+        var all = document.getElementsByTagName("*");
+        for (var i=0, max=all.length; i < max; i++) {
+         all[i].style.setProperty("color", "#ff0", "important");
+        //  all[i].style.color = "#ff0";
+         all[i].style.background = "#000";
+        }
+    }
+    
+});
+
+function changeFontIncrease() {
+    
+    var size = parseInt($('*').css("font-size"));
+        size = size + 2;
+        if (size >= 20) {
+            size = 20;
+        }
+        sessionStorage.setItem("TextSize", size);
+    $('*').css("font-size", size);
+}
+function changeFontNormal() {
+
+    sessionStorage.removeItem("TextSize");
+        location.reload();
+
+    // var size = parseInt($('*').css("font-size"));
+    //     size = 14;
+    //     sessionStorage.setItem("TextSize", size);
+    // $('*').css("font-size", size);
+}
+function changeFontDecrease() {
+    var size = parseInt($('*').css("font-size"));
+        size = size - 2;
+        if (size <= 8) {
+            size = 8;
+        }
+        sessionStorage.setItem("TextSize", size);
+    
+    $('*').css("font-size", size);
+}
+
+
+//color contast
+function ChangeContrast(x) {
+    $(function () {
+
+        var all = document.getElementsByTagName("*");
+        for (var i=0, max=all.length; i < max; i++) {
+         all[i].style.setProperty("color", "#ff0", "important");
+         all[i].style.background = "#000";
+        }
+        sessionStorage.setItem("BgColor", "#000");
+        sessionStorage.setItem("FontColor", "#ff0");
+    });
+}
+//color contrast
+function ChangeReset(x) {
+    $(function () {
+       
+        sessionStorage.removeItem("BgColor");
+        sessionStorage.removeItem("FontColor");
+        location.reload();
+    });
+}
+</script>

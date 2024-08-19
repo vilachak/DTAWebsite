@@ -65,20 +65,12 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-parent {{download_expand}}">
-                        <a class="nav-link" href="#">
+                    
+                    <li class="{{download}}">
+                        <a class="nav-link" href="{% url 'admin-download' %}">
                             <i class='bx bx-download'></i>
-                            <span>Downloads</span>
-                        </a>
-                        <ul class="nav nav-children">
-                            <li class="{{rti}}">
-                                <a class="nav-link" href="{% url 'admin-rti' %}">
-                                    <i class='bx bx-note' ></i>
-                                    <span>RTI Disclosure</span>
-                                </a>  
-                            </li>
-                            
-                        </ul>
+                            <span>Download</span>
+                        </a>                        
                     </li>
                     <li class="{{who_who}}">
                         <a class="nav-link" href="{% url 'admin-contact' %}">

@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+{% block content %}
+<div role="main" class="main" id="main">
+    <section class="section bg-color-light m-0 p-0 pt-3 border-0">
+        <div class="container container-custom container-custom-initial">
+            <div class="row">
+                <div class="col-md-12 col-lg-12 col-sm-12">
+                    <ul class="breadcrumb d-block d-flex justify-content-start align-items-center">
+                        <li><a href="/">Home</a></li>
+                        <li class="active">Contact</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="pt-4 px-2">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="google-map mt-0">
+                    <iframe style="width: 100%; height: 100%;" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d48366.92887459226!2d94.07224078474675!3d25.707950059766507!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3746222c599fc031%3A0x849c3992e47714ce!2sTreasuries+%26+Accounts+Department!5e0!3m2!1sen!2sin!4v1530364206114"></iframe>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="appear-animation" data-appear-animation="fadeIn" data-appear-animation-delay="800">
+                    <h4 class="mt-2 mb-1"><strong>Directorate of Treasuries & Accounts</strong></h4>
+                    <ul class="list list-icons list-icons-style-2 mt-2">
+                        <li><i class="fas fa-map-marker-alt top-6"></i> <strong class="text-dark">Address:</strong> Below Civil Secretariat, Thizama Road
+                            Kohima-797001, Nagaland</li>
+                        <li><i class="fas fa-phone top-6"></i> <strong class="text-dark">Phone:</strong> +91(370)2999283</li>
+                        <li><i class="fas fa-envelope top-6"></i> <strong class="text-dark">Email:</strong> <a href="mailto:mail@example.com"> itdtangl[at]gmail[dot]com</a></li>
+                    </ul>
+                </div>
+                <div class="appear-animation" data-appear-animation="fadeIn" data-appear-animation-delay="950">
+                    <h4 class="pt-2">Business <strong>Hours</strong></h4>
+                    <ul class="list list-icons list-dark mt-2">
+                        <li><i class="far fa-clock top-6"></i> Monday - Friday - 10:00 am to 4:00 pm</li>
+                        <li><i class="far fa-clock top-6"></i> Saturday - 10:00 am to 4:00 pm</li>
+                        <li><i class="far fa-clock top-6"></i> Sunday - Closed</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="call-to-action call-to-action-default with-button-arrow content-align-center call-to-action-in-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9 col-lg-9">
+                <div class="call-to-action-content">
+                    <h3 class="font-weight-normal text-6 mb-0"> Do you have any concerns or issues you'd like to share? </h3>
+                </div>
+            </div>
+            <div class="col-md-3 col-lg-3">
+                <div class="call-to-action-btn">
+                    <a href="{% url 'grievance' %}" target="_blank" class="btn btn-secondary btn-lg text-3 font-weight-semibold px-4 py-3">Click here</a><span class="arrow hlb d-none d-md-block" data-appear-animation="rotateInUpLeft" style="top: -40px; left: 70%;"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
+    

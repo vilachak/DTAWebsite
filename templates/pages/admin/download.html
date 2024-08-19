@@ -5,14 +5,13 @@
 
 <section role="main" class="content-body">
     <header class="page-header">
-        <h2>Right To Information</h2>
+        <h2>Download</h2>
 
         <div class="right-wrapper text-end">
             <ol class="breadcrumbs">
-                <li></li>
 
+                <li><span></span></li>
                 <li><span>Download</span></li>
-                <li><span>Right To Information</span></li>
 
             </ol>
             <a class="sidebar-right-toggle" data-open=""></a>
@@ -25,7 +24,7 @@
             <section class="card">
                 <header class="card-header">
                     <div class="col-lg-6">
-                        <a class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-success" href="#modalForm"><i class='bx bx-news' ></i>  Upload RTI</a>
+                        <a class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-success" href="#modalForm"><i class='bx bx-download'></i>  Upload Dowmnload File</a>
                     </div>
                 </header>
                 <div class="card-body">
@@ -70,7 +69,7 @@
             <form action="{% url 'admin-download' %}" method="post" autocomplete="off" enctype="multipart/form-data">
                 {% csrf_token %}
             <header class="card-header">
-                <h2 class="card-title">Add RTI</h2>
+                <h2 class="card-title">Add Download File</h2>
             </header>
 
             <div class="card-body">
