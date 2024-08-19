@@ -1,0 +1,4 @@
+<option value="">--Select Polling Station--</option>
+{% for data in  polling_station_list %}
+<option value="{{data.code}}">{{data.name}}</option>
+{% endfor %}

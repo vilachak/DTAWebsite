@@ -1,0 +1,146 @@
+
+{% load static %}
+<aside id="sidebar-left" class="sidebar-left">
+
+    <div class="sidebar-header">
+        <div class="sidebar-title">
+            DTA Nagaland
+        </div>
+        <div class="sidebar-toggle d-none d-md-block" data-toggle-class="sidebar-left-collapsed" data-target="html" data-fire-event="sidebar-left-toggle">
+            <i class="fas fa-bars" aria-label="Toggle sidebar"></i>
+        </div>
+    </div>
+
+    <div class="nano">
+        <div class="nano-content">
+            <nav id="menu" class="nav-main" role="navigation">
+                <ul class="nav nav-main">
+                    <li class="{{dashboard}}">
+                        <a class="nav-link" href="{% url 'dashboard' %}">
+                            <i class='bx bxs-dashboard' ></i>
+                            <span>Dashboard</span>
+                        </a>                        
+                    </li>
+                    <li class="{{press_release_notification}}">
+                        <a class="nav-link" href="{% url 'admin-press-release' %}">
+                            <i class='bx bxs-news'></i>
+                            <span>Press Release</span>
+                        </a>                        
+                    </li>
+                    <li class="{{news_event}}">
+                        <a class="nav-link" href="{% url 'admin-news-event' %}">
+                            <i class='bx bx-news'></i>
+                            <span>News & Events</span>
+                        </a>                        
+                    </li>
+                    <li class="{{grievance}}">
+                        <a class="nav-link" href="{% url 'admin-grievance' %}">
+                            <i class='bx bx-help-circle'></i>
+                            <span>Grievance</span>
+                        </a>
+                    </li>
+                    <li class="nav-parent {{gallery_slider}}">
+                        <a class="nav-link" href="#">
+                            <i class='bx bx-images' ></i>
+                            <span>Gallery and Slider</span>
+                        </a>
+                        <ul class="nav nav-children">
+                            <li class="{{photo_gallery}}">
+                                <a class="nav-link" href="{% url 'admin-photo-gallery' %}">
+                                    <i class='bx bx-image' ></i>
+                                    Photo Gallery
+                                </a>
+                            </li>
+                            <li class="{{video_gallery}}">
+                                <a class="nav-link" href="{% url 'admin-video-gallery' %}">
+                                    <i class='bx bxs-videos' ></i>
+                                    Video Gallery
+                                </a>
+                            </li>
+                            <li class="{{slider_image}}">
+                                <a class="nav-link" href="{% url 'slider-image' %}">
+                                    <i class='bx bx-slider' ></i>
+                                    <span>Slider Image</span>
+                                </a>  
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-parent {{download_expand}}">
+                        <a class="nav-link" href="#">
+                            <i class='bx bx-download'></i>
+                            <span>Downloads</span>
+                        </a>
+                        <ul class="nav nav-children">
+                            <li class="{{rti}}">
+                                <a class="nav-link" href="{% url 'admin-rti' %}">
+                                    <i class='bx bx-note' ></i>
+                                    <span>RTI Disclosure</span>
+                                </a>  
+                            </li>
+                            
+                        </ul>
+                    </li>
+                    <li class="{{who_who}}">
+                        <a class="nav-link" href="{% url 'admin-contact' %}">
+                            <i class='bx bxs-contact'></i>
+                            <span>Who is Who</span>
+                        </a>                        
+                    </li>
+                    <li class="nav-parent {{master_expand}}">
+                        <a class="nav-link" href="#">
+                            <i class='bx bxs-cog' ></i>
+                            <span>Master</span>
+                        </a>
+                        <ul class="nav nav-children">
+                            <li class="{{district}}">
+                                <a class="nav-link" href="{% url 'admin-district' %}">
+                                    <i class='bx bxs-building-house' ></i>
+                                    District
+                                </a>
+                            </li>
+                            <li class="{{department}}">
+                                <a class="nav-link" href="{% url 'admin-department' %}">
+                                    <i class='bx bxs-building-house' ></i>
+                                    Department
+                                </a>
+                            </li>
+                            <li class="{{treasury}}">
+                                <a class="nav-link" href="{% url 'admin-treasury' %}">
+                                    <i class='bx bxs-building-house' ></i>
+                                    Treasuries
+                                </a>
+                            </li>
+                            <li class="{{grievance_category}}">
+                                <a class="nav-link" href="{% url 'admin-grievance-category' %}">
+                                    <i class='bx bxs-help-circle' ></i>
+                                    Grievance Category
+                                </a>
+                            </li>
+                            <li class="{{user_management}}">
+                                <a class="nav-link" href="{% url 'user-management' %}">
+                                    <i class='bx bxs-user-account'></i>
+                                    User Management
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+
+        </div>
+
+        <script>
+            // Maintain Scroll Position
+            if (typeof localStorage !== 'undefined') {
+                if (localStorage.getItem('sidebar-left-position') !== null) {
+                    var initialPosition = localStorage.getItem('sidebar-left-position'),
+                        sidebarLeft = document.querySelector('#sidebar-left .nano-content');
+
+                    sidebarLeft.scrollTop = initialPosition;
+                }
+            }
+        </script>
+
+    </div>
+
+</aside>

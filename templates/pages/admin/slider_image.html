@@ -1,0 +1,247 @@
+{% extends 'components/admin/layout.html' %}
+{% load static %}
+
+{% block content %} 
+
+<section role="main" class="content-body">
+    <header class="page-header">
+        <h2>Slider Image</h2>
+
+        <div class="right-wrapper text-end">
+            <ol class="breadcrumbs">
+                <li></li>
+
+                <li><span>Gallery</span></li>
+                <li><span>Slider Image</span></li>
+
+            </ol>
+            <a class="sidebar-right-toggle" data-open=""></a>
+        </div>
+    </header>
+<!-- start: page -->
+
+<div class="row">
+    <div class="col">
+        <section class="card">
+            <header class="card-header">
+                <div class="col-lg-6">
+                    <a class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-success" href="#modalForm"><i class='bx bx-image-add' ></i> Add Slider Image</a>
+                </div>
+            </header>
+            <div class="card-body">
+
+                <table class="table table-bordered table-striped mb-0" id="datatable-tabletools">
+
+                    <thead>
+                        <tr>
+                            <th>Created Date</th>
+                            <th>Title</th>
+                            <th>Slide Sequence</th>
+                            <th>Image</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for data in data %}
+                        <tr>
+                            <td>{{data.created_at|date:'d-m-Y'}}</td>
+                            
+                            <td>{{data.title}}</td>
+                            <td>{{data.slide_no}}</td>
+                            <td><a href="/media/slider/{{data.image_path}}" target="_blank">
+                                <img src="/media/slider/{{data.image_path}}" width="50">
+                            </a>
+                            </td>
+                            <td>
+                                <a href="#modalDelete" class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-warning" onclick="deleteFunction('{{data.id}}')"><i class='bx bx-trash' ></i></a>
+                                <a href="#modalFormUpdate" class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-primary" onclick="updateFunction('{{data.id}}','{{data.title}}','{{data.slide_no}}')"><i class='bx bx-edit' ></i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</div>
+<!-- end: page -->
+
+
+<!-- Modal Form -->
+<div id="modalForm" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
+    <section class="card">
+        <form action="{% url 'slider-image' %}" method="post" autocomplete="off" enctype="multipart/form-data">
+            {% csrf_token %}
+        <header class="card-header">
+            <h2 class="card-title">Add Slider Image</h2>
+        </header>
+
+        <div class="card-body">
+
+                <div class="form-group">
+                    <label for="inputAddress">Title</label>
+                    <input type="text" class="form-control" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="inputAddress2">Slider Sequence</label>
+                    <select class="form-control" name="slider_no" required>
+                        <option value="1">Slider No 1</option>
+                        <option value="2">Slider No 2</option>
+                        <option value="3">Slider No 3</option>
+                        <option value="4">Slider No 4</option>
+                        <option value="5">Slider No 5</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="inputAddress2">Slider Image (png,jpg,jpeg). Maximum Image size 2mb.</label>
+                    <input type="file" class="form-control" name="image_file" required>
+                </div>
+            </div>
+            <footer class="card-footer">
+                <div class="row">
+                    <div class="col-md-12 text-end">
+                        <button class="btn btn-default modal-dismiss">Cancel</button>
+                        <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </footer>
+        </form>
+    </section>
+</div>
+<!-- end: page -->
+ <!-- Modal Form -->
+<div id="modalFormUpdate" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
+    <section class="card">
+        <form action="{% url 'slider-image' %}" method="post" autocomplete="off" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" id="slider_no_id" name="slider_no_id">
+        <header class="card-header">
+            <h2 class="card-title">Update Slider Image</h2>
+        </header>
+
+        <div class="card-body">
+
+                <div class="form-group">
+                    <label for="inputAddress">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="inputAddress2">Slider Sequence</label>
+                    <select class="form-control" id="slider_no" name="slider_no" required>
+                        <option value="1">Slider No 1</option>
+                        <option value="2">Slider No 2</option>
+                        <option value="3">Slider No 3</option>
+                        <option value="4">Slider No 4</option>
+                        <option value="5">Slider No 5</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="inputAddress2">Slider Image (png,jpg,jpeg). Maximum Image size 2mb.</label>
+                    <input type="file" class="form-control" name="image_file">
+                </div>
+            </div>
+            <footer class="card-footer">
+                <div class="row">
+                    <div class="col-md-12 text-end">
+                        <button class="btn btn-default modal-dismiss">Cancel</button>
+                        <button type="submit" name="update" class="btn btn-primary">Update</button>
+                    </div>
+                </div>
+            </footer>
+        </form>
+    </section>
+</div>
+<!-- end: page -->
+<div id="modalDelete" class="zoom-anim-dialog modal-block modal-block-warning mfp-hide">
+    <section class="card">
+        <form action="{% url 'slider-image' %}" method="post" autocomplete="off">
+            {% csrf_token %}
+        <header class="card-header bg-warning">
+            <h2 class="card-title text-white">Confirmation!</h2>
+        </header>
+
+        <div class="card-body">
+            <input type="hidden" class="form-control" name="slider_id" id="slider_id">
+               <p class="text-dark">Are you sure you want to delete slider image?</p>
+            </div>
+            <footer class="card-footer">
+                <div class="row">
+                    <div class="col-md-12 text-end">
+                        <button class="btn btn-default modal-dismiss">Cancel</button>
+                        <button type="submit" name="delete" class="btn btn-warning">Delete</button>
+                    </div>
+                </div>
+            </footer>
+        </form>
+    </section>
+</div>
+{% if success %}
+<div class="modal fade" id="modalSuccess">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+                <h2 class="card-title text-white">Confirmation</h2>
+            </div>
+            <div class="modal-body">
+                <p class="text-dark">{{success}}</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <div class="col-md-12 text-end">
+                    <button class="btn btn-success modal-dismiss" onclick="closeModal()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% if error %}
+<div class="modal fade" id="modalError">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <h2 class="card-title text-white">Attention!</h2>
+            </div>
+            <div class="modal-body">
+                <p class="text-dark">{{error}}</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <div class="col-md-12 text-end">
+                    <button class="btn btn-warning modal-dismiss" onclick="closeModal()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock content %}
+
+{% block custom_js %}
+<script>
+$(document).ready(function () {
+    var error_msg = '{{error}}' || "";
+    var success = '{{success}}' || "";
+    if(error_msg != "")
+    {
+        $('#modalError').modal('show');
+    }
+    if(success != "")
+    {
+        $('#modalSuccess').modal('show');
+    }
+
+});
+ function closeModal(){
+    $('#modalSuccess').modal('hide');
+    $('#modalError').modal('hide');
+ }
+ function updateFunction(id,title, slide_no){
+        $("#slider_no_id").val(id);
+        $("#title").val(title);
+        $("#slide_no").val(slide_no);
+     }
+ function deleteFunction(id){
+    $("#slider_id").val(id);
+ }
+</script>
+{% endblock custom_js %}

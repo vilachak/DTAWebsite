@@ -1,0 +1,52 @@
+{% load static %}
+<!doctype html>
+<html class="fixed">
+	<head>
+
+		<!-- Basic -->
+		<meta charset="UTF-8">
+
+		<title>{{page_title}}</title>
+
+		<meta name="keywords" content="CEO" />
+		<meta name="description" content="Chief Electoral Officer Nagaland">
+		<meta name="author" content="CEO">
+		<!-- Favicon -->
+		<link rel="shortcut icon" href="static/website/img/ceo/eci-logo.png" type="image/x-icon" />
+		<link rel="apple-touch-icon" href="staic/website/img/ceo/eci-logo.png">
+		<!-- Mobile Metas -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+		<!-- Web Fonts  -->
+		<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
+
+		{% include 'components/admin/css.html' %}
+
+        {% block custom_css %}{% endblock custom_css %}
+
+	</head>
+	<body>
+		<section class="body">
+
+			<!-- start: header -->
+            {% include 'components/admin/header.html' %}
+			
+			<!-- end: header -->
+
+			<div class="inner-wrapper">
+				<!-- start: sidebar -->
+				{% include 'components/admin/sidebar.html' %}
+				<!-- end: sidebar -->
+                {% block content %}{% endblock content %}
+				
+			</div>
+			
+
+		</section>
+
+		{% include 'components/admin/js.html' %}
+
+        {% block custom_js %}{% endblock custom_js %}
+
+	</body>
+</html>

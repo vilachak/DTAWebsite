@@ -1,0 +1,17 @@
+asgiref==3.8.1
+cffi==1.17.0
+cryptography==40.0.2
+Django==5.1
+django-ranged-response==0.2.0
+django-simple-captcha==0.6.0
+flake8==7.1.1
+mccabe==0.7.0
+pillow==10.4.0
+psycopg2==2.9.9
+pycodestyle==2.12.1
+pycparser==2.22
+pycryptodome==3.17
+pyflakes==3.2.0
+python-decouple==3.8
+sqlparse==0.5.1
+tzdata==2024.1

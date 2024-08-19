@@ -1,0 +1,323 @@
+{% extends 'components/admin/layout.html' %}
+{% load static %}
+
+{% block content %} 
+
+<section role="main" class="content-body">
+    <header class="page-header">
+        <h2>Contact Details</h2>
+
+        <div class="right-wrapper text-end">
+            <ol class="breadcrumbs">
+                <li></li>
+                <li><span>Contact Details</span></li>
+
+            </ol>
+            <a class="sidebar-right-toggle" data-open=""></a>
+        </div>
+    </header>
+
+   
+    <div class="row">
+        <div class="col">
+            <section class="card">
+                <header class="card-header">
+                    <div class="col-lg-6">
+                        <a class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-success" href="#modalForm"><i class='bx bx-news' ></i>  Add Contact Details</a>
+                    </div>
+                </header>
+                <div class="card-body">
+                    <table class="table table-bordered table-striped mb-0" id="datatable-tabletools">
+                        <thead>
+                            <tr>
+                                <th>District</th>
+                                <th>Name</th>
+                                <th>Designation</th>
+                                <th>Contact No</th>
+                                <th>Email</th>
+                                <th>Fax No</th>
+                                <th>STD Code</th>
+                                <th>Contact Type</th>
+                                <th>Address</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for data in data %}
+                            <tr>
+                                <td>{{data.district.name}}</td>
+                                <td>{{data.name}}</td>
+                                <td>{{data.designation}}</td>
+                                <td>{{data.contact_no}}</td>
+                                <td>{{data.email}}</td>
+                                <td>{{data.fax_no}}</td>
+                                <td>{{data.std_code}}</td>
+                                <td>{{data.contact_type}}</td>
+                                <td>{{data.address}}</td>
+                                <td>
+                                    <a href="#modalDelete" class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-warning" onclick="deleteFunction('{{data.id}}')"><i class='bx bx-trash' ></i></a>
+                                    <a href="#modalFormUpdate" class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-primary" onclick="updateFunction('{{data.id}}','{{data.district_id}}','{{data.name}}','{{data.designation}}','{{data.contact_no}}','{{data.email}}','{{data.fax_no}}','{{data.std_code}}','{{data.contact_type}}','{{data.address}}')"><i class='bx bx-edit' ></i></a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+    <!-- end: page -->
+
+
+    <!-- Modal Form -->
+    <div id="modalForm" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
+        <section class="card">
+            <form action="{% url 'admin-contact' %}" method="post" autocomplete="off" enctype="multipart/form-data">
+                {% csrf_token %}
+            <header class="card-header">
+                <h2 class="card-title">Add Contact Details</h2>
+            </header>
+
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-lg-6">
+                        <label>District</label>
+                        <select class="form-control" name="district_id" required>
+                            <option value="">Select District</option>
+                            {% for data in district_list %}
+                            <option value="{{data.code}}">{{data.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-lg-6">
+                        <label for="inputAddress2">Category</label>
+                        <select class="form-control" name="contact_type" required>
+                            <option value="General">General</option>
+                            <option value="Deputy Commissioners & District Election Officers">Deputy Commissioners & District Election Officers</option>
+                            <option value="Asstt. Election Officers & Asstt. Electoral Registration Officers">Asstt. Election Officers & Asstt. Electoral Registration Officers</option>
+                        </select>
+                    </div>
+                </div>
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" class="form-control" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Designation</label>
+                        <input type="text" class="form-control" name="designation" required>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-6">
+                            <label>Email</label>
+                            <input type="email" class="form-control" name="email">
+                        </div>
+                        <div class="col-lg-6">
+                            <label>Contact No</label>
+                            <input type="text" class="form-control" name="contact_no">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-6">
+                            <label>Fax No</label>
+                            <input type="text" class="form-control" name="fax_no">
+                        </div>
+                        <div class="col-lg-6">
+                            <label>STD Code</label>
+                            <input type="text" class="form-control" name="std_code">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Address</label>
+                        <textarea type="text" rows="3" class="form-control" name="address"></textarea>
+                    </div>
+
+                </div>
+                <footer class="card-footer">
+                    <div class="row">
+                        <div class="col-md-12 text-end">
+                            <button class="btn btn-default modal-dismiss">Cancel</button>
+                            <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </footer>
+            </form>
+        </section>
+    </div>
+    <!-- end: page -->
+     <!-- Modal Form -->
+    <div id="modalFormUpdate" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
+        <section class="card">
+            <form action="{% url 'admin-contact' %}" method="post" autocomplete="off" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" id="update_contact_id" name="update_contact_id">
+                <header class="card-header">
+                    <h2 class="card-title">Update Contact Details</h2>
+                </header>
+
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-lg-6">
+                        <label>District</label>
+                        <select class="form-control" id="district_id" name="district_id" required>
+                            <option value="">Select District</option>
+                            {% for data in district_list %}
+                            <option value="{{data.code}}">{{data.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-lg-6">
+                        <label for="inputAddress2">Category</label>
+                        <select class="form-control" id="contact_type" name="contact_type" required>
+                            <option value="General">General</option>
+                            <option value="Deputy Commissioners & District Election Officers">Deputy Commissioners & District Election Officers</option>
+                            <option value="Asstt. Election Officers & Asstt. Electoral Registration Officers">Asstt. Election Officers & Asstt. Electoral Registration Officers</option>
+                        </select>
+                    </div>
+                </div>
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Designation</label>
+                        <input type="text" class="form-control" id="designation" name="designation" required>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-6">
+                            <label>Email</label>
+                            <input type="email" class="form-control" id="email" name="email">
+                        </div>
+                        <div class="col-lg-6">
+                            <label>Contact No</label>
+                            <input type="text" class="form-control" id="contact_no" name="contact_no">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-6">
+                            <label>Fax No</label>
+                            <input type="text" class="form-control" id="fax_no" name="fax_no">
+                        </div>
+                        <div class="col-lg-6">
+                            <label>STD Code</label>
+                            <input type="text" class="form-control" id="std_code" name="std_code">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Address</label>
+                        <textarea type="text" rows="3" class="form-control" id="address" name="address"></textarea>
+                    </div>
+
+                </div>
+                <footer class="card-footer">
+                    <div class="row">
+                        <div class="col-md-12 text-end">
+                            <button class="btn btn-default modal-dismiss">Cancel</button>
+                            <button type="submit" name="update" class="btn btn-primary">Update</button>
+                        </div>
+                    </div>
+                </footer>
+            </form>
+        </section>
+    </div>
+    <!-- end: page -->
+    <div id="modalDelete" class="zoom-anim-dialog modal-block modal-block-warning mfp-hide">
+        <section class="card">
+            <form action="{% url 'admin-contact' %}" method="post" autocomplete="off">
+                {% csrf_token %}
+            <header class="card-header bg-warning">
+                <h2 class="card-title text-white">Confirmation!</h2>
+            </header>
+
+            <div class="card-body">
+                <input type="hidden" class="form-control" name="contact_id" id="contact_id">
+                   <p class="text-dark">Are you sure you want to delete Contact detaills?</p>
+                </div>
+                <footer class="card-footer">
+                    <div class="row">
+                        <div class="col-md-12 text-end">
+                            <button class="btn btn-default modal-dismiss">Cancel</button>
+                            <button type="submit" name="delete" class="btn btn-warning">Delete</button>
+                        </div>
+                    </div>
+                </footer>
+            </form>
+        </section>
+    </div>
+    {% if success %}
+    <div class="modal fade" id="modalSuccess">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-success">
+                    <h2 class="card-title text-white">Confirmation</h2>
+                </div>
+                <div class="modal-body">
+                    <p class="text-dark">{{success}}</p>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <div class="col-md-12 text-end">
+                        <button class="btn btn-success modal-dismiss" onclick="closeModal()">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% if error %}
+    <div class="modal fade" id="modalError">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <h2 class="card-title text-white">Attention!</h2>
+                </div>
+                <div class="modal-body">
+                    <p class="text-dark">{{error}}</p>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <div class="col-md-12 text-end">
+                        <button class="btn btn-warning modal-dismiss" onclick="closeModal()">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% endblock content %}
+
+    {% block custom_js %}
+    <script>
+    $(document).ready(function () {
+        var error_msg = '{{error}}' || "";
+        var success = '{{success}}' || "";
+        if(error_msg != "")
+        {
+            $('#modalError').modal('show');
+        }
+        if(success != "")
+        {
+            $('#modalSuccess').modal('show');
+        }
+
+    });
+     function closeModal(){
+        $('#modalSuccess').modal('hide');
+        $('#modalError').modal('hide');
+     }
+     function updateFunction(id,district_id,name,designation,contact_no,email,fax_no,std_code,contact_type,address){
+        $("#update_contact_id").val(id);
+        $("#district_id").val(district_id);
+        $("#name").val(name);
+        $("#designation").val(designation);
+        $("#contact_no").val(contact_no);
+        $("#email").val(email);
+        $("#fax_no").val(fax_no);
+        $("#std_code").val(std_code);
+        $("#contact_type").val(contact_type);
+        $("#address").val(address);
+     }
+     function deleteFunction(id){
+        $("#contact_id").val(id);
+     }
+    </script>
+    {% endblock custom_js %}
+    

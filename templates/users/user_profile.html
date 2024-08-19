@@ -1,0 +1,96 @@
+{% extends 'components/admin/layout.html' %}
+{% load static %}
+
+{% block content %} 
+
+<section role="main" class="content-body">
+    <header class="page-header">
+        <h2>User Profile</h2>
+
+        <div class="right-wrapper text-end">
+            <ol class="breadcrumbs">
+                <li>
+                    <a href="{% url 'user-profile' %}">
+                        <i class='bx bxs-dashboard' ></i>
+                    </a>
+                </li>
+
+                <li><span>User Profile</span></li>
+                <li></li>
+
+            </ol>
+        </div>
+    </header>
+
+    <!-- start: page -->
+    <div class="row">
+        <div class="col">
+            <section class="card">
+            
+            <div class="row">
+                <div class="card-body">
+                    <form role="form" method="POST" action="{% url 'user-profile' %}" autocomplete="off">
+                        {% csrf_token %}
+                        <div class="col-md-12">
+                            <div class="row">
+                                
+                                <div class="col-md-6">
+                                    <div class="col-lg-12">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Old Password" id="id_old_password" name="{{form.old_password.name}}" required>
+                                            <span class="input-group-text">
+                                                <i class="fas fa-unlock"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <br>    
+                                    <div class="col-lg-12">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="New Password" id="id_new_password1" name="{{form.new_password1.name}}" required>
+                                            <span class="input-group-text">
+                                                <i class="fas fa-lock"></i>
+                                            </span>
+                                        </div>
+                                    </div> 
+                                    <br>
+                                    <div class="col-lg-12">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Confirm Password" id="id_new_password2" name="{{form.new_password2.name}}" required>
+                                            <span class="input-group-text">
+                                                <i class="fas fa-lock"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                        
+                                        <br>
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <button class="btn btn-info" type="submit" name="PasswordChange">Update Password</button>
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <ul>
+                                        <li>Password can't be too similar to your other personal information.</li>
+                                        <li>Your password must contain at least 8 characters.</li>
+                                        <li>Your password can't be a commonly used password.</li>
+                                        <li>Your password can't be entirely numeric.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+          </section>
+            <!-- /.nav-tabs-custom -->
+        </div>    
+    </div>
+
+
+    <!-- end: page -->
+</section>
+
+
+{% endblock content %}
+
