@@ -35,7 +35,7 @@ class CustomUser(AbstractUser):
 
 
 class Grievance(TimeStamped):
-    grievance_code = models.CharField(max_length=50)
+    grievance_code = models.CharField(max_length=50, null=True)
     date_filing = models.DateField()
     time_filing = models.TimeField()
     applicant_name = models.CharField(max_length=150)
@@ -94,8 +94,10 @@ class VideoGallery(TimeStamped):
     video_path = models.CharField(max_length=150, null=True, blank=True)
 
 
-class Rti(TimeStamped):
+class Download(TimeStamped):
     title = models.CharField(max_length=150)
+    type = models.CharField(max_length=150, null=True)
+    uploaded_date = models.DateField(null=True)
     file_path = models.CharField(max_length=150, null=True, blank=True)
 
 

@@ -1,15 +1,14 @@
 {% extends 'components/admin/layout.html' %}
 {% load static %}
 
-{% block content %} 
+{% block content %}
 
-<section role="main" class="content-body">
+    <section role="main" class="content-body">
     <header class="page-header">
         <h2>Grievance</h2>
 
         <div class="right-wrapper text-end">
             <ol class="breadcrumbs">
-                <li></li>
 
                 <li><span></span></li>
                 <li><span>Grievance</span></li>
@@ -24,57 +23,61 @@
             <section class="card">
                 <header class="card-header">
                     <div class="col-lg-6">
-{#                        <a class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-success" href="#modalForm"><i class='bx bx-news' ></i>  Add Grievance</a>#}
+                        <a class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-success" href="#modalForm"><i
+                                class='bx bx-help-circle'></i> Add Grievance Details</a>
                     </div>
+                    {#                     <h2 class="card-title">Grievance Details</h2>#}
                 </header>
                 <div class="card-body">
-    
                     <table class="table table-bordered table-striped mb-0" id="datatable-tabletools">
-    
+
                         <thead>
-                            <tr>
-                                <th>Sl No</th>
-                                <th>Grievance</th>
-                                <th>Date Filing</th>
-                                <th>Time Filing</th>
-                                <th>Applicant Name</th>
-                                <th>Recipient Name</th>
-                                <th>PPO Number</th>
-                                <th>Contact Number</th>
-                                 <th>Department</th>
-                                 <th>Treasury</th>
-                                <th>Grievance Category</th>
-                                <th>Description</th>
-                                <th>First</th>
-                                <th>Second</th>
-                                <th>Final</th>
-                                <th>Status</th>
-                                <th>Action Taken</th>
-                                <th>Action</th>
-                            </tr>
+                        <tr>
+                            <th>Sl No</th>
+                            <th>Grievance</th>
+                            <th>Date Filing</th>
+                            <th>Time Filing</th>
+                            <th>Applicant Name</th>
+                            <th>Recipient Name</th>
+                            <th>PPO Number</th>
+                            <th>Contact Number</th>
+                            <th>Department</th>
+                            <th>Treasury</th>
+                            <th>Grievance Category</th>
+                            <th>Status</th>
+                            <th>Description</th>
+                            <th>Action Taken</th>
+                            <th>Action</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            {% for data in data %}
+                        {% for data in data %}
                             <tr>
-                                <td>{{forloop.counter}}</td>
-                                <td>{{data.name}}</td>
-                                <td>{{data.name}}</td>
-                                <td>{{data.name}}</td>
-                                <td>{{data.name}}</td>
-                                <td>{{data.name}}</td>
-                                <td>{{data.name}}</td>
-                                <td>{{data.name}}</td>
-                                <td>{{data.name}}</td>
-                                <td>{{data.name}}</td>
-                                <td>{{data.name}}</td>
-                                <td>{{data.name}}</td>
-
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ data.grievance_code }}</td>
+                                <td>{{ data.date_filing|date:'m-d-Y' }}</td>
+                                <td>{{ data.time_filing }}</td>
+                                <td>{{ data.applicant_name }}</td>
+                                <td>{{ data.recipient_name }}</td>
+                                <td>{{ data.ppo_no }}</td>
+                                <td>{{ data.contact_no }}</td>
+                                <td>{{ data.department.name }}</td>
+                                <td>{{ data.treasury.name }}</td>
+                                <td>{{ data.grievance_category.name }}</td>
+                                <td>{{ data.status }}</td>
+                                <td>{{ data.description }}</td>
+                                <td>{{ data.grievance_action }}</td>
                                 <td>
-                                    <a href="#modalDelete" class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-warning" onclick="deleteFunction('{{data.id}}')"><i class='bx bx-trash' ></i></a>
-                                    <a href="#modalFormUpdate" class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-primary" onclick="updateFunction('{{data.id}}','{{data.name}}')"><i class='bx bx-edit' ></i></a>
+                                    <a href="#modalDelete"
+                                       class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-warning"
+                                       onclick="deleteFunction('{{ data.id }}')"><i class='bx bx-trash'></i></a>
+                                    <a href="#modalFormUpdate"
+                                       class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-primary"
+                                       onclick="updateFunction('{{ data.id }}','{{ data.date_filing }}')"><i
+                                            class='bx bx-edit'></i></a>
                                 </td>
                             </tr>
-                            {% endfor %}
+                        {% endfor %}
                         </tbody>
                     </table>
                 </div>
@@ -82,21 +85,93 @@
         </div>
     </div>
     <!-- end: page -->
-
-
     <!-- Modal Form -->
-    <div id="modalForm" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
+    <div id="modalForm" class="zoom-anim-dialog modal-block modal-block-lg mfp-hide">
         <section class="card">
-            <form action="{% url 'admin-grievance' %}" method="post" autocomplete="off">
+            <form action="{% url 'admin-grievance' %}" method="post" autocomplete="off" >
                 {% csrf_token %}
-            <header class="card-header">
-                <h2 class="card-title">Add Grievance</h2>
-            </header>
-
-            <div class="card-body">
-                    <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" class="form-control" name="name" required>
+                <header class="card-header">
+                    <h2 class="card-title">Add Grievance Details</h2>
+                </header>
+                <div class="card-body">
+                    <div class="form-group row">
+                        <div class="col-lg-4">
+                            <label>District <span class="text-danger">*</span></label>
+                            <select class="form-control" name="district" required>
+                                <option value="">Select District</option>
+                                {% for data in district_list %}
+                                    <option value="{{ data.id }}">{{ data.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-lg-4">
+                            <label>Treasury <span class="text-danger">*</span></label>
+                            <select class="form-control" name="treasury" required>
+                                <option value="">Select Treasury</option>
+                                {% for data in treasury_list %}
+                                    <option value="{{ data.id }}">{{ data.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-lg-4">
+                            <label>Department <span class="text-danger">*</span></label>
+                            <select class="form-control" name="department" required>
+                                <option value="">Select Department</option>
+                                {% for data in department_list %}
+                                    <option value="{{ data.id }}">{{ data.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group row">
+                        <div class="col-lg-6">
+                            <label>Applicant Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="applicant_name" required>
+                        </div>
+                        <div class="col-lg-6">
+                            <label>Contact No <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="contact_no" required>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group row">
+                        <div class="col-lg-6">
+                            <label>Date of Filing <span class="text-danger">*</span></label>
+                            <input type="text" data-plugin-datepicker class="form-control" name="date_filing" readonly
+                                   required>
+                        </div>
+                        <div class="col-lg-6">
+                            <label>Time of Filing <span class="text-danger">*</span></label>
+                            <input type="time" class="form-control" name="time_filing" required>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group row">
+                        <div class="col-lg-6">
+                            <label>Grievance Category <span class="text-danger">*</span></label>
+                            <select class="form-control" name="grievance_category" required>
+                                <option value="">Select Grievance Category</option>
+                                {% for data in grievance_category_list %}
+                                    <option value="{{ data.id }}">{{ data.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-lg-6">
+                            <label>PPO Number <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="ppo_no" required>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group row">
+                        <div class="col-lg-6">
+                            <label>Query/Grievance <span class="text-danger">*</span></label>
+                            <textarea type="text" rows="3" class="form-control" name="description"></textarea>
+                        </div>
+                        <div class="col-lg-6">
+                            <label>Action Taken <span class="text-danger">*</span></label>
+                            <textarea type="text" rows="3" class="form-control" name="grievance_action"></textarea>
+                        </div>
                     </div>
                 </div>
                 <footer class="card-footer">
@@ -111,17 +186,17 @@
         </section>
     </div>
     <!-- end: page -->
-      <!-- Modal Form -->
+    <!-- Modal Form -->
     <div id="modalFormUpdate" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
         <section class="card">
             <form action="{% url 'admin-grievance' %}" method="post" autocomplete="off">
                 {% csrf_token %}
                 <input type="hidden" id="grievance_code_id" name="grievance_code_id">
-            <header class="card-header">
-                <h2 class="card-title">Update Grievance</h2>
-            </header>
+                <header class="card-header">
+                    <h2 class="card-title">Update Grievance</h2>
+                </header>
 
-            <div class="card-body">
+                <div class="card-body">
                     <div class="form-group">
                         <label>Name</label>
                         <input type="text" class="form-control" id="name" name="name" required>
@@ -143,13 +218,13 @@
         <section class="card">
             <form action="{% url 'admin-grievance' %}" method="post" autocomplete="off">
                 {% csrf_token %}
-            <header class="card-header bg-warning">
-                <h2 class="card-title text-white">Confirmation!</h2>
-            </header>
+                <header class="card-header bg-warning">
+                    <h2 class="card-title text-white">Confirmation!</h2>
+                </header>
 
-            <div class="card-body">
-                <input type="hidden" class="form-control" name="grievance_id" id="grievance_id">
-                   <p class="text-dark">Are you sure you want to delete grievance?</p>
+                <div class="card-body">
+                    <input type="hidden" class="form-control" name="grievance_id" id="grievance_id">
+                    <p class="text-dark">Are you sure you want to delete grievance?</p>
                 </div>
                 <footer class="card-footer">
                     <div class="row">
@@ -163,72 +238,73 @@
         </section>
     </div>
     {% if success %}
-    <div class="modal fade" id="modalSuccess">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header bg-success">
-                    <h2 class="card-title text-white">Confirmation</h2>
-                </div>
-                <div class="modal-body">
-                    <p class="text-dark">{{success}}</p>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <div class="col-md-12 text-end">
-                        <button class="btn btn-success modal-dismiss" onclick="closeModal()">Close</button>
+        <div class="modal fade" id="modalSuccess">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-success">
+                        <h2 class="card-title text-white">Confirmation</h2>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-dark">{{ success }}</p>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <div class="col-md-12 text-end">
+                            <button class="btn btn-success modal-dismiss" onclick="closeModal()">Close</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     {% endif %}
     {% if error %}
-    <div class="modal fade" id="modalError">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header bg-warning">
-                    <h2 class="card-title text-white">Attention!</h2>
-                </div>
-                <div class="modal-body">
-                    <p class="text-dark">{{error}}</p>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <div class="col-md-12 text-end">
-                        <button class="btn btn-warning modal-dismiss" onclick="closeModal()">Close</button>
+        <div class="modal fade" id="modalError">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-warning">
+                        <h2 class="card-title text-white">Attention!</h2>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-dark">{{ error }}</p>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <div class="col-md-12 text-end">
+                            <button class="btn btn-warning modal-dismiss" onclick="closeModal()">Close</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     {% endif %}
 
-    {% endblock content %}
+{% endblock content %}
 
-    {% block custom_js %}
+{% block custom_js %}
     <script>
-    $(document).ready(function () {
-        var error_msg = '{{error}}' || "";
-        var success = '{{success}}' || "";
-        if(error_msg != "")
-        {
-            $('#modalError').modal('show');
-        }
-        if(success != "")
-        {
-            $('#modalSuccess').modal('show');
+        $(document).ready(function () {
+            var error_msg = '{{error}}' || "";
+            var success = '{{success}}' || "";
+            if (error_msg != "") {
+                $('#modalError').modal('show');
+            }
+            if (success != "") {
+                $('#modalSuccess').modal('show');
+            }
+
+        });
+
+        function closeModal() {
+            $('#modalSuccess').modal('hide');
+            $('#modalError').modal('hide');
         }
 
-    });
-     function closeModal(){
-        $('#modalSuccess').modal('hide');
-        $('#modalError').modal('hide');
-     }
-     function updateFunction(code,name){
-        $("#grievance_code_id").val(code);
-        $("#name").val(name);
-     }
-     function deleteFunction(id){
-        $("#grievance_id").val(id);
-     }
+        function updateFunction(code, name) {
+            $("#grievance_code_id").val(code);
+            $("#name").val(name);
+        }
+
+        function deleteFunction(id) {
+            $("#grievance_id").val(id);
+        }
     </script>
-    {% endblock custom_js %}
+{% endblock custom_js %}
 

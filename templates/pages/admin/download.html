@@ -35,6 +35,7 @@
                         <thead>
                             <tr>
                                 <th>Title</th>
+                                <th>Download Type</th>
                                 <th>Publish Date</th>
                                 <th>Document URL</th>
                                 <th>Action</th>
@@ -44,11 +45,12 @@
                             {% for data in data %}
                             <tr>
                                 <td>{{data.title}}</td>
+                                <td>{{data.type}}</td>
                                 <td>{{data.created_at|date:'d-m-Y'}}</td>
                                 <td><a href="/media/rti/{{data.file_path}}" target="_blank">{{data.file_path}}</a></td>
                                 <td>
                                     <a href="#modalDelete" class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-warning" onclick="deleteFunction('{{data.id}}')"><i class='bx bx-trash' ></i></a>
-                                    <a href="#modalFormUpdate" class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-primary" onclick="updateFunction('{{data.id}}','{{data.title}}')"><i class='bx bx-edit' ></i></a>
+                                    <a href="#modalFormUpdate" class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-primary" onclick="updateFunction('{{data.id}}','{{data.title}}','{{data.type}}')"><i class='bx bx-edit' ></i></a>
 
                                 </td>
                             </tr>
@@ -65,7 +67,7 @@
     <!-- Modal Form -->
     <div id="modalForm" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
         <section class="card">
-            <form action="{% url 'admin-rti' %}" method="post" autocomplete="off" enctype="multipart/form-data">
+            <form action="{% url 'admin-download' %}" method="post" autocomplete="off" enctype="multipart/form-data">
                 {% csrf_token %}
             <header class="card-header">
                 <h2 class="card-title">Add RTI</h2>
@@ -78,7 +80,17 @@
                         <input type="text" class="form-control" name="title" required>
                     </div>
                     <div class="form-group">
-                        <label for="inputAddress2">Document File (pdf only). Maximum Image size 5mb.</label>
+                        <label for="inputAddress">Download Type</label>
+                        <select class="form-control" name="type" required>
+                                <option value="">--Select Download Type--</option>
+                                <option value="APAR">APAR</option>
+                                <option value="RTI">RTI</option>
+                                <option value="GPF">GPF</option>
+                                <option value="Pension">Pension</option>
+                            </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputAddress2">Document File (pdf only). Maximum Image size 20 mb.</label>
                         <input type="file" class="form-control" name="file_path"  accept="application/pdf" required>
                     </div>
 
@@ -98,11 +110,11 @@
       <!-- Modal Form -->
     <div id="modalFormUpdate" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
         <section class="card">
-            <form action="{% url 'admin-rti' %}" method="post" autocomplete="off" enctype="multipart/form-data">
+            <form action="{% url 'admin-download' %}" method="post" autocomplete="off" enctype="multipart/form-data">
                 {% csrf_token %}
-                <input type="hidden" id="update_rti_id" name="update_rti_id">
+                <input type="hidden" id="update_download_id" name="update_download_id">
             <header class="card-header">
-                <h2 class="card-title">Update RTI</h2>
+                <h2 class="card-title">Update Download File</h2>
             </header>
 
             <div class="card-body">
@@ -110,6 +122,16 @@
                     <div class="form-group">
                         <label for="inputAddress">Title</label>
                         <input type="text" class="form-control" id="title" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputAddress">Download Type</label>
+                        <select class="form-control" name="type" id="type" required>
+                                <option value="">--Select Download Type--</option>
+                                <option value="APAR">APAR</option>
+                                <option value="RTI">RTI</option>
+                                <option value="GPF">GPF</option>
+                                <option value="Pension">Pension</option>
+                            </select>
                     </div>
                     <div class="form-group">
                         <label for="inputAddress2">Document File (pdf only). Maximum Image size 5mb.</label>
@@ -131,15 +153,15 @@
     <!-- end: page -->
     <div id="modalDelete" class="zoom-anim-dialog modal-block modal-block-warning mfp-hide">
         <section class="card">
-            <form action="{% url 'admin-rti' %}" method="post" autocomplete="off">
+            <form action="{% url 'admin-download' %}" method="post" autocomplete="off">
                 {% csrf_token %}
             <header class="card-header bg-warning">
                 <h2 class="card-title text-white">Confirmation!</h2>
             </header>
 
             <div class="card-body">
-                <input type="hidden" class="form-control" name="rti_id" id="rti_id">
-                   <p class="text-dark">Are you sure you want to delete RTI?</p>
+                <input type="hidden" class="form-control" name="download_id" id="download_id">
+                   <p class="text-dark">Are you sure you want to delete?</p>
                 </div>
                 <footer class="card-footer">
                     <div class="row">
@@ -212,12 +234,13 @@
         $('#modalSuccess').modal('hide');
         $('#modalError').modal('hide');
      }
-     function updateFunction(id,title){
-        $("#update_rti_id").val(id);
+     function updateFunction(id,title,type){
+        $("#update_download_id").val(id);
         $("#title").val(title);
+        $("#type").val(type);
      }
      function deleteFunction(id){
-        $("#rti_id").val(id);
+        $("#download_id").val(id);
      }
     </script>
     {% endblock custom_js %}

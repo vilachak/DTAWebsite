@@ -22,7 +22,7 @@ import os
 
 from django.db.models.query_utils import Q
 from administrator.forms import CaptchaForm, PasswordResetRequestForm, SetPasswordForm
-from administrator.models import CustomUser, Contact, District, NewsEvent, PressRelease, Rti, SliderImage, \
+from administrator.models import CustomUser, Contact, District, NewsEvent, PressRelease, Download, SliderImage, \
     PhotoGallery, VideoGallery, Department, Treasury, GrievanceCategory, Grievance, GrievanceResponse
 
 logger = logging.getLogger(__name__)
@@ -196,28 +196,38 @@ class AdminManagement:
     def grievance(self, request):
         page_title = "Directorate of Treasuries & Accounts, Nagaland | Grievance"
         template = 'pages/admin/grievance.html'
-        context = {"grievance": "nav-active", 'page_title': page_title}
+        district_list = District.objects.filter(is_deleted=False)
+        department_list = Department.objects.filter(is_deleted=False)
+        treasury_list = Treasury.objects.filter(is_deleted=False)
+        grievance_category_list = GrievanceCategory.objects.filter(is_deleted=False)
+        context = {
+            "grievance": "nav-active",
+            'page_title': page_title,
+            'district_list': district_list,
+            'department_list': department_list,
+            'treasury_list': treasury_list,
+            'grievance_category_list':grievance_category_list
+        }
 
         if request.method == "POST":
             if "submit" in request.POST:
-                Grievance(
-                    grievance_code=request.POST.get("grievance_code"),
-                    date_filing=request.POST.get("date_filing"),
-                    time_filing=request.POST.get("time_filing"),
-                    applicant_name=request.POST.get("applicant_name"),
-                    recipient_name=request.POST.get("recipient_name"),
-                    ppo_no=request.POST.get("ppo_no"),
-                    description=request.POST.get("description"),
-                    grievance_action=request.POST.get("grievance_action"),
-                    date_first=request.POST.get("date_first"),
-                    date_second=request.POST.get("date_second"),
-                    date_final=request.POST.get("date_final"),
-                    status="Pending",
-                    district=request.POST.get("district"),
-                    department=request.POST.get("department"),
-                    grievance_category=request.POST.get("grievance_category"),
-                    treasury=request.POST.get("treasury")
-                ).save()
+                grievance_kwargs = {
+                    'grievance_code': "11TPO",
+                    'date_filing': request.POST.get("date_filing"),
+                    'time_filing': request.POST.get("time_filing"),
+                    'applicant_name': request.POST.get("applicant_name"),
+                    'contact_no': request.POST.get("contact_no"),
+                    'recipient_name': request.POST.get("recipient_name"),
+                    'ppo_no': request.POST.get("ppo_no"),
+                    'description': request.POST.get("description"),
+                    'grievance_action': request.POST.get("grievance_action"),
+                    'status': "Pending",
+                    'district_id': request.POST.get("district"),
+                    'department_id': request.POST.get("department"),
+                    'grievance_category_id': request.POST.get("grievance_category"),
+                    'treasury_id': request.POST.get("treasury")
+                }
+                Grievance.objects.create(**grievance_kwargs)
                 context['success'] = "Successfully submitted."
 
             elif "update" in request.POST:
@@ -232,7 +242,7 @@ class AdminManagement:
                 grievance_category_id = request.POST.get("grievance_category_id")
                 GrievanceCategory.objects.filter(id=grievance_category_id).update(is_deleted=True)
                 context['success'] = "Successfully Deleted."
-        context['data'] = GrievanceCategory.objects.filter(is_deleted=False).order_by('-id')
+        context['data'] = Grievance.objects.filter(is_deleted=False).order_by('-date_filing')
         return render(request, template, context)
 
     @validate_role
@@ -522,13 +532,14 @@ class AdminManagement:
         return render(request, template, context)
 
     @validate_role
-    def rti(self, request):
-        page_title = "Directorate of Treasuries & Accounts, Nagaland | RTI"
-        template = 'pages/admin/rti.html'
-        context = {"download_expand": "nav-expanded", "rti": "nav-active", 'page_title': page_title}
+    def download(self, request):
+        page_title = "Directorate of Treasuries & Accounts, Nagaland | Download"
+        template = 'pages/admin/download.html'
+        context = {"download_expand": "nav-expanded", "download": "nav-active", 'page_title': page_title}
         if request.method == "POST":
             if "submit" in request.POST:
                 title = request.POST.get("title")
+                download_type = request.POST.get("type")
                 file_path = request.FILES['file_path']
                 if file_path.name.lower().endswith('.pdf'):
                     if file_path.name.count('.') == 1:
@@ -537,8 +548,9 @@ class AdminManagement:
                         else:
                             doc_file_url = handle_uploaded_file('rti', file_path)
                             doc_file_path = os.path.basename(doc_file_url)
-                            Rti(
+                            Download(
                                 title=title,
+                                type=download_type,
                                 file_path=doc_file_path
                             ).save()
                             context['success'] = "Successfully submitted."
@@ -548,19 +560,21 @@ class AdminManagement:
                     context['error'] = 'Invalid document file format!'
 
             elif "update" in request.POST:
-                rti_id = request.POST.get("update_rti_id")
+                download_id = request.POST.get("update_download_id")
                 title = request.POST.get("title")
+                download_type = request.POST.get("type")
                 file_path = request.FILES.get('file_path', False)
                 if file_path:
                     if file_path.name.lower().endswith('.pdf'):
                         if file_path.name.count('.') == 1:
-                            if len(file_path) > 5197152:
-                                context['error'] = 'File size is too big. It must be less than or equal to 5 mb.'
+                            if len(file_path) > 22197152:
+                                context['error'] = 'File size is too big. It must be less than or equal to 20 mb.'
                             else:
                                 doc_file_url = handle_uploaded_file('rti', file_path)
                                 doc_file_path = os.path.basename(doc_file_url)
-                                Rti.objects.filter(id=rti_id).update(
+                                Download.objects.filter(id=download_id).update(
                                     title=title,
+                                    type=download_type,
                                     file_path=doc_file_path
                                 )
                                 context['success'] = "Successfully updated."
@@ -569,16 +583,16 @@ class AdminManagement:
                     else:
                         context['error'] = 'Invalid document file format!'
                 else:
-                    Rti.objects.filter(id=rti_id).update(
+                    Download.objects.filter(id=download_id).update(
                         title=title
                     )
                     context['success'] = "Successfully updated."
 
             elif "delete" in request.POST:
-                rti_id = request.POST.get("rti_id")
-                Rti.objects.filter(id=rti_id).update(is_deleted=True)
+                download_id = request.POST.get("download_id")
+                Download.objects.filter(id=download_id).update(is_deleted=True)
                 context['success'] = "Successfully Deleted."
-        context['data'] = Rti.objects.filter(is_deleted=False).order_by('-id')
+        context['data'] = Download.objects.filter(is_deleted=False).order_by('-id')
         return render(request, template, context)
 
     @validate_role
