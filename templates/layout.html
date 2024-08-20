@@ -13,5 +13,85 @@
             {% include 'components/footer.html' %}
 		</div>
     {% include 'components/js.html' %}
+    
+<script>
+    $(document).ready(function () {
+    var size = parseInt($('*').css("font-size"));
+    var sizes = parseInt(sessionStorage.getItem("TextSize"));
+    if (sizes != null) {
+        size = sizes;
+    }
+    $('*').css("font-size", size);
+
+    //  color contrast
+    var bgColor = sessionStorage.getItem("BgColor");
+    var fontColor =sessionStorage.getItem("FontColor");
+
+    if (bgColor != null) {
+        var all = document.getElementsByTagName("*");
+        for (var i=0, max=all.length; i < max; i++) {
+         all[i].style.setProperty("color", "#ff0", "important");
+        //  all[i].style.color = "#ff0";
+         all[i].style.background = "#000";
+        }
+    }
+    
+});
+
+function changeFontIncrease() {
+    
+    var size = parseInt($('*').css("font-size"));
+        size = size + 2;
+        if (size >= 20) {
+            size = 20;
+        }
+        sessionStorage.setItem("TextSize", size);
+    $('*').css("font-size", size);
+}
+function changeFontNormal() {
+
+    sessionStorage.removeItem("TextSize");
+        location.reload();
+
+    // var size = parseInt($('*').css("font-size"));
+    //     size = 14;
+    //     sessionStorage.setItem("TextSize", size);
+    // $('*').css("font-size", size);
+}
+function changeFontDecrease() {
+    var size = parseInt($('*').css("font-size"));
+        size = size - 2;
+        if (size <= 8) {
+            size = 8;
+        }
+        sessionStorage.setItem("TextSize", size);
+    
+    $('*').css("font-size", size);
+}
+
+
+//color contast
+function ChangeContrast(x) {
+    $(function () {
+
+        var all = document.getElementsByTagName("*");
+        for (var i=0, max=all.length; i < max; i++) {
+         all[i].style.setProperty("color", "#ff0", "important");
+         all[i].style.background = "#000";
+        }
+        sessionStorage.setItem("BgColor", "#000");
+        sessionStorage.setItem("FontColor", "#ff0");
+    });
+}
+//color contrast
+function ChangeReset(x) {
+    $(function () {
+       
+        sessionStorage.removeItem("BgColor");
+        sessionStorage.removeItem("FontColor");
+        location.reload();
+    });
+}
+</script>
 	</body>
 </html>

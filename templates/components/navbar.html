@@ -1,19 +1,18 @@
+{% load static %}
 <header id="header" data-plugin-options="{'stickyEnabled': true, 'stickyEnableOnBoxed': true, 'stickyEnableOnMobile': false, 'stickyStartAt': 54, 'stickySetTop': '-54px', 'stickyChangeLogo': false}">
     <div class="header-body header-body-bottom-border-fixed box-shadow-none border-top-0">
         <div class="bg-color-light">
-            <div class="container container-custom">
+            <div class="container">
                 <div class="header-row align-items-center p-0 pt-1">
                     <div class="header-column justify-content-start">
                         <div class="header-row">
                             <ul class="nav nav-pills text-dark">
                                 <li class="nav-item nav-item-left-border d-none d-md-block">
-                                    <a class="nav-link ps-0 text-dark opacity-8 font-size-custom" href="#">Contact: +91(370)2999283</a>
+                                    <a class="nav-link ps-0 text-dark opacity-8 font-size-custom" href="#"><i class="far fa-envelope text-4 text-color-primary"></i> itdtangl[at]gmail[dot]com</a>
                                 </li>
                             </ul>
-                            
                         </div>
                     </div>
-
                     <div class="header-column justify-content-end" id="ease-access">
                         <div class="header-row">
                             <nav class="header-nav-top">
@@ -27,21 +26,26 @@
                                     <li class="nav-item nav-item-left-border nav-item-left-border-remove nav-item-left-border-sm-show">
                                         <a class="nav-link text-dark opacity-8 pe-0 font-size-custom" href="{% url 'site-map' %}">Sitemap</a>
                                     </li>
-                                    <li class="nav-item dropdown nav-item-left-border d-none d-sm-block nav-item-left-border-remove nav-item-left-border-md-show">
+                                    <li class="nav-item nav-item-left-border nav-item-left-border-remove nav-item-left-border-sm-show">
                                         <a class="font-size-custom" href="JavaScript:void(0);" id="google_translate_element"></a>
                                     </li>
-
-                                    <li class="nav-item nav-item-left-border nav-item-left-border-remove nav-item-left-border-sm-show font-size-custom">
-                                        <button class="btn btn-xs btn-primary" onclick="changeFontDecrease()" title="Decrease font by 2%">A-</button>
-                                        <button class="btn btn-xs btn-primary" onclick="changeFontNormal()" title="Set to normal font">A</button>
-                                        <button class="btn btn-xs btn-primary" onclick="changeFontIncrease()" title="Increase font by 2%">A+</button>
+                                    <li class="nav-item nav-item-left-border nav-item-left-border-remove nav-item-left-border-sm-show">
+                                        <span onclick="changeFontDecrease()" style="cursor: pointer;" title="Decrease font by 2%">A-</span>
                                     </li>
-                                    <li class="nav-item nav-item-left-border nav-item-left-border-remove nav-item-left-border-sm-show font-size-custom">
-                                        <button class="btn btn-xs btn-warning" onclick="ChangeReset(this)" title="Reset to Normal">T</button>
-                                        <button class="btn btn-xs btn-dark" onclick="ChangeContrast(this)"  title="Dark Contrast">T</button>
+                                    <li class="nav-item nav-item-left-border nav-item-left-border-remove nav-item-left-border-sm-show">
+                                        <span onclick="changeFontNormal()"  style="cursor: pointer;" title="Set to normal font">A</span>
                                     </li>
-                                    <li class="nav-item nav-item-left-border nav-item-left-border-remove nav-item-left-border-sm-show font-size-custom">
-                                        <a href="{% url 'login' %}" class="btn btn-xs btn-danger"><i class="fa fa-sign-in text-color-light"></i></a>
+                                    <li class="nav-item nav-item-left-border nav-item-left-border-remove nav-item-left-border-sm-show">
+                                        <span onclick="changeFontIncrease()"  style="cursor: pointer;" title="Increase font by 2%">A+</span>
+                                    </li>
+                                    <li class="nav-item nav-item-left-border nav-item-left-border-remove nav-item-left-border-sm-show">
+                                        <span onclick="ChangeReset(this)"  style="cursor: pointer;" title="Reset to Normal">Normal</i></span>
+                                    </li>
+                                    <li class="nav-item nav-item-left-border nav-item-left-border-remove nav-item-left-border-sm-show">
+                                        <span onclick="ChangeContrast(this)"  style="cursor: pointer;" title="Dark Contrast">Dark</i></span>
+                                    </li>
+                                    <li class="nav-item nav-item-left-border nav-item-left-border-remove nav-item-left-border-sm-show">
+                                        <a href="{% url 'login' %}" ><i class="fa fa-sign-in text-color-primary">&nbsp; Login</i></a>
                                     </li>
                                 </ul>
                             </nav>
@@ -50,16 +54,23 @@
                 </div>
             </div>
         </div>
-       
         <div class="header-container container">
             <div class="header-row">
                 <div class="header-column w-100">
                     <div class="header-row justify-content-between">
-                        <div class="header-logo z-index-2 col-lg-2 px-0">
-                            <a href="/">
-                                <img alt="DTA" width="250"  src="/static/img/ng-logo.png">
-                            </a>
+                        <div class="header-column" style="position: static !important; top: auto !important;">
+                            <div class="header-row">
+                                <div class="header-logo">
+                                    <a href="{% url 'home' %}">
+                                        <img alt="DTA-logo" width="70" src="{% static 'img/nagaland_logo.png' %}">
+                                    </a>
+                                </div>
+                                <div style="margin-left: 20px; min-width: 250px;">
+                                    <p class="text-3 font-weight-extra-bold m-0">DIRECTORATE OF TREASURIES <br>& ACCOUNTS, NAGALAND</p>
+                                </div>
+                            </div>
                         </div>
+
                         <div class="header-nav header-nav-links justify-content-end pe-lg-4 me-lg-3">
                             <div class="header-nav-main header-nav-main-arrows header-nav-main-dropdown-no-borders header-nav-main-effect-3 header-nav-main-sub-effect-1">
                                 <nav class="collapse">
@@ -89,7 +100,7 @@
                                 </nav>
                             </div>
                         </div>
-                        <ul class="header-extra-info custom-left-border-1 d-none d-xl-block">
+                        <!-- <ul class="header-extra-info custom-left-border-1 d-none d-xl-block">
                             <li class="d-none d-sm-inline-flex ms-0">
                                 <div class="header-extra-info-icon">
                                     <i class="icons icon-phone text-3 text-color-dark position-relative top-3"></i>
@@ -97,9 +108,9 @@
                                 <div class="header-extra-info-text line-height-2">
                                     <span class="text-1 font-weight-semibold text-color-default">CALL US NOW</span>
                                     <strong class="text-4"><a href="tel:+1234567890" class="text-color-hover-primary text-decoration-none">+123 4567 890</a></strong>
-                                </div>
+                                </div> 
                             </li>
-                        </ul>
+                        </ul> -->
                     </div>
                 </div>
             </div>
@@ -112,84 +123,3 @@
 </script>
 
 <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-
-<script>
-    $(document).ready(function () {
-    var size = parseInt($('*').css("font-size"));
-    var sizes = parseInt(sessionStorage.getItem("TextSize"));
-    if (sizes != null) {
-        size = sizes;
-    }
-    $('*').css("font-size", size);
-
-    //  color contrast
-    var bgColor = sessionStorage.getItem("BgColor");
-    var fontColor =sessionStorage.getItem("FontColor");
-
-    if (bgColor != null) {
-        var all = document.getElementsByTagName("*");
-        for (var i=0, max=all.length; i < max; i++) {
-         all[i].style.setProperty("color", "#ff0", "important");
-        //  all[i].style.color = "#ff0";
-         all[i].style.background = "#000";
-        }
-    }
-    
-});
-
-function changeFontIncrease() {
-    
-    var size = parseInt($('*').css("font-size"));
-        size = size + 2;
-        if (size >= 20) {
-            size = 20;
-        }
-        sessionStorage.setItem("TextSize", size);
-    $('*').css("font-size", size);
-}
-function changeFontNormal() {
-
-    sessionStorage.removeItem("TextSize");
-        location.reload();
-
-    // var size = parseInt($('*').css("font-size"));
-    //     size = 14;
-    //     sessionStorage.setItem("TextSize", size);
-    // $('*').css("font-size", size);
-}
-function changeFontDecrease() {
-    var size = parseInt($('*').css("font-size"));
-        size = size - 2;
-        if (size <= 8) {
-            size = 8;
-        }
-        sessionStorage.setItem("TextSize", size);
-    
-    $('*').css("font-size", size);
-}
-
-
-//color contast
-function ChangeContrast(x) {
-    $(function () {
-
-        var all = document.getElementsByTagName("*");
-        for (var i=0, max=all.length; i < max; i++) {
-         all[i].style.setProperty("color", "#ff0", "important");
-         all[i].style.background = "#000";
-        }
-        sessionStorage.setItem("BgColor", "#000");
-        sessionStorage.setItem("FontColor", "#ff0");
-    });
-}
-//color contrast
-function ChangeReset(x) {
-    $(function () {
-       
-        sessionStorage.removeItem("BgColor");
-        sessionStorage.removeItem("FontColor");
-        location.reload();
-    });
-}
-</script>
