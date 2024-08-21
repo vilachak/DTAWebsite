@@ -5,14 +5,14 @@
 
 <section role="main" class="content-body">
     <header class="page-header">
-        <h2>Grievance Category</h2>
+        <h2>Download Category</h2>
 
         <div class="right-wrapper text-end">
             <ol class="breadcrumbs">
                 <li></li>
 
                 <li><span>Master</span></li>
-                <li><span>Grievance Category</span></li>
+                <li><span>Download Category</span></li>
 
             </ol>
             <a class="sidebar-right-toggle" data-open=""></a>
@@ -24,7 +24,7 @@
             <section class="card">
                 <header class="card-header">
                     <div class="col-lg-6">
-                        <a class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-success" href="#modalForm"><i class='bx bx-news' ></i>  Add Grievance Category</a>
+                        <a class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-success" href="#modalForm"><i class='bx bx-news' ></i>  Add Download Category</a>
                     </div>
                 </header>
                 <div class="card-body">
@@ -61,10 +61,10 @@
     <!-- Modal Form -->
     <div id="modalForm" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
         <section class="card">
-            <form action="{% url 'admin-grievance-category' %}" method="post" autocomplete="off">
+            <form action="{% url 'admin-download-category' %}" method="post" autocomplete="off">
                 {% csrf_token %}
             <header class="card-header">
-                <h2 class="card-title">Add Grievance Category</h2>
+                <h2 class="card-title">Add Download Category</h2>
             </header>
 
             <div class="card-body">
@@ -88,11 +88,11 @@
       <!-- Modal Form -->
     <div id="modalFormUpdate" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
         <section class="card">
-            <form action="{% url 'admin-grievance-category' %}" method="post" autocomplete="off">
+            <form action="{% url 'admin-download-category' %}" method="post" autocomplete="off">
                 {% csrf_token %}
-                <input type="hidden" id="grievance_category_code_id" name="grievance_category_code_id">
+                <input type="hidden" id="download_category_code_id" name="download_category_code_id">
             <header class="card-header">
-                <h2 class="card-title">Update Grievance Category</h2>
+                <h2 class="card-title">Update Download Category</h2>
             </header>
 
             <div class="card-body">
@@ -115,15 +115,15 @@
     <!-- end: page -->
     <div id="modalDelete" class="zoom-anim-dialog modal-block modal-block-warning mfp-hide">
         <section class="card">
-            <form action="{% url 'admin-grievance-category' %}" method="post" autocomplete="off">
+            <form action="{% url 'admin-download-category' %}" method="post" autocomplete="off">
                 {% csrf_token %}
             <header class="card-header bg-warning">
                 <h2 class="card-title text-white">Confirmation!</h2>
             </header>
 
             <div class="card-body">
-                <input type="hidden" class="form-control" name="grievance_category_id" id="grievance_category_id">
-                   <p class="text-dark">Are you sure you want to delete grievance category?</p>
+                <input type="hidden" class="form-control" name="download_category_id" id="download_category_id">
+                   <p class="text-dark">Are you sure you want to delete download category?</p>
                 </div>
                 <footer class="card-footer">
                     <div class="row">
@@ -197,11 +197,11 @@
         $('#modalError').modal('hide');
      }
      function updateFunction(code,name){
-        $("#grievance_category_code_id").val(code);
+        $("#download_category_code_id").val(code);
         $("#name").val(name);
      }
      function deleteFunction(id){
-        $("#grievance_category_id").val(id);
+        $("#download_category_id").val(id);
      }
     </script>
     {% endblock custom_js %}

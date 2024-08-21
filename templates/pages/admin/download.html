@@ -44,12 +44,12 @@
                             {% for data in data %}
                             <tr>
                                 <td>{{data.title}}</td>
-                                <td>{{data.type}}</td>
+                                <td>{{data.download_category.name}}</td>
                                 <td>{{data.created_at|date:'d-m-Y'}}</td>
                                 <td><a href="/media/rti/{{data.file_path}}" target="_blank">{{data.file_path}}</a></td>
                                 <td>
                                     <a href="#modalDelete" class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-warning" onclick="deleteFunction('{{data.id}}')"><i class='bx bx-trash' ></i></a>
-                                    <a href="#modalFormUpdate" class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-primary" onclick="updateFunction('{{data.id}}','{{data.title}}','{{data.type}}')"><i class='bx bx-edit' ></i></a>
+                                    <a href="#modalFormUpdate" class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-primary" onclick="updateFunction('{{data.id}}','{{data.title}}','{{data.download_category_id}}')"><i class='bx bx-edit' ></i></a>
 
                                 </td>
                             </tr>
@@ -77,13 +77,12 @@
                         <input type="text" class="form-control" name="title" required>
                     </div>
                     <div class="form-group">
-                        <label for="inputAddress">File Type</label>
+                        <label for="inputAddress">File Type</label><a class="btn btn-primary btn-xs" href="{% url 'admin-download-category' %}" style="margin: 5px">Add more category</a>
                         <select class="form-control" name="type" required>
-                                <option value="">--Select File Type--</option>
-                                <option value="APAR">APAR</option>
-                                <option value="RTI">RTI</option>
-                                <option value="GPF">GPF</option>
-                                <option value="Pension">Pension</option>
+                            <option value="">--Select File Type--</option>
+                            {% for data in download_category %}
+                                <option value="{{ data.id }}">{{ data.name }}</option>
+                            {% endfor %}
                         </select>
                     </div>
                     <div class="form-group">
@@ -121,13 +120,12 @@
                         <input type="text" class="form-control" id="title" name="title" required>
                     </div>
                     <div class="form-group">
-                        <label for="inputAddress">File Type</label>
+                        <label for="inputAddress">File Type</label> <a class="btn btn-primary btn-xs" href="{% url 'admin-download-category' %}" style="margin: 5px">Add more category</a>
                         <select class="form-control" name="type" id="type" required>
-                                <option value="">--Select File Type--</option>
-                                <option value="APAR">APAR</option>
-                                <option value="RTI">RTI</option>
-                                <option value="GPF">GPF</option>
-                                <option value="Pension">Pension</option>
+                            <option value="">--Select File Type--</option>
+                            {% for data in download_category %}
+                                <option value="{{ data.id }}">{{ data.name }}</option>
+                            {% endfor %}
                             </select>
                     </div>
                     <div class="form-group">

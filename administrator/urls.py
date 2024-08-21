@@ -18,6 +18,7 @@ urlpatterns = [
     path('admin-video-gallery', AdminManagement([UserTypeEnum.ADMIN]).videoGallery, name='admin-video-gallery'),
     path('slider-image', AdminManagement([UserTypeEnum.ADMIN]).sliderImage, name='slider-image'),
     path('admin-download', AdminManagement([UserTypeEnum.ADMIN]).download, name='admin-download'),
+    path('admin-download-category', AdminManagement([UserTypeEnum.ADMIN]).downloadCategory, name='admin-download-category'),
     path('admin-contact', AdminManagement([UserTypeEnum.ADMIN]).contactDetail, name='admin-contact'),
 
 

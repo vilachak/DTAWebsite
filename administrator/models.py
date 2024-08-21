@@ -31,15 +31,16 @@ class GrievanceCategory(TimeStamped):
 
 class CustomUser(AbstractUser):
     user_type = models.CharField(max_length=20, default="ADMIN")
-    mobile_no = models.CharField(max_length=10, blank=True)
+    mobile_no = models.CharField(max_length=10, null=True)
+    designation = models.CharField(max_length=10, null=True)
+    district = models.ForeignKey(District, on_delete=models.PROTECT, related_name='custom_user', null=True)
+    treasury = models.ForeignKey(Treasury, on_delete=models.PROTECT, related_name='custom_user', null=True)
 
 
 class Grievance(TimeStamped):
-    grievance_code = models.CharField(max_length=50, null=True)
     date_filing = models.DateField()
     time_filing = models.TimeField()
     applicant_name = models.CharField(max_length=150)
-    recipient_name = models.CharField(max_length=150, null=True)
     ppo_no = models.CharField(max_length=50, null=True)
     contact_no = models.CharField(max_length=20, null=True)
     description = models.TextField(null=True)
@@ -53,6 +54,7 @@ class Grievance(TimeStamped):
     department = models.ForeignKey(Department, on_delete=models.PROTECT, related_name='grievance')
     grievance_category = models.ForeignKey(GrievanceCategory, on_delete=models.PROTECT, related_name='grievance')
     treasury = models.ForeignKey(Treasury, on_delete=models.PROTECT, related_name='grievance')
+    recipient = models.ForeignKey(CustomUser, on_delete=models.PROTECT, related_name='grievance')
 
 
 class GrievanceResponse(TimeStamped):
@@ -94,11 +96,16 @@ class VideoGallery(TimeStamped):
     video_path = models.CharField(max_length=150, null=True, blank=True)
 
 
+class DownloadCategory(TimeStamped):
+    name = models.CharField(max_length=150, null=False)
+
+
 class Download(TimeStamped):
     title = models.CharField(max_length=150)
-    type = models.CharField(max_length=150, null=True)
     uploaded_date = models.DateField(null=True)
     file_path = models.CharField(max_length=150, null=True, blank=True)
+
+    download_category = models.ForeignKey(DownloadCategory, on_delete=models.PROTECT, related_name='download')
 
 
 class Contact(TimeStamped):

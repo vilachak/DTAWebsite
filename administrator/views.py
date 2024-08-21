@@ -23,7 +23,7 @@ import os
 from django.db.models.query_utils import Q
 from administrator.forms import CaptchaForm, PasswordResetRequestForm, SetPasswordForm
 from administrator.models import CustomUser, Contact, District, NewsEvent, PressRelease, Download, SliderImage, \
-    PhotoGallery, VideoGallery, Department, Treasury, GrievanceCategory, Grievance, GrievanceResponse
+    PhotoGallery, VideoGallery, Department, Treasury, GrievanceCategory, Grievance, GrievanceResponse, DownloadCategory
 
 logger = logging.getLogger(__name__)
 User = get_user_model()
@@ -206,18 +206,34 @@ class AdminManagement:
             'district_list': district_list,
             'department_list': department_list,
             'treasury_list': treasury_list,
-            'grievance_category_list':grievance_category_list
+            'grievance_category_list': grievance_category_list
         }
 
         if request.method == "POST":
             if "submit" in request.POST:
                 grievance_kwargs = {
-                    'grievance_code': "11TPO",
                     'date_filing': request.POST.get("date_filing"),
                     'time_filing': request.POST.get("time_filing"),
                     'applicant_name': request.POST.get("applicant_name"),
                     'contact_no': request.POST.get("contact_no"),
-                    'recipient_name': request.POST.get("recipient_name"),
+                    'ppo_no': request.POST.get("ppo_no"),
+                    'description': request.POST.get("description"),
+                    'grievance_action': request.POST.get("grievance_action"),
+                    'status': "Pending",
+                    'district_id': request.POST.get("district"),
+                    'department_id': request.POST.get("department"),
+                    'grievance_category_id': request.POST.get("grievance_category"),
+                    'treasury_id': request.POST.get("treasury"),
+                    'recipient_id': request.user.id
+                }
+                Grievance.objects.create(**grievance_kwargs)
+                context['success'] = "Successfully submitted."
+
+            elif "update" in request.POST:
+                grievance_id = request.POST.get("grievance_code_id")
+                grievances_kwargs = {
+                    'applicant_name': request.POST.get("applicant_name"),
+                    'contact_no': request.POST.get("contact_no"),
                     'ppo_no': request.POST.get("ppo_no"),
                     'description': request.POST.get("description"),
                     'grievance_action': request.POST.get("grievance_action"),
@@ -227,20 +243,12 @@ class AdminManagement:
                     'grievance_category_id': request.POST.get("grievance_category"),
                     'treasury_id': request.POST.get("treasury")
                 }
-                Grievance.objects.create(**grievance_kwargs)
-                context['success'] = "Successfully submitted."
-
-            elif "update" in request.POST:
-                name = request.POST.get("name")
-                grievance_category_id = request.POST.get("grievance_category_code_id")
-                GrievanceCategory.objects.filter(id=grievance_category_id).update(
-                    name=name
-                )
+                Grievance.objects.filter(id=grievance_id).update(**grievances_kwargs)
                 context['success'] = "Successfully updated."
 
             elif "delete" in request.POST:
-                grievance_category_id = request.POST.get("grievance_category_id")
-                GrievanceCategory.objects.filter(id=grievance_category_id).update(is_deleted=True)
+                grievance_id = request.POST.get("grievance_id")
+                Grievance.objects.filter(id=grievance_id).update(is_deleted=True)
                 context['success'] = "Successfully Deleted."
         context['data'] = Grievance.objects.filter(is_deleted=False).order_by('-date_filing')
         return render(request, template, context)
@@ -532,10 +540,40 @@ class AdminManagement:
         return render(request, template, context)
 
     @validate_role
+    def downloadCategory(self, request):
+        page_title = "Directorate of Treasuries & Accounts, Nagaland | Download Category"
+        template = 'pages/admin/download_category.html'
+        context = {"master_expand": "nav-expanded", "download_category": "nav-active", 'page_title': page_title}
+
+        if request.method == "POST":
+            if "submit" in request.POST:
+                name = request.POST.get("name")
+                DownloadCategory(
+                    name=name
+                ).save()
+                context['success'] = "Successfully submitted."
+
+            elif "update" in request.POST:
+                name = request.POST.get("name")
+                download_category_id = request.POST.get("download_category_code_id")
+                DownloadCategory.objects.filter(id=download_category_id).update(
+                    name=name
+                )
+                context['success'] = "Successfully updated."
+
+            elif "delete" in request.POST:
+                download_category_id = request.POST.get("download_category_id")
+                DownloadCategory.objects.filter(id=download_category_id).update(is_deleted=True)
+                context['success'] = "Successfully Deleted."
+        context['data'] = DownloadCategory.objects.filter(is_deleted=False).order_by('-id')
+        return render(request, template, context)
+
+    @validate_role
     def download(self, request):
         page_title = "Directorate of Treasuries & Accounts, Nagaland | Download"
         template = 'pages/admin/download.html'
-        context = {"download_expand": "nav-expanded", "download": "nav-active", 'page_title': page_title}
+        download_category = DownloadCategory.objects.filter(is_deleted=False)
+        context = {"download_expand": "nav-expanded", "download": "nav-active", 'page_title': page_title, "download_category": download_category}
         if request.method == "POST":
             if "submit" in request.POST:
                 title = request.POST.get("title")
@@ -550,7 +588,7 @@ class AdminManagement:
                             doc_file_path = os.path.basename(doc_file_url)
                             Download(
                                 title=title,
-                                type=download_type,
+                                download_category_id=download_type,
                                 file_path=doc_file_path
                             ).save()
                             context['success'] = "Successfully submitted."
@@ -574,7 +612,7 @@ class AdminManagement:
                                 doc_file_path = os.path.basename(doc_file_url)
                                 Download.objects.filter(id=download_id).update(
                                     title=title,
-                                    type=download_type,
+                                    download_category_id=download_type,
                                     file_path=doc_file_path
                                 )
                                 context['success'] = "Successfully updated."
@@ -662,14 +700,20 @@ class AdminManagement:
     def userManagement(self, request):
         template = 'users/user_management.html'
         page_title = 'Directorate of Treasuries & Accounts, Nagaland | User Management'
+        district_list = District.objects.filter(is_deleted=False)
+        treasury_list = Treasury.objects.filter(is_deleted=False)
         context = {'master_expand': 'nav-expanded', 'page_title': page_title,
-                   'user_management': 'nav-active'}
+                   'user_management': 'nav-active', 'district_list': district_list, 'treasury_list': treasury_list}
         if request.method == "POST":
             name = request.POST.get('username')
+            first_name = request.POST.get('first_name')
+            last_name = request.POST.get('last_name')
+            designation = request.POST.get('designation')
+            mobile_no = request.POST.get('mobile_no')
+            treasury_id = request.POST.get('treasury')
             district_id = request.POST.get('district')
             password = request.POST.get('password')
             confirm_password = request.POST.get('Confirm_password')
-            # password = make_password(request.POST.get('password'))
 
             if "create_user" in request.POST:
                 user_type = request.POST.get('user_type')
@@ -680,8 +724,8 @@ class AdminManagement:
                     if CustomUser.objects.filter(username=name).exists():
                         context['error'] = 'Same username already exist!'
                     else:
-                        CustomUser.objects.create_user(user_type=user_type, username=name, district_id=district_id,
-                                                  password=password, is_staff=True, is_active=True).save()
+                        CustomUser.objects.create_user(user_type=user_type, username=name, district_id=district_id, treasury_id=treasury_id,
+                                                  password=password, is_staff=True, is_active=True, first_name=first_name, last_name=last_name, mobile_no=mobile_no, designation=designation).save()
                         context['success'] = 'Successfully Created.'
 
             elif "update_user" in request.POST:
@@ -690,7 +734,10 @@ class AdminManagement:
                     context['error'] = 'Same username already exist!'
                 else:
                     get_data = CustomUser.objects.filter(id=code).first()
-                    get_data.username = name
+                    get_data.first_name = first_name
+                    get_data.last_name = last_name
+                    get_data.designation = designation
+                    get_data.mobile_no = mobile_no
                     get_data.save()
                     context['success'] = 'Successfully Updated.'
 

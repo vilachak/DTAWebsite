@@ -1,250 +1,342 @@
 {% extends 'components/admin/layout.html' %}
 {% load static %}
 
-{% block content %} 
+{% block content %}
 
-<section role="main" class="content-body">
-    <header class="page-header">
-        <h2>User Management</h2>
-        <div class="right-wrapper text-end">
-            <ol class="breadcrumbs">
-                <li></li>
-                <li><span>Master</span></li>
-                <li><span>User Management</span></li>
+    <section role="main" class="content-body">
+        <header class="page-header">
+            <h2>User Management</h2>
 
-            </ol>
-        </div>
-    </header>
-    <div class="row">
-        <div class="col">
-            <section class="card">
-                <header class="card-header">
-                    <div class="col-lg-6">
-                        <a class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-success" href="#createUserModal"><i class='bx bx-user' ></i>  Create User</a>
-                    </div>
-                </header>
-                <div class="card-body">
-                    <table class="table align-middle table-nowrap mb-0 table-bordered table-striped" id="UsersTable">
-                        <thead class="table-light text-muted">
+            <div class="right-wrapper text-end">
+                <ol class="breadcrumbs">
+                    <li></li>
+                    <li><span>Master</span></li>
+                    <li><span>User Management</span></li>
+                </ol>
+                <a class="sidebar-right-toggle" data-open=""></a>
+            </div>
+        </header>
+        <div class="row">
+            <div class="col">
+                <section class="card">
+                    <header class="card-header">
+                        <div class="col-lg-6">
+                            <a class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-success"
+                               href="#modalForm"><i class='bx bx-user'></i> Add User</a>
+                        </div>
+                    </header>
+                    <div class="card-body">
+                        <table class="table align-middle table-nowrap mb-0 table-bordered table-striped"
+                               id="UsersTable">
+                            <thead class="table-light text-muted">
                             <tr>
                                 <th>Sl No</th>
                                 <th>Name</th>
+                                <th>Designation</th>
+                                <th>Contact No</th>
+                                <th>User Name</th>
                                 <th class="text-center">User Type</th>
                                 <th class="text-center">District</th>
+                                <th class="text-center">Treasury</th>
                                 <th class="text-center">Action</th>
                             </tr>
-                        </thead>
-                        <tbody class="list form-check-all">
+                            </thead>
+                            <tbody class="list form-check-all">
                             {% for user in user_list %}
                                 <tr>
-                                    <td>{{forloop.counter}}</td>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ user.first_name }} {{ user.last_name }}</td>
+                                    <td>{{ user.designation }}</td>
+                                    <td>{{ user.mobile_no }}</td>
                                     <td>{{ user.username }}</td>
                                     <td class="text-center">{{ user.user_type }}</td>
                                     <td class="text-center">{{ user.district.name }}</td>
+                                    <td class="text-center">{{ user.treasury.name }}</td>
                                     <td class="text-center">
-                                        <a href="#edituserModalLabel" class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-info" onclick="editUser('{{user.id}}','{{user.username}}')"><i class='bx bx-edit' ></i></a>
-                                        <a href="#modalDelete" class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-warning" onclick="deleteUser('{{user.id}}')"><i class='bx bx-trash' ></i></a>
+                                        <a href="#modalFormUpdate"
+                                           class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-info"
+                                           onclick="editUser('{{ user.id }}','{{ user.first_name }}','{{ user.last_name }}','{{ user.designation }}','{{ user.mobile_no }}')"><i
+                                                class='bx bx-edit'></i></a>
+                                        <a href="#modalDelete"
+                                           class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-warning"
+                                           onclick="deleteUser('{{ user.id }}')"><i class='bx bx-trash'></i></a>
 
                                     </td>
                                 </tr>
                             {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </div>
+        <!-- end: page -->
+
+
+        <!-- Modal Form -->
+        <div id="modalForm" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
+            <section class="card">
+                <form action="{% url 'user-management' %}" method="post" class="tablelist-form" autocomplete="off">
+                    {% csrf_token %}
+                    <header class="card-header">
+                        <h2 class="card-title">Add User</h2>
+                    </header>
+
+                    <div class="card-body">
+                        <div class="form-group row">
+                            <div class="col-lg-6">
+                                <label>First Name <span class="text-danger">*</span></label>
+                                <input type="text" name="first_name" class="form-control"
+                                       placeholder="Enter first name" required/>
+                            </div>
+                            <div class="col-lg-6">
+                                <label>Last Name</label>
+                                <input type="text" name="last_name" class="form-control"
+                                       placeholder="Enter last name"/>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-group row">
+                            <div class="col-lg-6">
+                                <label>Designation <span class="text-danger">*</span></label>
+                                <input type="text" name="designation" class="form-control"
+                                       placeholder="Enter Designation" required/>
+                            </div>
+                            <div class="col-lg-6">
+                                <label class="form-label">Contact No</label>
+                                <input type="number" max="9999999999" name="mobile_no" class="form-control"
+                                       placeholder="Enter Contact No" required/>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-group row">
+                            <div class="col-lg-6">
+                                <label class="form-label">User Name</label>
+                                <input type="text" name="username" class="form-control"
+                                       placeholder="Enter username" required/>
+                            </div>
+                            <div class="col-lg-6">
+                                <label class="form-label">User Type</label>
+                                <select class="form-control" name="user_type" id="user_type" required>
+                                    <option value="">Select user type</option>
+                                    <option value="ADMIN">Admin</option>
+                                    <option value="DISTRICT">District User</option>
+                                </select>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-group row" id="district_div" style="display: none;">
+                            <div class="col-lg-6">
+                                <label class="form-label">District</label>
+                                <select class="form-control" name="district" id="district_id">
+                                    <option value="">Select District</option>
+                                    {% for data in district_list %}
+                                        <option value="{{ data.id }}">{{ data.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-lg-6">
+                                <label class="form-label">Treasury</label>
+                                <select class="form-control" name="treasury" id="treasury_id">
+                                    <option value="">Select Treasury</option>
+                                    {% for data in treasury_list %}
+                                        <option value="{{ data.id }}">{{ data.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <div class="col-lg-6">
+                                <label class="form-label">Password</label>
+                                <input type="password" name="password" class="form-control"
+                                       placeholder="Enter Password" required/>
+                            </div>
+                            <div class="col-lg-6">
+                                <label class="form-label">Confirm Password</label>
+                                <input type="password" name="Confirm_password" class="form-control"
+                                       placeholder="Enter Confirm Password" required/>
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    <footer class="card-footer">
+                        <div class="row">
+                            <div class="col-md-12 text-end">
+                                <button class="btn btn-default modal-dismiss">Cancel</button>
+                                <button type="submit" name="create_user" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </footer>
+                </form>
             </section>
         </div>
-    </div>
-
-    <div id="createUserModal" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
-        <section class="card">
-            <form action="{% url 'user-management' %}" method="post" class="tablelist-form" autocomplete="off">
-                {% csrf_token %}
-
-                <header class="card-header">
-                    <h2 class="card-title">Add User</h2>
-                </header>
-                <div class="card-body">
-                    <div class="form-group">
-                        <label class="form-label">User Name</label>
-                            <input type="text" name="username" class="form-control"
-                                placeholder="Enter username" required/>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">User Type</label>
-                        <select class="form-control" name="user_type" id="user_type" required>
-                            <option value="">Select user type</option>
-                            <option value="ADMIN">Admin</option>
-                            <option value="DISTRICT">District User</option>
-                        </select>
-                    </div>
-                    <div class="form-group" id="district_div" style="display: none;">
-                        <label class="form-label">District</label>
-                        <select class="form-control" name="district" id="district_id">
-                            <option value="">Select District</option>
-                            {% for data in district_list %}
-                            <option value="{{data.id}}">{{data.name}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Password</label>
-                        <input type="password" name="password" class="form-control"
-                            placeholder="Enter Password" required/>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Confirm Password</label>
-                        <input type="password" name="Confirm_password" class="form-control"
-                            placeholder="Enter Confirm Password" required/>
-                    </div>
-                </div>
-                <footer class="card-footer">
-                    <div class="row">
-                        <div class="col-md-12 text-end">
-                            <button class="btn btn-default modal-dismiss">Cancel</button>
-                            <button type="submit" name="create_user" class="btn btn-primary">Add User</button>
-                        </div>
-                    </div>
-                </footer>
-            </form>
-        </section>
-    </div>
-    <div id="edituserModalLabel" class="zoom-anim-dialog modal-block modal-block-warning mfp-hide">
-        <section class="card">
-        <form action="{% url 'user-management' %}" method="post" class="tablelist-form" autocomplete="off">
-            {% csrf_token %}
-            <header class="card-header">
-                <h2 class="card-title">Update user details</h2>
-            </header>
-            <div class="card-body">
-                <div class="form-group">
+        <!-- end: page -->
+        <!-- Modal Form -->
+        <div id="modalFormUpdate" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
+            <section class="card">
+                <form action="{% url 'user-management' %}" method="post" class="tablelist-form" autocomplete="off">
+                    {% csrf_token %}
                     <input type="hidden" id="code" name="code" class="form-control"/>
-                    <label class="form-label">User Name</label>
-                    <input type="text" id="username" name="username" class="form-control"
-                        placeholder="Enter username" required/>
-                </div>
-            </div>
-            <footer class="card-footer">
-                <div class="row">
-                    <div class="col-md-12 text-end">
-                        <button class="btn btn-default modal-dismiss">Cancel</button>
-                        <button type="submit" name="update_user" class="btn btn-primary">Update User</button>
+                    <header class="card-header">
+                        <h2 class="card-title">Update User</h2>
+                    </header>
+
+                    <div class="card-body">
+                        <div class="form-group row">
+                            <div class="col-lg-6">
+                                <label>First Name <span class="text-danger">*</span></label>
+                                <input type="text" name="first_name" id="first_name" class="form-control"
+                                       placeholder="Enter first name" required/>
+                            </div>
+                            <div class="col-lg-6">
+                                <label>Last Name</label>
+                                <input type="text" name="last_name" id="last_name" class="form-control"
+                                       placeholder="Enter last name"/>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-group row">
+                            <div class="col-lg-6">
+                                <label>Designation <span class="text-danger">*</span></label>
+                                <input type="text" name="designation" id="designation" class="form-control"
+                                       placeholder="Enter Designation" required/>
+                            </div>
+                            <div class="col-lg-6">
+                                <label class="form-label">Contact No</label>
+                                <input type="number" max="9999999999" name="mobile_no" id="mobile_no"
+                                       class="form-control"
+                                       placeholder="Enter Contact No" required/>
+                            </div>
+                        </div>
+                        <br>
                     </div>
-                </div>
-            </footer>
-            </form>
-        </section>
-    </div>
-    <div id="modalDelete" class="zoom-anim-dialog modal-block modal-block-warning mfp-hide">
-        <section class="card">
-            <form action="{% url 'user-management' %}" method="post" autocomplete="off">
-                {% csrf_token %}
-            <header class="card-header bg-warning">
-                <h2 class="card-title text-white">Confirmation!</h2>
-            </header>
-            
-            <div class="card-body">
-                <input type="hidden" id="delete_code" name="code"/>
-                   <p class="text-dark">Are you sure you want to delete users?</p>
-                </div>
-                <footer class="card-footer">
-                    <div class="row">
+                    <footer class="card-footer">
+                        <div class="row">
+                            <div class="col-md-12 text-end">
+                                <button class="btn btn-default modal-dismiss">Cancel</button>
+                                <button type="submit" name="update_user" class="btn btn-primary">Update</button>
+                            </div>
+                        </div>
+                    </footer>
+                </form>
+            </section>
+        </div>
+        <div id="modalDelete" class="zoom-anim-dialog modal-block modal-block-warning mfp-hide">
+            <section class="card">
+                <form action="{% url 'user-management' %}" method="post" autocomplete="off">
+                    {% csrf_token %}
+                    <header class="card-header bg-warning">
+                        <h2 class="card-title text-white">Confirmation!</h2>
+                    </header>
+
+                    <div class="card-body">
+                        <input type="hidden" id="delete_code" name="code"/>
+                        <p class="text-dark">Are you sure you want to delete users?</p>
+                    </div>
+                    <footer class="card-footer">
+                        <div class="row">
+                            <div class="col-md-12 text-end">
+                                <button class="btn btn-default modal-dismiss">Cancel</button>
+                                <button type="submit" name="delete" class="btn btn-warning">Delete</button>
+                            </div>
+                        </div>
+                    </footer>
+                </form>
+            </section>
+        </div>
+    </section>
+
+
+    {% if success %}
+        <div class="modal fade" id="modalSuccess">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-success">
+                        <h2 class="card-title text-white">Confirmation</h2>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-dark">{{ success }}</p>
+                    </div>
+                    <div class="modal-footer justify-content-between">
                         <div class="col-md-12 text-end">
-                            <button class="btn btn-default modal-dismiss">Cancel</button>
-                            <button type="submit" name="delete" class="btn btn-warning">Delete</button>
+                            <button class="btn btn-success modal-dismiss" onclick="closeModal()">Close</button>
                         </div>
                     </div>
-                </footer>
-            </form>
-        </section>
-    </div>
-</section>
-
-
-{% if success %}
-<div class="modal fade" id="modalSuccess">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-success">
-                <h2 class="card-title text-white">Confirmation</h2>
-            </div>
-            <div class="modal-body">
-                <p class="text-dark">{{success}}</p>
-            </div>
-            <div class="modal-footer justify-content-between">
-                <div class="col-md-12 text-end">
-                    <button class="btn btn-success modal-dismiss" onclick="closeModal()">Close</button>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-{% endif %}
-{% if error %}
-<div class="modal fade" id="modalError">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-warning">
-                <h2 class="card-title text-white">Attention!</h2>
-            </div>
-            <div class="modal-body">
-                <p class="text-dark">{{error}}</p>
-            </div>
-            <div class="modal-footer justify-content-between">
-                <div class="col-md-12 text-end">
-                    <button class="btn btn-warning modal-dismiss" onclick="closeModal()">Close</button>
+    {% endif %}
+    {% if error %}
+        <div class="modal fade" id="modalError">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-warning">
+                        <h2 class="card-title text-white">Attention!</h2>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-dark">{{ error }}</p>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <div class="col-md-12 text-end">
+                            <button class="btn btn-warning modal-dismiss" onclick="closeModal()">Close</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-{% endif %}
+    {% endif %}
 {% endblock %}
 
 {% block custom_js %}
-<script>
-    $(document).ready(function () {
-        var error_msg = '{{error}}' || "";
-        var success = '{{success}}' || "";
-        if(error_msg != "")
-        {
-            $('#modalError').modal('show');
-        }
-        if(success != "")
-        {
-            $('#modalSuccess').modal('show');
-        }
-        
-    });
-    function closeModal(){
-        $('#modalSuccess').modal('hide');
-        $('#modalError').modal('hide');
-    }
+    <script>
+        $(document).ready(function () {
+            var error_msg = '{{error}}' || "";
+            var success = '{{success}}' || "";
+            if (error_msg != "") {
+                $('#modalError').modal('show');
+            }
+            if (success != "") {
+                $('#modalSuccess').modal('show');
+            }
 
-    $('#user_type').change(function () {
-        var user_type = $("#user_type option:selected").val();
-        if (user_type == "ADMIN" || user_type == "" ) {
-            document.getElementById("district_div").style.display = "none";
-            document.getElementById("district_id").required = false;
-        }
-        else if (user_type == "DISTRICT")
-        {
-            document.getElementById("district_div").style.display = "block";
-            // document.getElementById("district_div").style.visibility = "visible";
-            document.getElementById("district_id").required = true;
-        }
-    });
+        });
 
-    function editUser(id,username)
-    {
-        document.getElementById('code').value = id;
-        document.getElementById('username').value = username;
-        $("#edituserModalLabel").modal("show");
-    }
-    function deleteUser(id)
-    {
-        document.getElementById('delete_code').value = id;
-        $("#deleteuserModalLabel").modal("show");
-    }
+        function closeModal() {
+            $('#modalSuccess').modal('hide');
+            $('#modalError').modal('hide');
+        }
 
-</script>
-{% endblock %}
+        $('#user_type').change(function () {
+            var user_type = $("#user_type option:selected").val();
+            if (user_type == "ADMIN" || user_type == "") {
+                document.getElementById("district_div").style.display = "none";
+                document.getElementById("district_id").required = false;
+                document.getElementById("treasury_id").required = false;
+            } else if (user_type == "DISTRICT") {
+                document.getElementById("district_div").style.display = "block";
+                // document.getElementById("district_div").style.visibility = "visible";
+                document.getElementById("district_id").required = true;
+                document.getElementById("treasury_id").required = true;
+            }
+        });
+
+        function editUser(id, firstname, lastname, designation, mobile_no) {
+            document.getElementById('code').value = id;
+            document.getElementById('first_name').value = firstname;
+            document.getElementById('last_name').value = lastname;
+            document.getElementById('designation').value = designation;
+            document.getElementById('mobile_no').value = mobile_no;
+            $("#modalFormUpdate").modal("show");
+        }
+
+        function deleteUser(id) {
+            document.getElementById('delete_code').value = id;
+            $("#modalDelete").modal("show");
+        }
+
+    </script>
+{% endblock custom_js %}
+
+
