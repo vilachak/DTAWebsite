@@ -584,7 +584,7 @@ class AdminManagement:
                         if len(file_path) > 5197152:
                             context['error'] = 'File size is too big. It must be less than or equal to 5 mb.'
                         else:
-                            doc_file_url = handle_uploaded_file('rti', file_path)
+                            doc_file_url = handle_uploaded_file('download', file_path)
                             doc_file_path = os.path.basename(doc_file_url)
                             Download(
                                 title=title,
@@ -608,7 +608,7 @@ class AdminManagement:
                             if len(file_path) > 22197152:
                                 context['error'] = 'File size is too big. It must be less than or equal to 20 mb.'
                             else:
-                                doc_file_url = handle_uploaded_file('rti', file_path)
+                                doc_file_url = handle_uploaded_file('download', file_path)
                                 doc_file_path = os.path.basename(doc_file_url)
                                 Download.objects.filter(id=download_id).update(
                                     title=title,

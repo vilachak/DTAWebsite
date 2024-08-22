@@ -1,8 +1,9 @@
 # Copyright 2022-2023, IT Cell, Directorate of Treasuries & Accounts, Nagaland. All rights reserved.
 from django.shortcuts import render
+from datetime import datetime
+from administrator.models import Department, District, Download, DownloadCategory, Grievance, GrievanceCategory, PhotoGallery, Treasury, VideoGallery
 
 
-# Create your views here.
 def home(request):
     page_title = "DTA, Nagaland | Home"
     context = {"home": "active","page_title":page_title}
@@ -29,14 +30,24 @@ def news(request):
     return render(request, template, context)
 
 def photogallery(request):
-    page_title = "DTA, Nagaland | Photo Galleery"
-    context = {"gallery": "active","page_title":page_title}
+    page_title = "DTA, Nagaland | Photo Gallery"
+    context = {
+        "gallery": "active",
+        "page_title":page_title,
+        "photo_gallery": "active",
+        "photo_data": PhotoGallery.objects.filter(is_deleted=False)
+        }
     template = 'pages/photo_gallery.html'
     return render(request, template, context)
 
 def videogallery(request):
-    page_title = "DTA, Nagaland | Video Galleery"
-    context = {"gallery": "active","page_title":page_title}
+    page_title = "DTA, Nagaland | Video Gallery"
+    context = {
+        "gallery": "active",
+        "page_title":page_title,
+        "video_gallery": "active",
+        "video_gallery_data": VideoGallery.objects.filter(is_deleted=False)
+        }
     template = 'pages/video_gallery.html'
     return render(request, template, context)
 
@@ -46,34 +57,53 @@ def contact(request):
     template = 'pages/contact.html'
     return render(request, template, context)
 
-def apar(request):
-    page_title = "DTA, Nagaland | APAR"
-    context = {"download": "active","page_title":page_title}
-    template = 'pages/apar.html'
-    return render(request, template, context)
+def download(request):
+    page_title = "DTA, Nagaland | Download"
+    download_category = DownloadCategory.objects.filter(is_deleted=False)
+    file_type = request.GET["type"]
+    download_id = 0
+    if download_cat := DownloadCategory.objects.filter(name=file_type).first():
+        download_id = download_cat.id
+    download_list = Download.objects.filter(is_deleted=False,download_category_id=download_id)
+    context = {"download": "active", "page_title": page_title, 'file_type':file_type, 'download_list' :download_list,'download_category': download_category}
+    template = 'pages/download.html'
 
-def rti(request):
-    page_title = "DTA, Nagaland | RTI"
-    context = {"download": "active","page_title":page_title}
-    template = 'pages/rti.html'
-    return render(request, template, context)
-
-def gpf(request):
-    page_title = "DTA, Nagaland | GPF"
-    context = {"download": "active","page_title":page_title}
-    template = 'pages/gpf.html'
-    return render(request, template, context)
-
-def pension(request):
-    page_title = "DTA, Nagaland | Pensionm"
-    context = {"download": "active","page_title":page_title}
-    template = 'pages/pension.html'
     return render(request, template, context)
 
 def grievance(request):
     page_title = "DTA, Nagaland | Grievance"
-    context = {"grievance": "active","page_title":page_title}
     template = 'pages/grievance.html'
+    district_list = District.objects.filter(is_deleted=False)
+    department_list = Department.objects.filter(is_deleted=False)
+    treasury_list = Treasury.objects.filter(is_deleted=False)
+    grievance_category_list = GrievanceCategory.objects.filter(is_deleted=False)
+    context = {
+        "grievance": "active",
+        'page_title': page_title,
+        'district_list': district_list,
+        'department_list': department_list,
+        'treasury_list': treasury_list,
+        'grievance_category_list': grievance_category_list
+    }
+    
+    if request.method == "POST":
+        if "submit" in request.POST:
+            grievance_kwargs = {
+                'date_filing': datetime.now(),
+                'time_filing': datetime.time,
+                'applicant_name': request.POST.get("applicant_name"),
+                'contact_no': request.POST.get("contact_no"),
+                'ppo_no': request.POST.get("ppo_no"),
+                'description': request.POST.get("description"),
+                'grievance_action': request.POST.get("grievance_action"),
+                'status': "Pending",
+                'district_id': request.POST.get("district"),
+                'department_id': request.POST.get("department"),
+                'grievance_category_id': request.POST.get("grievance_category"),
+                'treasury_id': request.POST.get("treasury"),
+            }
+            Grievance.objects.create(**grievance_kwargs)
+            context['success'] = "Successfully submitted."
     return render(request, template, context)
 
 def site_map(request):

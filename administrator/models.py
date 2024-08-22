@@ -39,7 +39,7 @@ class CustomUser(AbstractUser):
 
 class Grievance(TimeStamped):
     date_filing = models.DateField()
-    time_filing = models.TimeField()
+    time_filing = models.TimeField(auto_now=True)
     applicant_name = models.CharField(max_length=150)
     ppo_no = models.CharField(max_length=50, null=True)
     contact_no = models.CharField(max_length=20, null=True)

@@ -6,20 +6,33 @@
             <div class="row">
                 <div class="col-md-12 col-lg-12 col-sm-12">
                     <ul class="breadcrumb d-block d-flex justify-content-start align-items-center">
-                        <li><a href="/">Contact</a></li>
-                        <li class="active">Contact</li>
+                        <li><a href="/">Home</a></li>
+                        <li>Gallery</li>
+                        {% if video_gallery == 'active' %}
+                            <li class="{{ video_gallery }}">Video Gallery</li>
+                        {% endif %}
+                            
                     </ul>
                 </div>
             </div>
         </div>
     </section>
-    <section class="section bg-color-light m-0 p-0 p-4 pb-5 border-0">
-       <div class="container container-custom">
+    <section class="section bg-color-light m-0 border-0">
+        <div class="container container-custom">
             <div class="row">
                 
-                
+                {% for data in video_gallery_data %}
+                    <div class="col-lg-3">
+                        <div class="ratio ratio-16x9 mb-0">
+                            <iframe frameborder="0" allowfullscreen="" src="{{ data.video_path }}"></iframe>
+                        </div>
+                        <h5 class="mt-2">{{ data.title }}</h5>
+                        <p>{{ data.created_at|date:"F d, Y" }}</p>
+                    </div>
+                {% endfor %}
+
             </div>
-       </div>
+        </div>
     </section>
 </div>
 {% endblock content %}
