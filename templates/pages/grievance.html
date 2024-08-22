@@ -20,17 +20,23 @@
                     {% csrf_token %}
                         {% if success %}
                             <div class="contact-form-success alert alert-success mt-4">
-                                <strong>Success!</strong> Your grievance has been sent to us.
+                                <label>Thank you for submitting your grievance. Our team will review it, and the appropriate officer will reach out to you at the contact number you provided.</label> 
                             </div>
                         {% endif %}
                         <div class="card-body card" style="border-color: cornflowerblue;">
+                            <div class="col-lg-12 text-end "><label class="text-secondary"><span class="text-danger">*</span> Star marks are mandatory fields.</label></div>
+                            <br>
                             <div class="form-group row">
                                 <div class="col-lg-4">
                                     <label>District <span class="text-danger">*</span></label>
                                     <select class="form-control" name="district" required>
                                         <option value="">Select District</option>
                                         {% for data in district_list %}
-                                            <option value="{{ data.id }}">{{ data.name }}</option>
+                                        {% if grievance_data.district_id|add:0 == data.id|add:0 %}
+                                        <option value="{{ data.id }}" selected>{{ data.name }}</option>
+                                        {% else %}
+                                        <option value="{{ data.id }}">{{ data.name }}</option>
+                                        {% endif %}
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -39,7 +45,11 @@
                                     <select class="form-control" name="treasury" required>
                                         <option value="">Select Treasury</option>
                                         {% for data in treasury_list %}
-                                            <option value="{{ data.id }}">{{ data.name }}</option>
+                                        {% if grievance_data.treasury_id|add:0 == data.id|add:0 %}
+                                        <option value="{{ data.id }}" selected>{{ data.name }}</option>
+                                        {% else %}
+                                        <option value="{{ data.id }}">{{ data.name }}</option>
+                                        {% endif %}
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -48,7 +58,11 @@
                                     <select class="form-control" name="department" required>
                                         <option value="">Select Department</option>
                                         {% for data in department_list %}
+                                            {% if grievance_data.department_id|add:0 == data.id|add:0 %}
+                                            <option value="{{ data.id }}" selected>{{ data.name }}</option>
+                                            {% else %}
                                             <option value="{{ data.id }}">{{ data.name }}</option>
+                                            {% endif %}
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -56,12 +70,12 @@
                             <br>
                             <div class="form-group row">
                                 <div class="col-lg-6">
-                                    <label>Applicant Name <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="applicant_name" required>
+                                    <label>Full Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" value="{{grievance_data.applicant_name}}" name="applicant_name" required>
                                 </div>
                                 <div class="col-lg-6">
                                     <label>Contact No <span class="text-danger">*</span></label>
-                                    <input type="number" class="form-control" max="9999999999" name="contact_no" required>
+                                    <input type="number" class="form-control" max="9999999999" value="{{grievance_data.contact_no}}" name="contact_no" required>
                                 </div>
                             </div>
                             <br>
@@ -71,28 +85,38 @@
                                     <select class="form-control" name="grievance_category" required>
                                         <option value="">Select Grievance Category</option>
                                         {% for data in grievance_category_list %}
+                                            {% if grievance_data.grievance_category_id|add:0 == data.id|add:0 %}
+                                            <option value="{{ data.id }}" selected>{{ data.name }}</option>
+                                            {% else %}
                                             <option value="{{ data.id }}">{{ data.name }}</option>
+                                            {% endif %}
                                         {% endfor %}
                                     </select>
                                 </div>
                                 <div class="col-lg-6">
-                                    <label>PPO Number <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="ppo_no" required>
+                                    <label>PPO Number</label>
+                                    <input type="text" class="form-control" value="{{grievance_data.ppo_no}}" name="ppo_no">
                                 </div>
                             </div>
                             <br>
                             <div class="form-group">
                                     <label>Query/Grievance <span class="text-danger">*</span></label>
-                                    <textarea type="text" rows="5" class="form-control" name="description"></textarea>
+                                    <textarea type="text" rows="5" class="form-control" name="description" required>{{grievance_data.description}}</textarea>
                             </div>
-                            <div class="col-md-12 row" style="float:left">
+                            <div class="col-lg-12">
                                 <hr>
-                                    <div class="col-lg-3">
-                                        <input type="text" class="form-control" name="applicant_name" required>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <button type="submit" name="submit" class="btn btn-primary">Submit</button>
-                                    </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="col-lg-3">
+                                    {{CaptchaForms}}
+                                    {% if errorCap %}
+                                    <p style="color: red;">{{errorCap}}</p>
+                                    {% endif %}
+                                </div>
+                                <br>
+                                <div class="col-lg-3">
+                                    <button type="submit" name="submit" class="col-lg-12 btn btn-primary">Submit</button>
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -102,4 +126,14 @@
     </section>
 </div>
 {% endblock content %}
+{% block custom_js %}
+<script type="text/javascript">
+	$('.captcha').click(function () {
+		$.getJSON("/captcha/refresh/", function (result) {
+			$('.captcha').attr('src', result['image_url']);
+			$('#id_captcha_0').val(result['key'])
+		});
+	});
+	</script> 
+{% endblock custom_js %}
     

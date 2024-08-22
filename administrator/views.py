@@ -22,7 +22,7 @@ import os
 
 from django.db.models.query_utils import Q
 from administrator.forms import CaptchaForm, PasswordResetRequestForm, SetPasswordForm
-from administrator.models import CustomUser, Contact, District, NewsEvent, PressRelease, Download, SliderImage, \
+from administrator.models import CustomUser, Contact, Designation, District, NewsEvent, PressRelease, Download, SliderImage, \
     PhotoGallery, VideoGallery, Department, Treasury, GrievanceCategory, Grievance, GrievanceResponse, DownloadCategory
 
 logger = logging.getLogger(__name__)
@@ -334,25 +334,33 @@ class AdminManagement:
                 title = request.POST.get("title")
                 description = request.POST.get("description")
                 publish_date = request.POST.get("publish_date")
-                file_path = request.FILES['file_path']
-                if file_path.name.lower().endswith('.pdf'):
-                    if file_path.name.count('.') == 1:
-                        if len(file_path) > 2097152:
-                            context['error'] = 'File size is too big. It must be less than or equal to 2 mb.'
+                file_path = request.FILES.get('file_path', False)
+                if file_path:
+                    if file_path.name.lower().endswith(('.png','.jpg','.jpeg')):
+                        if file_path.name.count('.') == 1:
+                            if len(file_path) > 2097152:
+                                context['error'] = 'File size is too big. It must be less than or equal to 2 mb.'
+                            else:
+                                doc_file_url = handle_uploaded_file('news', file_path)
+                                doc_file_path = os.path.basename(doc_file_url)
+                                NewsEvent(
+                                    title=title,
+                                    description=description,
+                                    file_path=doc_file_path,
+                                    uploaded_date=publish_date
+                                ).save()
+                                context['success'] = "Successfully submitted."
                         else:
-                            doc_file_url = handle_uploaded_file('news', file_path)
-                            doc_file_path = os.path.basename(doc_file_url)
-                            NewsEvent(
-                                title=title,
-                                description=description,
-                                file_path=doc_file_path,
-                                publish_date=publish_date
-                            ).save()
-                            context['success'] = "Successfully submitted."
+                            context['error'] = 'Invalid document file format!'
                     else:
                         context['error'] = 'Invalid document file format!'
                 else:
-                    context['error'] = 'Invalid document file format!'
+                    NewsEvent(
+                        title=title,
+                        description=description,
+                        uploaded_date=publish_date
+                    ).save()
+                    context['success'] = "Successfully submitted."
             elif "delete" in request.POST:
                 news_id = request.POST.get("news_id")
                 NewsEvent.objects.filter(id=news_id).update(is_deleted=True)
@@ -634,33 +642,52 @@ class AdminManagement:
         return render(request, template, context)
 
     @validate_role
+    def designation(self, request):
+        page_title = "Directorate of Treasuries & Accounts, Nagaland | Designation"
+        template = 'pages/admin/designation.html'
+        context = {"master_expand": "nav-expanded", "designation": "nav-active", 'page_title': page_title}
+
+        if request.method == "POST":
+            if "submit" in request.POST:
+                name = request.POST.get("name")
+                Designation(
+                    name=name
+                ).save()
+                context['success'] = "Successfully submitted."
+
+            elif "update" in request.POST:
+                name = request.POST.get("name")
+                designation_id = request.POST.get("designation_code_id")
+                Designation.objects.filter(id=designation_id).update(
+                    name=name
+                )
+                context['success'] = "Successfully updated."
+
+            elif "delete" in request.POST:
+                designation_id = request.POST.get("designation_id")
+                Designation.objects.filter(id=designation_id).update(is_deleted=True)
+                context['success'] = "Successfully Deleted."
+        context['data'] = Designation.objects.filter(is_deleted=False).order_by('-id')
+        return render(request, template, context)
+    
+    @validate_role
     def contactDetail(self, request):
         page_title = "Directorate of Treasuries & Accounts, Nagaland | Contact Details"
         template = 'pages/admin/contact.html'
-        district_list = District.objects.filter(is_deleted=False).order_by('id')
-        context = {"who_who": "nav-active", 'page_title': page_title, 'district_list': district_list}
+        designation_list = Designation.objects.filter(is_deleted=False).order_by('id')
+        context = {"who_who": "nav-active", 'page_title': page_title, 'designation_list': designation_list}
         if request.method == "POST":
             if "submit" in request.POST:
                 name = request.POST.get("name")
                 designation = request.POST.get("designation")
-                contact_type = request.POST.get("contact_type")
-                fax_no = request.POST.get("fax_no")
-                std_code = request.POST.get("std_code")
                 contact_no = request.POST.get("contact_no")
                 email = request.POST.get("email")
-                address = request.POST.get("address")
-                district_id = request.POST.get("district_id")
 
                 Contact(
                     name=name,
-                    designation=designation,
-                    contact_type=contact_type,
-                    fax_no=fax_no,
-                    std_code=std_code,
+                    designation_id=designation,
                     contact_no=contact_no,
-                    email=email,
-                    address=address,
-                    district_id=district_id
+                    email=email
                 ).save()
                 context['success'] = "Successfully submitted."
 
@@ -668,24 +695,14 @@ class AdminManagement:
                 contact_id = request.POST.get("update_contact_id")
                 name = request.POST.get("name")
                 designation = request.POST.get("designation")
-                contact_type = request.POST.get("contact_type")
-                fax_no = request.POST.get("fax_no")
-                std_code = request.POST.get("std_code")
                 contact_no = request.POST.get("contact_no")
                 email = request.POST.get("email")
-                address = request.POST.get("address")
-                district_id = request.POST.get("district_id")
 
                 Contact.objects.filter(id=contact_id).update(
                     name=name,
-                    designation=designation,
-                    contact_type=contact_type,
-                    fax_no=fax_no,
-                    std_code=std_code,
+                    designation_id=designation,
                     contact_no=contact_no,
-                    email=email,
-                    address=address,
-                    district_id=district_id
+                    email=email
                 )
                 context['success'] = "Successfully updated."
 

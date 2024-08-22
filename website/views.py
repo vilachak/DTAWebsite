@@ -1,12 +1,18 @@
 # Copyright 2022-2023, IT Cell, Directorate of Treasuries & Accounts, Nagaland. All rights reserved.
 from django.shortcuts import render
 from datetime import datetime
-from administrator.models import Department, District, Download, DownloadCategory, Grievance, GrievanceCategory, PhotoGallery, Treasury, VideoGallery
+from administrator.forms import CaptchaForm
+from administrator.models import Contact, CustomUser, Department, District, Download, DownloadCategory, Grievance, GrievanceCategory, NewsEvent, PhotoGallery, Treasury, VideoGallery
 
 
 def home(request):
     page_title = "DTA, Nagaland | Home"
-    context = {"home": "active","page_title":page_title}
+    news_events = NewsEvent.objects.filter(is_deleted=False).order_by('-id')[:3]
+    context = {
+        "home": "active",
+        "page_title":page_title,
+        "news_events":news_events
+        }
     template = 'pages/home.html'
     return render(request, template, context)
 
@@ -19,13 +25,31 @@ def about(request):
  
 def who(request):
     page_title = "DTA, Nagaland | Who's Who"
-    context = {"who_who": "active","page_title":page_title}
+    context = {
+        "who_who": "active",
+        "page_title":page_title,
+        "contact_list": Contact.objects.filter(is_deleted=False).order_by('designation')
+        }
     template = 'pages/who.html'
     return render(request, template, context)
 
 def news(request):
     page_title = "DTA, Nagaland | News & Events"
-    context = {"news_events": "active","page_title":page_title}
+    news_events = NewsEvent.objects.filter(is_deleted=False).order_by('-id')[:15]
+    try:
+        news_id = request.GET["id"]
+    except:
+        news_id = '0'
+    if news_id == '0':
+        single_news_events = NewsEvent.objects.filter(is_deleted=False).order_by('-id')[:1].first()
+    else:
+        single_news_events = NewsEvent.objects.filter(id=news_id).first()
+    context = {
+        "news_events": "active",
+        "page_title":page_title,
+        "single_news_events": single_news_events,
+        "news_events": news_events
+        }
     template = 'pages/news_events.html'
     return render(request, template, context)
 
@@ -53,14 +77,19 @@ def videogallery(request):
 
 def contact(request):
     page_title = "DTA, Nagaland | Contact"
-    context = {"contact": "active","page_title":page_title}
+    context = {
+        "contact": "active",
+        "page_title":page_title}
     template = 'pages/contact.html'
     return render(request, template, context)
 
 def download(request):
     page_title = "DTA, Nagaland | Download"
     download_category = DownloadCategory.objects.filter(is_deleted=False)
-    file_type = request.GET["type"]
+    try:
+        file_type = request.GET["type"]
+    except:
+        file_type = 'NA'
     download_id = 0
     if download_cat := DownloadCategory.objects.filter(name=file_type).first():
         download_id = download_cat.id
@@ -83,14 +112,20 @@ def grievance(request):
         'district_list': district_list,
         'department_list': department_list,
         'treasury_list': treasury_list,
-        'grievance_category_list': grievance_category_list
+        'grievance_category_list': grievance_category_list,
+        'CaptchaForms': CaptchaForm()
     }
     
     if request.method == "POST":
         if "submit" in request.POST:
+            # Get treasury user from Id
+            if treasury_user:= CustomUser.objects.filter(is_active=True, treasury_id=request.POST.get("treasury")).order_by('-id').first():
+                recipient_id = treasury_user.id
+            else:
+                treasury_user = CustomUser.objects.filter(is_active=True, user_type="ADMIN").order_by('-id').first()
+                recipient_id = treasury_user.id
             grievance_kwargs = {
                 'date_filing': datetime.now(),
-                'time_filing': datetime.time,
                 'applicant_name': request.POST.get("applicant_name"),
                 'contact_no': request.POST.get("contact_no"),
                 'ppo_no': request.POST.get("ppo_no"),
@@ -101,9 +136,16 @@ def grievance(request):
                 'department_id': request.POST.get("department"),
                 'grievance_category_id': request.POST.get("grievance_category"),
                 'treasury_id': request.POST.get("treasury"),
+                'recipient_id': recipient_id
             }
-            Grievance.objects.create(**grievance_kwargs)
-            context['success'] = "Successfully submitted."
+            CaptchaForms = CaptchaForm(request.POST)
+            if CaptchaForms.is_valid():
+                Grievance.objects.create(**grievance_kwargs)
+                context['success'] = "Successfully submitted."
+            else:
+                context['grievance_data'] = grievance_kwargs
+                context['errorCap'] = "Invalid CAPTCHA"
+
     return render(request, template, context)
 
 def site_map(request):

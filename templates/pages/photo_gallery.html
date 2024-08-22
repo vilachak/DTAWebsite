@@ -52,4 +52,6 @@
     </section>
 </div>
 {% endblock content %}
-<script src="{% static 'website/js/examples/examples.gallery.js' %}"></script>
+{% block custom_js %}
+<script src="{% static 'js/examples/examples.gallery.js' %}"></script>
+{% endblock custom_js %}

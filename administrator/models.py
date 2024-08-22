@@ -108,14 +108,13 @@ class Download(TimeStamped):
     download_category = models.ForeignKey(DownloadCategory, on_delete=models.PROTECT, related_name='download')
 
 
+class Designation(TimeStamped):
+    name = models.CharField(max_length=150, null=False)
+
+
 class Contact(TimeStamped):
     name = models.CharField(max_length=150, null=True, blank=True)
-    designation = models.CharField(max_length=150, null=True, blank=True)
-    contact_type = models.CharField(max_length=150, null=True, blank=True)
-    fax_no = models.CharField(max_length=150, null=True, blank=True)
-    std_code = models.CharField(max_length=150, null=True, blank=True)
     contact_no = models.CharField(max_length=150, null=True, blank=True)
     email = models.CharField(max_length=150, null=True, blank=True)
-    address = models.CharField(max_length=250, null=True, blank=True)
 
-    district = models.ForeignKey(District, on_delete=models.PROTECT, related_name='contact')
+    designation = models.ForeignKey(Designation, on_delete=models.PROTECT, related_name='contact')

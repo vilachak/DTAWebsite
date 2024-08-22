@@ -30,33 +30,25 @@
                     <table class="table table-bordered table-striped mb-0" id="datatable-tabletools">
                         <thead>
                             <tr>
-                                <th>District</th>
+                                <th>Sl No</th>
                                 <th>Name</th>
                                 <th>Designation</th>
                                 <th>Contact No</th>
                                 <th>Email</th>
-                                <th>Fax No</th>
-                                <th>STD Code</th>
-                                <th>Contact Type</th>
-                                <th>Address</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for data in data %}
                             <tr>
-                                <td>{{data.district.name}}</td>
+                                <td>{{forloop.counter}}</td>
                                 <td>{{data.name}}</td>
-                                <td>{{data.designation}}</td>
+                                <td>{{data.designation.name}}</td>
                                 <td>{{data.contact_no}}</td>
                                 <td>{{data.email}}</td>
-                                <td>{{data.fax_no}}</td>
-                                <td>{{data.std_code}}</td>
-                                <td>{{data.contact_type}}</td>
-                                <td>{{data.address}}</td>
                                 <td>
                                     <a href="#modalDelete" class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-warning" onclick="deleteFunction('{{data.id}}')"><i class='bx bx-trash' ></i></a>
-                                    <a href="#modalFormUpdate" class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-primary" onclick="updateFunction('{{data.id}}','{{data.district_id}}','{{data.name}}','{{data.designation}}','{{data.contact_no}}','{{data.email}}','{{data.fax_no}}','{{data.std_code}}','{{data.contact_type}}','{{data.address}}')"><i class='bx bx-edit' ></i></a>
+                                    <a href="#modalFormUpdate" class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-primary" onclick="updateFunction('{{data.id}}','{{data.name}}','{{data.designation_id}}','{{data.contact_no}}','{{data.email}}')"><i class='bx bx-edit' ></i></a>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -79,32 +71,19 @@
             </header>
 
             <div class="card-body">
-                <div class="form-group row">
-                    <div class="col-lg-6">
-                        <label>District</label>
-                        <select class="form-control" name="district_id" required>
-                            <option value="">Select District</option>
-                            {% for data in district_list %}
-                            <option value="{{data.code}}">{{data.name}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="col-lg-6">
-                        <label for="inputAddress2">Category</label>
-                        <select class="form-control" name="contact_type" required>
-                            <option value="General">General</option>
-                            <option value="Deputy Commissioners & District Election Officers">Deputy Commissioners & District Election Officers</option>
-                            <option value="Asstt. Election Officers & Asstt. Electoral Registration Officers">Asstt. Election Officers & Asstt. Electoral Registration Officers</option>
-                        </select>
-                    </div>
-                </div>
+                
                     <div class="form-group">
                         <label>Name</label>
                         <input type="text" class="form-control" name="name" required>
                     </div>
                     <div class="form-group">
-                        <label>Designation</label>
-                        <input type="text" class="form-control" name="designation" required>
+                        <label>Designation <a href="{% url 'admin-designation' %}" class="btn btn-primary btn-xs" style="margin: 5px;">add designation</a></label>
+                        <select class="form-control" name="designation" required>
+                            <option value="">Select Designation</option>
+                            {% for data in designation_list %}
+                            <option value="{{data.id}}">{{data.name}}</option>
+                            {% endfor %}
+                        </select>
                     </div>
                     <div class="form-group row">
                         <div class="col-lg-6">
@@ -116,21 +95,6 @@
                             <input type="text" class="form-control" name="contact_no">
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <div class="col-lg-6">
-                            <label>Fax No</label>
-                            <input type="text" class="form-control" name="fax_no">
-                        </div>
-                        <div class="col-lg-6">
-                            <label>STD Code</label>
-                            <input type="text" class="form-control" name="std_code">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Address</label>
-                        <textarea type="text" rows="3" class="form-control" name="address"></textarea>
-                    </div>
-
                 </div>
                 <footer class="card-footer">
                     <div class="row">
@@ -155,32 +119,19 @@
                 </header>
 
             <div class="card-body">
-                <div class="form-group row">
-                    <div class="col-lg-6">
-                        <label>District</label>
-                        <select class="form-control" id="district_id" name="district_id" required>
-                            <option value="">Select District</option>
-                            {% for data in district_list %}
-                            <option value="{{data.code}}">{{data.name}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="col-lg-6">
-                        <label for="inputAddress2">Category</label>
-                        <select class="form-control" id="contact_type" name="contact_type" required>
-                            <option value="General">General</option>
-                            <option value="Deputy Commissioners & District Election Officers">Deputy Commissioners & District Election Officers</option>
-                            <option value="Asstt. Election Officers & Asstt. Electoral Registration Officers">Asstt. Election Officers & Asstt. Electoral Registration Officers</option>
-                        </select>
-                    </div>
-                </div>
+                
                     <div class="form-group">
                         <label>Name</label>
                         <input type="text" class="form-control" id="name" name="name" required>
                     </div>
                     <div class="form-group">
                         <label>Designation</label>
-                        <input type="text" class="form-control" id="designation" name="designation" required>
+                        <select class="form-control" name="designation" id="designation" required>
+                            <option value="">Select Designation</option>
+                            {% for data in designation_list %}
+                            <option value="{{data.id}}">{{data.name}}</option>
+                            {% endfor %}
+                        </select>                    
                     </div>
                     <div class="form-group row">
                         <div class="col-lg-6">
@@ -192,21 +143,6 @@
                             <input type="text" class="form-control" id="contact_no" name="contact_no">
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <div class="col-lg-6">
-                            <label>Fax No</label>
-                            <input type="text" class="form-control" id="fax_no" name="fax_no">
-                        </div>
-                        <div class="col-lg-6">
-                            <label>STD Code</label>
-                            <input type="text" class="form-control" id="std_code" name="std_code">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Address</label>
-                        <textarea type="text" rows="3" class="form-control" id="address" name="address"></textarea>
-                    </div>
-
                 </div>
                 <footer class="card-footer">
                     <div class="row">
@@ -303,17 +239,12 @@
         $('#modalSuccess').modal('hide');
         $('#modalError').modal('hide');
      }
-     function updateFunction(id,district_id,name,designation,contact_no,email,fax_no,std_code,contact_type,address){
+     function updateFunction(id,name,designation,contact_no,email){
         $("#update_contact_id").val(id);
-        $("#district_id").val(district_id);
         $("#name").val(name);
         $("#designation").val(designation);
         $("#contact_no").val(contact_no);
         $("#email").val(email);
-        $("#fax_no").val(fax_no);
-        $("#std_code").val(std_code);
-        $("#contact_type").val(contact_type);
-        $("#address").val(address);
      }
      function deleteFunction(id){
         $("#contact_id").val(id);

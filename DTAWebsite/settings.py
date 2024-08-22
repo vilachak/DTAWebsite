@@ -105,14 +105,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.0/howto/static-files/
-
-STATIC_URL = 'static/'
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # Logout after a period of inactivity
 INACTIVE_TIME = 30 * 60  # 30 minutes - or whatever period you think appropriate
@@ -121,15 +115,15 @@ SESSION_COOKIE_AGE = INACTIVE_TIME   # change expired session
 SESSION_IDLE_TIMEOUT = INACTIVE_TIME  # logout
 SESSION_SAVE_EVERY_REQUEST = True
 SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_HTTPONLY = True
-CSRF_COOKIE_SECURE = True
+# CSRF_COOKIE_HTTPONLY = True
+# CSRF_COOKIE_SECURE = True
 
 # X-XSS-Protection
-SECURE_BROWSER_XSS_FILTER = True
+# SECURE_BROWSER_XSS_FILTER = True
 # X-Frame-Options
 X_FRAME_OPTIONS = 'DENY'
 # X-Content-Type-Options
-SECURE_CONTENT_TYPE_NOSNIFF = True
+# SECURE_CONTENT_TYPE_NOSNIFF = True
 # Strict-Transport-Security
 # SECURE_HSTS_SECONDS = 15768000
 # SECURE_HSTS_INCLUDE_SUBDOMAINS = True
@@ -139,8 +133,8 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 # SECURE_SSL_REDIRECT = True
 
 # for more security
-CSRF_USE_SESSIONS = True
-SESSION_COOKIE_SAMESITE = 'Strict'
+# CSRF_USE_SESSIONS = True
+# SESSION_COOKIE_SAMESITE = 'Strict'
 
 # Email Settings
 EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=False, cast=bool)
