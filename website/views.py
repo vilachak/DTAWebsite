@@ -3,7 +3,7 @@ from django.shortcuts import render
 from datetime import datetime
 from administrator.forms import CaptchaForm
 from administrator.models import Contact, CustomUser, Department, District, Download, DownloadCategory, Grievance, \
-    GrievanceCategory, NewsEvent, PhotoGallery, Treasury, VideoGallery, Advertisement, PressRelease
+    GrievanceCategory, NewsEvent, PhotoGallery, SliderImage, Treasury, VideoGallery, Advertisement, PressRelease
 
 
 def home(request):
@@ -13,6 +13,7 @@ def home(request):
     advertisement_list = Advertisement.objects.filter(is_deleted=False).order_by('-id')[:5]
     download_list = Download.objects.filter(is_deleted=False).order_by('-id')[:5]
     download_type = download_list.first()
+    slider_list = SliderImage.objects.filter(is_deleted=False).order_by('slide_no')
     context = {
         "home": "active",
         "page_title": page_title,
@@ -20,6 +21,7 @@ def home(request):
         'notification': notification_list,
         'advertisement': advertisement_list,
         'download': download_list,
+        'slider_list':slider_list,
         'download_type': download_type.download_category.name
         }
     template = 'pages/home.html'
@@ -180,6 +182,14 @@ def grievance(request):
                 context['grievance_data'] = grievance_kwargs
                 context['errorCap'] = "Invalid CAPTCHA"
 
+        elif "search" in request.POST:
+            contact_no = request.POST.get("contact_no")
+            if g_data := Grievance.objects.filter(is_deleted=False, contact_no=contact_no).first():
+                context['grievance_detail'] = g_data
+            else:
+                context['not_found'] = "Data not found!"
+            context['contact_no'] = contact_no
+                
     return render(request, template, context)
 
 

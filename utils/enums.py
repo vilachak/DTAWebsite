@@ -4,10 +4,10 @@ import enum
 
 class UserTypeEnum(str, enum.Enum):
     ADMIN = 'ADMIN'
-    OPERATOR = 'OPERATOR'
+    DISTRICT = 'DISTRICT'
 
 
 LOGIN_REDIRECT = {
         UserTypeEnum.ADMIN: 'dashboard',
-        UserTypeEnum.OPERATOR: 'dashboard',
+        UserTypeEnum.DISTRICT: 'dashboard',
     }

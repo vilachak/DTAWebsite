@@ -15,11 +15,31 @@
         <div class="nano-content">
             <nav id="menu" class="nav-main" role="navigation">
                 <ul class="nav nav-main">
+                    {% if user.user_type == "DISTRICT" %}
                     <li class="{{dashboard}}">
                         <a class="nav-link" href="{% url 'dashboard' %}">
                             <i class='bx bxs-dashboard' ></i>
                             <span>Dashboard</span>
                         </a>                        
+                    </li>
+                    <li class="{{grievance}}">
+                        <a class="nav-link" href="{% url 'admin-grievance' %}">
+                            <i class='bx bx-help-circle'></i>
+                            <span>Grievance</span>
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="{{dashboard}}">
+                        <a class="nav-link" href="{% url 'dashboard' %}">
+                            <i class='bx bxs-dashboard' ></i>
+                            <span>Dashboard</span>
+                        </a>                        
+                    </li>
+                    <li class="{{grievance}}">
+                        <a class="nav-link" href="{% url 'admin-grievance' %}">
+                            <i class='bx bx-help-circle'></i>
+                            <span>Grievance</span>
+                        </a>
                     </li>
                     <li class="{{press_release_notification}}">
                         <a class="nav-link" href="{% url 'admin-notification' %}">
@@ -39,12 +59,7 @@
                             <span>News & Events</span>
                         </a>                        
                     </li>
-                    <li class="{{grievance}}">
-                        <a class="nav-link" href="{% url 'admin-grievance' %}">
-                            <i class='bx bx-help-circle'></i>
-                            <span>Grievance</span>
-                        </a>
-                    </li>
+                    
                     <li class="nav-parent {{gallery_slider}}">
                         <a class="nav-link" href="#">
                             <i class='bx bx-images' ></i>
@@ -134,6 +149,7 @@
                             </li>
                         </ul>
                     </li>
+                    {% endif %}
                 </ul>
             </nav>
 

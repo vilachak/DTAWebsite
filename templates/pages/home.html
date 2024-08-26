@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% load static %}
 {% block content %}
     <div role="main" class="main" id="main">
         <div class="owl-carousel owl-carousel-light owl-carousel-light-init-fadeIn owl-theme manual dots-inside dots-horizontal-center show-dots-hover nav-inside nav-inside-plus nav-dark nav-md nav-font-size-md show-nav-hover mb-0"
@@ -6,43 +7,10 @@
              data-dynamic-height="['670px','670px','670px','550px','500px']" style="height: 670px;">
             <div class="owl-stage-outer">
                 <div class="owl-stage">
+                    {% for data in slider_list %}
                     <!-- Carousel Slide 1 -->
-                    <div class="owl-item position-relative"
-                         style="background-image: url(img/slides/slide-bg-performance.jpg); background-color: #2E3136; background-size: cover; background-position: center;">
-                        <div class="container position-relative z-index-1 h-100">
-                            <div class="d-flex flex-column align-items-center justify-content-center h-100">
-                                <h3 class="position-relative text-color-light text-5 line-height-5 font-weight-medium px-4 mb-2 appear-animation"
-                                    data-appear-animation="fadeInDownShorter"
-                                    data-plugin-options="{'minWindowWidth': 0}">
-                                <span class="position-absolute right-100pct top-50pct transform3dy-n50 opacity-3">
-                                    <img src="/static/img/slides/slide-title-border.png" class="w-auto appear-animation"
-                                         data-appear-animation="fadeInLeftShorter" data-appear-animation-delay="250"
-                                         data-plugin-options="{'minWindowWidth': 0}" alt=""/>
-                                </span>
-                                    DO YOU NEED A <span class="position-relative">NEW <span
-                                        class="position-absolute left-50pct transform3dx-n50 top-0 mt-4"><img
-                                        src="/static/img/slides/slide-blue-line.png" class="w-auto appear-animation"
-                                        data-appear-animation="fadeInLeftShorterPlus" data-appear-animation-delay="1000"
-                                        data-plugin-options="{'minWindowWidth': 0}" alt=""/></span></span>
-                                    <span class="position-absolute left-100pct top-50pct transform3dy-n50 opacity-3">
-                                    <img src="/static/img/slides/slide-title-border.png" class="w-auto appear-animation"
-                                         data-appear-animation="fadeInRightShorter" data-appear-animation-delay="250"
-                                         data-plugin-options="{'minWindowWidth': 0}" alt=""/>
-                                </span>
-                                </h3>
-                                <h1 class="text-color-light font-weight-extra-bold text-12 mb-3 appear-animation"
-                                    data-appear-animation="blurIn" data-appear-animation-delay="500"
-                                    data-plugin-options="{'minWindowWidth': 0}">WEB DESIGN?</h1>
-                                <p class="text-4 text-color-light font-weight-light opacity-7 mb-0"
-                                   data-plugin-animated-letters
-                                   data-plugin-options="{'startDelay': 1000, 'minWindowWidth': 0}">Check out our options
-                                    and features</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Carousel Slide 2 -->
                     <div class="owl-item position-relative overlay overlay-show overlay-op-8 lazyload"
-                         data-bg-src="/static/img/slides/slide-bg-2.jpg"
+                         data-bg-src="media/slider/{{data.image_path}}"
                          style="background-size: cover; background-position: center;">
                         <div class="container position-relative z-index-3 h-100">
                             <div class="row justify-content-center align-items-center h-100">
@@ -51,79 +19,57 @@
                                         <h3 class="position-relative text-color-light text-5 line-height-5 font-weight-medium px-4 mb-2 appear-animation"
                                             data-appear-animation="fadeInDownShorter"
                                             data-plugin-options="{'minWindowWidth': 0}">
-                                        <span class="position-absolute right-100pct top-50pct transform3dy-n50 opacity-3">
-                                            <img src="/static/img/lazy.png"
-                                                 data-src="/static/img/slides/slide-title-border.png"
-                                                 class="w-auto appear-animation lazyload"
-                                                 data-appear-animation="fadeInLeftShorter"
-                                                 data-appear-animation-delay="250"
-                                                 data-plugin-options="{'imgFluid': false, 'minWindowWidth': 0}" alt=""/>
-                                        </span>
-                                            WE WORK HARD AND PORTO HAS
-                                            <span class="position-absolute left-100pct top-50pct transform3dy-n50 opacity-3">
-                                            <img src="/static/img/lazy.png"
-                                                 data-src="/static/img/slides/slide-title-border.png"
-                                                 class="w-auto appear-animation lazyload"
-                                                 data-appear-animation="fadeInRightShorter"
-                                                 data-appear-animation-delay="250"
-                                                 data-plugin-options="{'imgFluid': false, 'minWindowWidth': 0}" alt=""/>
-                                        </span>
+                                            Do you have any grievances?
                                         </h3>
                                         <h2 class="text-color-light font-weight-extra-bold text-12 mb-3 appear-animation"
-                                            data-appear-animation="blurIn" data-appear-animation-delay="500"
-                                            data-plugin-options="{'minWindowWidth': 0}">THE BEST DESIGN</h2>
-                                        <p class="text-4 text-color-light font-weight-light opacity-7 text-center mb-0"
-                                           data-plugin-animated-letters
-                                           data-plugin-options="{'startDelay': 1000, 'minWindowWidth': 0, 'animationSpeed': 30}">
-                                            Trusted by over <strong class="text-color-light">40,000</strong> satisfied
-                                            users, Porto is a huge success in the one of largest world's MarketPlace</p>
+                                            data-appear-animation="blurIn" data-appear-animation-delay="200"
+                                            data-plugin-options="{'minWindowWidth': 0}"><a href="{% url 'grievance' %}"><button class="btn btn-secondary">Click Here</button></a></h2>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Carousel Slide 3 -->
-                    <div class="owl-item position-relative overlay overlay-color-primary overlay-show overlay-op-8 lazyload"
-                         data-bg-src="/static/img/slides/slide-bg-6.jpg"
+                    {% endfor %}
+                    <!-- <div class="owl-item position-relative overlay overlay-show overlay-op-8 lazyload"
+                         data-bg-src="media/slider/slide2.jpg"
                          style="background-size: cover; background-position: center;">
                         <div class="container position-relative z-index-3 h-100">
                             <div class="row justify-content-center align-items-center h-100">
                                 <div class="col-lg-6">
                                     <div class="d-flex flex-column align-items-center">
-                                        <h3 class="position-relative text-color-light text-4 line-height-5 font-weight-medium px-4 mb-2 appear-animation"
+                                        <h3 class="position-relative text-color-light text-5 line-height-5 font-weight-medium px-4 mb-2 appear-animation"
                                             data-appear-animation="fadeInDownShorter"
                                             data-plugin-options="{'minWindowWidth': 0}">
-                                        <span class="position-absolute right-100pct top-50pct transform3dy-n50 opacity-3">
-                                            <img src="/static/img/lazy.png"
-                                                 data-src="/static/img/slides/slide-title-border.png"
-                                                 class="w-auto appear-animation lazyload"
-                                                 data-appear-animation="fadeInLeftShorter"
-                                                 data-appear-animation-delay="250"
-                                                 data-plugin-options="{'imgFluid': false, 'minWindowWidth': 0}" alt=""/>
-                                        </span>
-                                            WE CREATE DESIGNS, WE ARE
-                                            <span class="position-absolute left-100pct top-50pct transform3dy-n50 opacity-3">
-                                            <img src="/static/img/lazy.png"
-                                                 data-src="/static/img/slides/slide-title-border.png"
-                                                 class="w-auto appear-animation lazyload"
-                                                 data-appear-animation="fadeInRightShorter"
-                                                 data-appear-animation-delay="250"
-                                                 data-plugin-options="{'imgFluid': false, 'minWindowWidth': 0}" alt=""/>
-                                        </span>
+                                            Do you have any grievances?
                                         </h3>
-                                        <h2 class="porto-big-title text-color-light font-weight-extra-bold mb-3"
-                                            data-plugin-animated-letters
-                                            data-plugin-options="{'startDelay': 1000, 'minWindowWidth': 0, 'animationSpeed': 300, 'animationName': 'fadeInRightShorterOpacity', 'letterClass': 'd-inline-block'}">
-                                            PORTO</h2>
-                                        <p class="text-4 text-color-light font-weight-light text-center mb-0"
-                                           data-plugin-animated-letters
-                                           data-plugin-options="{'startDelay': 2000, 'minWindowWidth': 0}">The best
-                                            choice for your new website</p>
+                                        <h2 class="text-color-light font-weight-extra-bold text-12 mb-3 appear-animation"
+                                            data-appear-animation="blurIn" data-appear-animation-delay="200"
+                                            data-plugin-options="{'minWindowWidth': 0}"><a href="{% url 'grievance' %}"><button class="btn btn-secondary">Click Here</button></a></h2>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="owl-item position-relative overlay overlay-show overlay-op-8 lazyload"
+                         data-bg-src="media/slider/tmpnyd6t_4aslider_1.jpg"
+                         style="background-size: cover; background-position: center;">
+                        <div class="container position-relative z-index-3 h-100">
+                            <div class="row justify-content-center align-items-center h-100">
+                                <div class="col-lg-6">
+                                    <div class="d-flex flex-column align-items-center">
+                                        <h3 class="position-relative text-color-light text-5 line-height-5 font-weight-medium px-4 mb-2 appear-animation"
+                                            data-appear-animation="fadeInDownShorter"
+                                            data-plugin-options="{'minWindowWidth': 0}">
+                                            Do you have any grievances?
+                                        </h3>
+                                        <h2 class="text-color-light font-weight-extra-bold text-12 mb-3 appear-animation"
+                                            data-appear-animation="blurIn" data-appear-animation-delay="200"
+                                            data-plugin-options="{'minWindowWidth': 0}"><a href="{% url 'grievance' %}"><button class="btn btn-secondary">Click Here</button></a></h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
                 </div>
             </div>
             <div class="owl-nav">
@@ -318,28 +264,25 @@
                 <div class="owl-carousel owl-theme carousel-center-active-item mb-0"
                      data-plugin-options="{'responsive': {'0': {'items': 1}, '476': {'items': 1}, '768': {'items': 5}, '992': {'items': 7}, '1200': {'items': 7}}, 'margin': 50, 'autoplay': true, 'autoplayTimeout': 3000, 'dots': false}">
                     <div>
-                        <img class="img-fluid" src="static/img/logos/logo-1.png" alt="">
+                        <a href="https://digilocker.gov.in/" target="_blank" class="ext-link"><img src="{% static 'img/clients/dl-logo.jpeg' %}" alt="Clients"></a>
                     </div>
                     <div>
-                        <img class="img-fluid" src="static/img/logos/logo-2.png" alt="">
+                        <a href="https://data.gov.in/" target="_blank" class="ext-link"><img src="{% static 'img/clients/data-logo.jpeg' %}" alt="Clients"></a> 
                     </div>
                     <div>
-                        <img class="img-fluid" src="static/img/logos/logo-3.png" alt="">
+                        <a href="https://guidelines.india.gov.in" target="_blank" class="ext-link"><img src="{% static 'img/clients/GIGW.jpeg' %}" alt="Clients"></a>
                     </div>
                     <div>
-                        <img class="img-fluid" src="static/img/logos/logo-4.png" alt="">
+                        <a href="https://nagaland.mygov.in" target="_blank" class="ext-link"><img src="{% static 'img/clients/mygov-logo.jpeg' %}" alt="Clients"></a>
                     </div>
                     <div>
-                        <img class="img-fluid" src="static/img/logos/logo-5.png" alt="">
+                        <a href="https://aarogyasetu.gov.in/" target="_blank" class="ext-link"><img src="{% static 'img/clients/aarogya-logo.jpeg' %}" alt="Clients"></a>
                     </div>
                     <div>
-                        <img class="img-fluid" src="static/img/logos/logo-6.png" alt="">
+                        <a href="https://etaal.gov.in/" target="_blank" class="ext-link"><img src="{% static 'img/clients/etaal-logo.jpeg' %}" alt="Clients"></a>
                     </div>
                     <div>
-                        <img class="img-fluid" src="static/img/logos/logo-4.png" alt="">
-                    </div>
-                    <div>
-                        <img class="img-fluid" src="static/img/logos/logo-2.png" alt="">
+                        <a href="https://umang.gov.in/" target="_blank" class="ext-link"><img src="{% static 'img//clients/umang-logo.jpeg' %}" alt="Clients"></a>
                     </div>
                 </div>
             </div>

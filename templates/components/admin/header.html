@@ -1,4 +1,15 @@
 {% load static %}
+<style>
+    .btn_custom {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+}
+</style>
 <header class="header">
     <div class="logo-container">
         <a href="{% url 'dashboard' %}" class="logo">
@@ -28,49 +39,38 @@
             <li>
                 <a href="#" class="dropdown-toggle notification-icon" data-bs-toggle="dropdown">
                     <i class="bx bx-bell"></i>
-                    <span class="badge">3</span>
+                    <span class="badge">{{count}}</span>
                 </a>
                 <div class="dropdown-menu notification-menu">
                     <div class="notification-title">
-                        <span class="float-end badge badge-default">3</span>
-                        Alerts
+                        <span class="float-end badge badge-warning">{{count}}</span>
+                        Pending Grievances
                     </div>
 
                     <div class="content">
                         <ul>
+                            {% for data in notification %}
                             <li>
-                                <a href="#" class="clearfix">
+                                <form action="{% url 'admin-grievance' %}" method="post" autocomplete="off">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="applicant_id" value="{{ data.id }}">
+                                    <button type="submit" class="btn_custom" name="applicant_detail"><span class="title">{{data.applicant_name}}</span></button>
+                                    <span class="message">Filing Date: {{data.date_filing|date:'d-m-Y'}}</span>
+                                </form>
+
+                                <!-- <a href="{% url 'admin-grievance' %}" class="clearfix">
                                     <div class="image">
-                                        <i class="fas fa-thumbs-down bg-danger text-light"></i>
+                                        <i class="fas fa-question bg-warning text-light"></i>
                                     </div>
-                                    <span class="title">Server is Down!</span>
-                                    <span class="message">Just now</span>
-                                </a>
+                                    <span class="title">{{data.applicant_name}}</span>
+                                    <span class="message">Filing Date: {{data.date_filing|date:'d-m-Y'}}</span>
+                                </a> -->
                             </li>
-                            <li>
-                                <a href="#" class="clearfix">
-                                    <div class="image">
-                                        <i class="bx bx-lock bg-warning text-light"></i>
-                                    </div>
-                                    <span class="title">User Locked</span>
-                                    <span class="message">15 minutes ago</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="clearfix">
-                                    <div class="image">
-                                        <i class="fas fa-signal bg-success text-light"></i>
-                                    </div>
-                                    <span class="title">Connection Restaured</span>
-                                    <span class="message">10/10/2023</span>
-                                </a>
-                            </li>
+                            {% endfor %}
                         </ul>
-
                         <hr />
-
                         <div class="text-end">
-                            <a href="#" class="view-more">View All</a>
+                            <a href="{% url 'admin-grievance' %}" class="view-more">View All</a>
                         </div>
                     </div>
                 </div>
@@ -86,7 +86,7 @@
                 </figure>
                 <div class="profile-info" data-lock-name="{{request.username}}">
                     <span class="name">{{user.username}}</span>
-                    <span class="role">{{user.user_type}}</span>
+                    <span class="role">{{user.user_type}} USER</span>
                 </div>
 
                 <i class="fa custom-caret"></i>

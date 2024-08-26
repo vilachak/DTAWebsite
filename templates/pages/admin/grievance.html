@@ -92,7 +92,7 @@
                     </div>
                 </header>
                 <div class="card-body">
-                    <h3 class="text-center">Applicant Details</h3>
+                    <h4 class="text-center">Applicant Details</h4>
                     <table class="table table-striped table-no-more table-bordered mb-0">
 
                         <tbody class="log-viewer">
@@ -154,7 +154,7 @@
                         </tr>
                         <tr>
                             <td data-title="Date" class="pt-3 pb-3">
-                                Date of Filling
+                                Date of Filing
                             </td>
                             <td data-title="Message" class="pt-3 pb-3">
                                 {{ grievance_detail.date_filing|date:'m-d-Y'}}
@@ -189,7 +189,7 @@
                                 Action Taken
                             </td>
                             <td data-title="Message" class="pt-3 pb-3">
-                                {{ grievance_detail.action_taken}}
+                                {{ grievance_detail.grievance_action}}
                             </td>
                         </tr>
                         </tbody>
@@ -397,7 +397,7 @@
                                       id="description"></textarea>
                         </div>
                         <div class="col-lg-6">
-                            <label>Action Taken <span class="text-danger">*</span></label>
+                            <label>Action Taken </label>
                             <textarea type="text" rows="3" class="form-control" name="grievance_action"
                                       id="grievance_action"></textarea>
                         </div>

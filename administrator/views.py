@@ -17,6 +17,7 @@ from utils.enums import LOGIN_REDIRECT, UserTypeEnum
 from utils.file_upload import handle_uploaded_file
 from utils.validations import validate_password, validate_role
 from django.utils.encoding import force_bytes
+
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 import os
 
@@ -193,12 +194,16 @@ class AdminManagement:
                 context['success'] = "Successfully Deleted."
         context['data'] = GrievanceCategory.objects.filter(is_deleted=False).order_by('-id')
         return render(request, template, context)
-
+    
+    
     @validate_role
     def grievance(self, request):
         page_title = "Directorate of Treasuries & Accounts, Nagaland | Grievance"
         template = 'pages/admin/grievance.html'
-        district_list = District.objects.filter(is_deleted=False)
+        if request.user.user_type == "ADMIN":
+            district_list = District.objects.filter(is_deleted=False)
+        else:
+            district_list = District.objects.filter(is_deleted=False,id=request.user.district_id)
         department_list = Department.objects.filter(is_deleted=False)
         treasury_list = Treasury.objects.filter(is_deleted=False)
         grievance_category_list = GrievanceCategory.objects.filter(is_deleted=False)
@@ -255,7 +260,10 @@ class AdminManagement:
                 grievance_id = request.POST.get("grievance_id")
                 Grievance.objects.filter(id=grievance_id).update(is_deleted=True)
                 context['success'] = "Successfully Deleted."
-        context['data'] = Grievance.objects.filter(is_deleted=False).order_by('-date_filing')
+        if request.user.user_type == "ADMIN":
+            context['data'] = Grievance.objects.filter(is_deleted=False).order_by('-date_filing')
+        else:
+            context['data'] = Grievance.objects.filter(is_deleted=False,recipient_id=request.user.id).order_by('-date_filing')
         return render(request, template, context)
 
     @validate_role

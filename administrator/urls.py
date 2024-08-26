@@ -5,12 +5,12 @@ from administrator.views import Login, Logout, PasswordResetConfirmView, ResetPa
 from utils.enums import UserTypeEnum
 
 urlpatterns = [
-    path('dashboard', AdminManagement([UserTypeEnum.ADMIN]).dashboard, name='dashboard'),
+    path('dashboard', AdminManagement([UserTypeEnum.ADMIN,UserTypeEnum.DISTRICT]).dashboard, name='dashboard'),
     path('admin-district', AdminManagement([UserTypeEnum.ADMIN]).district, name='admin-district'),
     path('admin-department', AdminManagement([UserTypeEnum.ADMIN]).department, name='admin-department'),
     path('admin-treasury', AdminManagement([UserTypeEnum.ADMIN]).treasury, name='admin-treasury'),
     path('admin-grievance-category', AdminManagement([UserTypeEnum.ADMIN]).grievanceCategory, name='admin-grievance-category'),
-    path('admin-grievance', AdminManagement([UserTypeEnum.ADMIN]).grievance, name='admin-grievance'),
+    path('admin-grievance', AdminManagement([UserTypeEnum.ADMIN,UserTypeEnum.DISTRICT]).grievance, name='admin-grievance'),
     path('admin-notification', AdminManagement([UserTypeEnum.ADMIN]).notification,
          name='admin-notification'),
     path('admin-advertisement', AdminManagement([UserTypeEnum.ADMIN]).advertisement,
