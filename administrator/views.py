@@ -22,8 +22,10 @@ import os
 
 from django.db.models.query_utils import Q
 from administrator.forms import CaptchaForm, PasswordResetRequestForm, SetPasswordForm
-from administrator.models import CustomUser, Contact, Designation, District, NewsEvent, PressRelease, Download, SliderImage, \
-    PhotoGallery, VideoGallery, Department, Treasury, GrievanceCategory, Grievance, GrievanceResponse, DownloadCategory
+from administrator.models import CustomUser, Contact, Designation, District, NewsEvent, PressRelease, Download, \
+    SliderImage, \
+    PhotoGallery, VideoGallery, Department, Treasury, GrievanceCategory, Grievance, GrievanceResponse, DownloadCategory, \
+    Advertisement
 
 logger = logging.getLogger(__name__)
 User = get_user_model()
@@ -219,7 +221,7 @@ class AdminManagement:
                     'ppo_no': request.POST.get("ppo_no"),
                     'description': request.POST.get("description"),
                     'grievance_action': request.POST.get("grievance_action"),
-                    'status': "Pending",
+                    'status': request.POST.get("status"),
                     'district_id': request.POST.get("district"),
                     'department_id': request.POST.get("department"),
                     'grievance_category_id': request.POST.get("grievance_category"),
@@ -237,7 +239,7 @@ class AdminManagement:
                     'ppo_no': request.POST.get("ppo_no"),
                     'description': request.POST.get("description"),
                     'grievance_action': request.POST.get("grievance_action"),
-                    'status': "Pending",
+                    'status': request.POST.get("status"),
                     'district_id': request.POST.get("district"),
                     'department_id': request.POST.get("department"),
                     'grievance_category_id': request.POST.get("grievance_category"),
@@ -245,7 +247,10 @@ class AdminManagement:
                 }
                 Grievance.objects.filter(id=grievance_id).update(**grievances_kwargs)
                 context['success'] = "Successfully updated."
-
+            elif "applicant_detail" in request.POST:
+                applicant_id = request.POST.get('applicant_id')
+                context['grievance_detail'] = Grievance.objects.filter(id=applicant_id).first()
+                context['applicant_detail'] = True
             elif "delete" in request.POST:
                 grievance_id = request.POST.get("grievance_id")
                 Grievance.objects.filter(id=grievance_id).update(is_deleted=True)
@@ -254,9 +259,9 @@ class AdminManagement:
         return render(request, template, context)
 
     @validate_role
-    def pressRelease(self, request):
-        page_title = "Directorate of Treasuries & Accounts, Nagaland | Press Release"
-        template = 'pages/admin/press_release.html'
+    def notification(self, request):
+        page_title = "Directorate of Treasuries & Accounts, Nagaland | Notification"
+        template = 'pages/admin/notification.html'
         context = {"press_release_notification": "nav-active", 'page_title': page_title}
 
         if request.method == "POST":
@@ -268,7 +273,7 @@ class AdminManagement:
                 if file_path:
                     if file_path.name.lower().endswith('.pdf'):
                         if file_path.name.count('.') == 1:
-                            doc_file_url = handle_uploaded_file('press_release', file_path)
+                            doc_file_url = handle_uploaded_file('notification', file_path)
                             doc_file_path = os.path.basename(doc_file_url)
                             PressRelease(
                                 title=title,
@@ -297,7 +302,7 @@ class AdminManagement:
                 if file_path:
                     if file_path.name.lower().endswith('.pdf'):
                         if file_path.name.count('.') == 1:
-                            doc_file_url = handle_uploaded_file('press_release', file_path)
+                            doc_file_url = handle_uploaded_file('notification', file_path)
                             doc_file_path = os.path.basename(doc_file_url)
                             PressRelease.objects.filter(id=press_release_id).update(
                                 title=title,
@@ -322,6 +327,72 @@ class AdminManagement:
                 PressRelease.objects.filter(id=press_id).update(is_deleted=True)
                 context['success'] = "Successfully Deleted."
         context['data'] = PressRelease.objects.filter(is_deleted=False).order_by('-id')
+        return render(request, template, context)
+
+    @validate_role
+    def advertisement(self, request):
+        page_title = "Directorate of Treasuries & Accounts, Nagaland | Advertisement"
+        template = 'pages/admin/advertisement.html'
+        context = {"advertisement": "nav-active", 'page_title': page_title}
+
+        if request.method == "POST":
+            if "submit" in request.POST:
+                title = request.POST.get("title")
+                description = request.POST.get("description")
+                publish_date = request.POST.get("publish_date")
+                file_path = request.FILES.get('file_path', False)
+                if file_path:
+                    if file_path.name.lower().endswith('.pdf'):
+                        if file_path.name.count('.') == 1:
+                            doc_file_url = handle_uploaded_file('advertisement', file_path)
+                            doc_file_path = os.path.basename(doc_file_url)
+                            Advertisement(
+                                title=title,
+                                description=description,
+                                file_path=doc_file_path,
+                                publish_date=publish_date
+                            ).save()
+                            context['success'] = "Successfully submitted."
+                        else:
+                            context['error'] = 'Invalid document file format!'
+                    else:
+                        context['error'] = 'Invalid document file format!'
+                else:
+                    context['error'] = 'File required!'
+            elif "update" in request.POST:
+                advertisement_id = request.POST.get("advertisement_code_id")
+                title = request.POST.get("title")
+                description = request.POST.get("description")
+                publish_date = request.POST.get("publish_date")
+                file_path = request.FILES.get('file_path', False)
+                if file_path:
+                    if file_path.name.lower().endswith('.pdf'):
+                        if file_path.name.count('.') == 1:
+                            doc_file_url = handle_uploaded_file('advertisement', file_path)
+                            doc_file_path = os.path.basename(doc_file_url)
+                            Advertisement.objects.filter(id=advertisement_id).update(
+                                title=title,
+                                description=description,
+                                file_path=doc_file_path,
+                                publish_date=publish_date
+                            )
+                            context['success'] = "Successfully updated."
+                        else:
+                            context['error'] = 'Invalid document file format!'
+                    else:
+                        context['error'] = 'Invalid document file format!'
+                else:
+                    Advertisement.objects.filter(id=advertisement_id).update(
+                            title=title,
+                            description=description,
+                            publish_date=publish_date
+                    )
+                    context['success'] = "Successfully updated."
+            elif "delete" in request.POST:
+                advertisement_id = request.POST.get("advertisement_id")
+                Advertisement.objects.filter(id=advertisement_id).update(is_deleted=True)
+                context['success'] = "Successfully Deleted."
+        context['data'] = Advertisement.objects.filter(is_deleted=False).order_by('-id')
         return render(request, template, context)
 
     @validate_role

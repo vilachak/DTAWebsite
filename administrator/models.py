@@ -77,6 +77,13 @@ class PressRelease(TimeStamped):
     publish_date = models.DateField()
 
 
+class Advertisement(TimeStamped):
+    title = models.CharField(max_length=150)
+    description = models.TextField()
+    file_path = models.CharField(max_length=150, null=True, blank=True)
+    publish_date = models.DateField()
+
+
 class NewsEvent(TimeStamped):
     title = models.CharField(max_length=150, null=False)
     description = models.TextField(null=False)

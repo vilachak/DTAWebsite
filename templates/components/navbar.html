@@ -1,5 +1,5 @@
 {% load static %}
-<header id="header" data-plugin-options="{'stickyEnabled': true, 'stickyEnableOnBoxed': true, 'stickyEnableOnMobile': false, 'stickyStartAt': 54, 'stickySetTop': '-54px', 'stickyChangeLogo': false}">
+<header id="header" class="header-effect-shrink" data-plugin-options="{'stickyEnabled': true, 'stickyEffect': 'shrink', 'stickyEnableOnBoxed': true, 'stickyEnableOnMobile': true, 'stickyChangeLogo': true, 'stickyStartAt': 30, 'stickyHeaderContainerHeight': 70}">
     <div class="header-body header-body-bottom-border-fixed box-shadow-none border-top-0">
         <div class="header-top header-top-default border-bottom-0 border-top-0">
             <div class="container">
@@ -54,7 +54,7 @@
                 </div>
             </div>
         </div>
-        <div class="header-container container">
+        <div class="header-container container-fluid px-lg-4">
             <div class="header-row">
                 <div class="header-column w-100">
                     <div class="header-row justify-content-between">
@@ -76,8 +76,15 @@
                                 <nav class="collapse">
                                     <ul class="nav nav-pills" id="mainNav">
                                         <li><a href="{% url 'home' %}" class="nav-link {{home}}">Home</a></li>
-                                        <li><a href="{% url 'about' %}" class="nav-link {{about}}">About</a></li>
-                                        <li><a href="{% url 'who' %}" class="nav-link {{who_who}}">Who's Who</a></li>
+                                        <li class="dropdown">
+                                            <a href="#" class="nav-link dropdown-toggle {{gallery}}">About</a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="{% url 'about' %}" class="dropdown-item">About Us</a></li>
+                                                <li><a href="{% url 'who' %}" class="dropdown-item">Who's Who</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="{% url 'notification' %}" class="nav-link {{notification}}">Notification</a></li>
+                                        <li><a href="{% url 'advertisement' %}" class="nav-link {{advertisement}}">Advertisement</a></li>
                                         <li><a href="{% url 'news-events' %}" class="nav-link {{news_events}}">News & Events</a></li>
                                         <li class="dropdown">
                                             <a href="#" class="nav-link dropdown-toggle {{gallery}}">Gallery</a>
@@ -96,22 +103,12 @@
                                                 <li><a href="{% url 'download' %}" class="dropdown-item">Pension</a></li>
                                             </ul>
                                         </li>
+                                        <li><a href="{% url 'grievance' %}" class="nav-link {{grievance}}">Grievance</a></li>
                                         <li><a href="{% url 'contact' %}" class="nav-link {{contact}}">Contact</a></li>
                                     </ul>
                                 </nav>
                             </div>
                         </div>
-                        <!-- <ul class="header-extra-info custom-left-border-1 d-none d-xl-block">
-                            <li class="d-none d-sm-inline-flex ms-0">
-                                <div class="header-extra-info-icon">
-                                    <i class="icons icon-phone text-3 text-color-dark position-relative top-3"></i>
-                                </div>
-                                <div class="header-extra-info-text line-height-2">
-                                    <span class="text-1 font-weight-semibold text-color-default">CALL US NOW</span>
-                                    <strong class="text-4"><a href="tel:+1234567890" class="text-color-hover-primary text-decoration-none">+123 4567 890</a></strong>
-                                </div> 
-                            </li>
-                        </ul> -->
                     </div>
                 </div>
             </div>

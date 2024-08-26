@@ -20,17 +20,17 @@
 
     <div class="row">
         <div class="col">
+        {% if not applicant_detail %}
             <section class="card">
                 <header class="card-header">
                     <div class="col-lg-6">
                         <a class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-success" href="#modalForm"><i
-                                class='bx bx-help-circle'></i> Add Grievance Details</a>
+                                class='bx bx-plus-circle'></i> Add Grievance Details</a>
                     </div>
                     {#                     <h2 class="card-title">Grievance Details</h2>#}
                 </header>
                 <div class="card-body">
                     <table class="table table-bordered table-striped mb-0" id="datatable-tabletools">
-
                         <thead>
                         <tr>
                             <th>Sl No</th>
@@ -43,10 +43,8 @@
                             <th>District</th>
                             <th>Department</th>
                             <th>Treasury</th>
-                            <th>Grievance Category</th>
                             <th>Status</th>
-                            <th>Description</th>
-                            <th>Action Taken</th>
+                            <th>View</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -63,17 +61,21 @@
                                 <td>{{ data.district.name }}</td>
                                 <td>{{ data.department.name }}</td>
                                 <td>{{ data.treasury.name }}</td>
-                                <td>{{ data.grievance_category.name }}</td>
                                 <td>{{ data.status }}</td>
-                                <td>{{ data.description }}</td>
-                                <td>{{ data.grievance_action }}</td>
+                                <td>
+                                    <form action="{% url 'admin-grievance' %}" method="post" autocomplete="off">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="applicant_id" value="{{ data.id }}">
+                                        <button type="submit" class="btn btn-primary btn-xs" name="applicant_detail">View</button>
+                                    </form>
+                                </td>
                                 <td>
                                     <a href="#modalDelete"
-                                       class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-warning"
+                                       class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-warning btn-xs"
                                        onclick="deleteFunction('{{ data.id }}')"><i class='bx bx-trash'></i></a>
                                     <a href="#modalFormUpdate"
-                                       class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-primary"
-                                       onclick="updateFunction('{{ data.id }}','{{ data.applicant_name }}','{{ data.ppo_no }}','{{ data.contact_no }}','{{ data.district_id }}', '{{ data.department_id }}','{{ data.treasury_id }}','{{ data.grievance_category_id }}','{{ data.description }}','{{ data.grievance_action }}')"><i
+                                       class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-primary btn-xs"
+                                       onclick="updateFunction('{{ data.id }}','{{ data.applicant_name }}','{{ data.ppo_no }}','{{ data.contact_no }}','{{ data.district_id }}', '{{ data.department_id }}','{{ data.treasury_id }}','{{ data.grievance_category_id }}','{{ data.description }}','{{ data.grievance_action }}','{{ data.status }}')"><i
                                             class='bx bx-edit'></i></a>
                                 </td>
                             </tr>
@@ -82,18 +84,141 @@
                     </table>
                 </div>
             </section>
+        {% else %}
+            <section class="card">
+                <header class="card-header">
+                    <div class="col-lg-6">
+                        <a class="btn btn-primary" href="{% url 'admin-grievance' %}"> << Go back</a>
+                    </div>
+                </header>
+                <div class="card-body">
+                    <h3 class="text-center">Applicant Details</h3>
+                    <table class="table table-striped table-no-more table-bordered mb-0">
+
+                        <tbody class="log-viewer">
+                        <tr>
+                            <td data-title="Date" class="pt-3 pb-3">
+                                Recipient Name
+                            </td>
+                            <td data-title="Message" class="pt-3 pb-3">
+                                {{ grievance_detail.recipient.first_name}} {{ grievance_detail.recipient.last_name}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-title="Date" class="pt-3 pb-3">
+                                Status
+                            </td>
+                            <td data-title="Message" class="pt-3 pb-3">
+                                {{ grievance_detail.status}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-title="Date" class="pt-3 pb-3">
+                                Applicant Name
+                            </td>
+                            <td data-title="Message" class="pt-3 pb-3">
+                                {{ grievance_detail.applicant_name}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-title="Date" class="pt-3 pb-3">
+                                PPO No
+                            </td>
+                            <td data-title="Message" class="pt-3 pb-3">
+                                {{ grievance_detail.ppo_no}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-title="Date" class="pt-3 pb-3">
+                                Contact Number
+                            </td>
+                            <td data-title="Message" class="pt-3 pb-3">
+                                {{ grievance_detail.contact_no}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-title="Date" class="pt-3 pb-3">
+                                Department
+                            </td>
+                            <td data-title="Message" class="pt-3 pb-3">
+                                {{ grievance_detail.department.name}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-title="Date" class="pt-3 pb-3">
+                                Treasury
+                            </td>
+                            <td data-title="Message" class="pt-3 pb-3">
+                                {{ grievance_detail.treasury.name}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-title="Date" class="pt-3 pb-3">
+                                Date of Filling
+                            </td>
+                            <td data-title="Message" class="pt-3 pb-3">
+                                {{ grievance_detail.date_filing|date:'m-d-Y'}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-title="Date" class="pt-3 pb-3">
+                                Time of Filing
+                            </td>
+                            <td data-title="Message" class="pt-3 pb-3">
+                                {{ grievance_detail.time_filing}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-title="Date" class="pt-3 pb-3">
+                                Grievance Category
+                            </td>
+                            <td data-title="Message" class="pt-3 pb-3">
+                                {{ grievance_detail.grievance_category.name}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-title="Date" class="pt-3 pb-3">
+                                Reason/Grievance
+                            </td>
+                            <td data-title="Message" class="pt-3 pb-3">
+                                {{ grievance_detail.description}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-title="Date" class="pt-3 pb-3">
+                                Action Taken
+                            </td>
+                            <td data-title="Message" class="pt-3 pb-3">
+                                {{ grievance_detail.action_taken}}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        {% endif %}
         </div>
     </div>
-    <!-- end: page -->
-    <!-- Modal Form -->
     <div id="modalForm" class="zoom-anim-dialog modal-block modal-block-lg mfp-hide">
         <section class="card">
-            <form action="{% url 'admin-grievance' %}" method="post" autocomplete="off" >
+            <form action="{% url 'admin-grievance' %}" method="post" autocomplete="off">
                 {% csrf_token %}
                 <header class="card-header">
                     <h2 class="card-title">Add Grievance Details</h2>
                 </header>
                 <div class="card-body">
+                    <div class="form-group">
+                        <div class="col-lg-6">
+                            <label>Application Status <span class="text-danger">*</span></label>
+                            <select class="form-control" name="status" required>
+                                <option value="">Select Status</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Active">Active</option>
+                                <option value="Closed">Closed</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br>
                     <div class="form-group row">
                         <div class="col-lg-4">
                             <label>District <span class="text-danger">*</span></label>
@@ -185,9 +310,7 @@
             </form>
         </section>
     </div>
-    <!-- end: page -->
-    <!-- Modal Form -->
-    <div id="modalFormUpdate" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
+    <div id="modalFormUpdate" class="zoom-anim-dialog modal-block modal-block-lg mfp-hide">
         <section class="card">
             <form action="{% url 'admin-grievance' %}" method="post" autocomplete="off">
                 {% csrf_token %}
@@ -197,6 +320,18 @@
                 </header>
 
                 <div class="card-body">
+                    <div class="form-group">
+                        <div class="col-lg-6">
+                            <label>Application Status <span class="text-danger">*</span></label>
+                            <select class="form-control" name="status" id="status" required>
+                                <option value="">Select Status</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Active">Active</option>
+                                <option value="Closed">Closed</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br>
                     <div class="form-group row">
                         <div class="col-lg-4">
                             <label>District <span class="text-danger">*</span></label>
@@ -234,7 +369,8 @@
                         </div>
                         <div class="col-lg-6">
                             <label>Contact No <span class="text-danger">*</span></label>
-                            <input type="number" max="9999999999" class="form-control" name="contact_no" id="contact_no" required>
+                            <input type="number" max="9999999999" class="form-control" name="contact_no" id="contact_no"
+                                   required>
                         </div>
                     </div>
                     <br>
@@ -257,11 +393,13 @@
                     <div class="form-group row">
                         <div class="col-lg-6">
                             <label>Query/Grievance <span class="text-danger">*</span></label>
-                            <textarea type="text" rows="3" class="form-control" name="description" id="description"></textarea>
+                            <textarea type="text" rows="3" class="form-control" name="description"
+                                      id="description"></textarea>
                         </div>
                         <div class="col-lg-6">
                             <label>Action Taken <span class="text-danger">*</span></label>
-                            <textarea type="text" rows="3" class="form-control" name="grievance_action" id="grievance_action"></textarea>
+                            <textarea type="text" rows="3" class="form-control" name="grievance_action"
+                                      id="grievance_action"></textarea>
                         </div>
                     </div>
                 </div>
@@ -276,7 +414,7 @@
             </form>
         </section>
     </div>
-    <!-- end: page -->
+
     <div id="modalDelete" class="zoom-anim-dialog modal-block modal-block-warning mfp-hide">
         <section class="card">
             <form action="{% url 'admin-grievance' %}" method="post" autocomplete="off">
@@ -360,7 +498,7 @@
             $('#modalError').modal('hide');
         }
 
-        function updateFunction(id, applicant_name, ppo_no, contact_no, district_id, department_id, treasury_id, grievance_category_id, description, grievance_action) {
+        function updateFunction(id, applicant_name, ppo_no, contact_no, district_id, department_id, treasury_id, grievance_category_id, description, grievance_action,status) {
             $("#grievance_code_id").val(id);
             $("#applicant_name").val(applicant_name);
             $("#ppo_no").val(ppo_no);
@@ -371,6 +509,7 @@
             $("#grievance_category").val(grievance_category_id);
             $("#description").val(description);
             $("#grievance_action").val(grievance_action);
+            $("#status").val(status);
         }
 
         function deleteFunction(id) {

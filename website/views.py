@@ -2,16 +2,25 @@
 from django.shortcuts import render
 from datetime import datetime
 from administrator.forms import CaptchaForm
-from administrator.models import Contact, CustomUser, Department, District, Download, DownloadCategory, Grievance, GrievanceCategory, NewsEvent, PhotoGallery, Treasury, VideoGallery
+from administrator.models import Contact, CustomUser, Department, District, Download, DownloadCategory, Grievance, \
+    GrievanceCategory, NewsEvent, PhotoGallery, Treasury, VideoGallery, Advertisement, PressRelease
 
 
 def home(request):
     page_title = "DTA, Nagaland | Home"
     news_events = NewsEvent.objects.filter(is_deleted=False).order_by('-id')[:3]
+    notification_list = PressRelease.objects.filter(is_deleted=False).order_by('-id')[:5]
+    advertisement_list = Advertisement.objects.filter(is_deleted=False).order_by('-id')[:5]
+    download_list = Download.objects.filter(is_deleted=False).order_by('-id')[:5]
+    download_type = download_list.first()
     context = {
         "home": "active",
-        "page_title":page_title,
-        "news_events":news_events
+        "page_title": page_title,
+        "news_events": news_events,
+        'notification': notification_list,
+        'advertisement': advertisement_list,
+        'download': download_list,
+        'download_type': download_type.download_category.name
         }
     template = 'pages/home.html'
     return render(request, template, context)
@@ -19,19 +28,21 @@ def home(request):
 
 def about(request):
     page_title = "DTA, Nagaland | About"
-    context = {"about": "active","page_title":page_title}
+    context = {"about": "active", "page_title": page_title}
     template = 'pages/about.html'
     return render(request, template, context)
- 
+
+
 def who(request):
     page_title = "DTA, Nagaland | Who's Who"
     context = {
         "who_who": "active",
-        "page_title":page_title,
+        "page_title": page_title,
         "contact_list": Contact.objects.filter(is_deleted=False).order_by('designation')
         }
     template = 'pages/who.html'
     return render(request, template, context)
+
 
 def news(request):
     page_title = "DTA, Nagaland | News & Events"
@@ -46,42 +57,46 @@ def news(request):
         single_news_events = NewsEvent.objects.filter(id=news_id).first()
     context = {
         "news_events": "active",
-        "page_title":page_title,
+        "page_title": page_title,
         "single_news_events": single_news_events,
         "news_events": news_events
         }
     template = 'pages/news_events.html'
     return render(request, template, context)
 
+
 def photogallery(request):
     page_title = "DTA, Nagaland | Photo Gallery"
     context = {
         "gallery": "active",
-        "page_title":page_title,
+        "page_title": page_title,
         "photo_gallery": "active",
         "photo_data": PhotoGallery.objects.filter(is_deleted=False)
         }
     template = 'pages/photo_gallery.html'
     return render(request, template, context)
 
+
 def videogallery(request):
     page_title = "DTA, Nagaland | Video Gallery"
     context = {
         "gallery": "active",
-        "page_title":page_title,
+        "page_title": page_title,
         "video_gallery": "active",
         "video_gallery_data": VideoGallery.objects.filter(is_deleted=False)
         }
     template = 'pages/video_gallery.html'
     return render(request, template, context)
 
+
 def contact(request):
     page_title = "DTA, Nagaland | Contact"
     context = {
         "contact": "active",
-        "page_title":page_title}
+        "page_title": page_title}
     template = 'pages/contact.html'
     return render(request, template, context)
+
 
 def download(request):
     page_title = "DTA, Nagaland | Download"
@@ -93,11 +108,30 @@ def download(request):
     download_id = 0
     if download_cat := DownloadCategory.objects.filter(name=file_type).first():
         download_id = download_cat.id
-    download_list = Download.objects.filter(is_deleted=False,download_category_id=download_id)
-    context = {"download": "active", "page_title": page_title, 'file_type':file_type, 'download_list' :download_list,'download_category': download_category}
+    download_list = Download.objects.filter(is_deleted=False, download_category_id=download_id)
+    context = {"download": "active", "page_title": page_title, 'file_type': file_type, 'download_list': download_list, 'download_category': download_category}
     template = 'pages/download.html'
 
     return render(request, template, context)
+
+
+def advertisement(request):
+    page_title = "DTA, Nagaland | Advertisement"
+    advertisement_list = Advertisement.objects.filter(is_deleted=False).order_by('-id')[:20]
+    context = {"advertisement": "active", "page_title": page_title, 'advertisement_list': advertisement_list}
+    template = 'pages/advertisement.html'
+
+    return render(request, template, context)
+
+
+def notification(request):
+    page_title = "DTA, Nagaland | Notification"
+    notification_list = PressRelease.objects.filter(is_deleted=False).order_by('-id')[:20]
+    context = {"notification": "active", "page_title": page_title, 'notification_list': notification_list}
+    template = 'pages/notification.html'
+
+    return render(request, template, context)
+
 
 def grievance(request):
     page_title = "DTA, Nagaland | Grievance"
@@ -119,7 +153,7 @@ def grievance(request):
     if request.method == "POST":
         if "submit" in request.POST:
             # Get treasury user from Id
-            if treasury_user:= CustomUser.objects.filter(is_active=True, treasury_id=request.POST.get("treasury")).order_by('-id').first():
+            if treasury_user := CustomUser.objects.filter(is_active=True, treasury_id=request.POST.get("treasury")).order_by('-id').first():
                 recipient_id = treasury_user.id
             else:
                 treasury_user = CustomUser.objects.filter(is_active=True, user_type="ADMIN").order_by('-id').first()
@@ -148,14 +182,16 @@ def grievance(request):
 
     return render(request, template, context)
 
+
 def site_map(request):
     page_title = "DTA, Nagaland | Site Map"
-    context = {"site_map": "active","page_title":page_title}
+    context = {"site_map": "active", "page_title": page_title}
     template = 'pages/site_map.html'
     return render(request, template, context)
 
+
 def screen_reader(request):
     page_title = "DTA, Nagaland | Screen Reader"
-    context = {"screen_reader": "active","page_title":page_title}
+    context = {"screen_reader": "active", "page_title": page_title}
     template = 'pages/screen_reader.html'
     return render(request, template, context)

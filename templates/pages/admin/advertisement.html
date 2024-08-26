@@ -5,13 +5,13 @@
 
 <section role="main" class="content-body">
     <header class="page-header">
-        <h2>Press Release</h2>
+        <h2>Advertisement</h2>
 
         <div class="right-wrapper text-end">
             <ol class="breadcrumbs">
                 <li></li>
 
-                <li><span>Press Release</span></li>
+                <li><span>Advertisement</span></li>
 
             </ol>
             <a class="sidebar-right-toggle" data-open=""></a>
@@ -23,7 +23,7 @@
             <section class="card">
                 <header class="card-header">
                     <div class="col-lg-6">
-                        <a class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-success" href="#modalForm"><i class='bx bxs-news'></i>  Upload Press Release</a>
+                        <a class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-success" href="#modalForm"><i class='bx bxs-news'></i>  Upload Advertisement</a>
                     </div>
                 </header>
                 <div class="card-body">
@@ -47,7 +47,7 @@
                                 <td>{{data.publish_date|date:'d-m-Y'}}</td>
                                 <td>
                                     {% if data.file_path %}
-                                    <a href="/media/press_release/{{data.file_path}}" target="_blank">{{data.file_path}}</a>
+                                    <a href="/media/advertisement/{{data.file_path}}" target="_blank">{{data.file_path}}</a>
                                     {% endif %}
                                 </td>
                                 <td>
@@ -68,10 +68,10 @@
     <!-- Modal Form -->
     <div id="modalForm" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
         <section class="card">
-            <form action="{% url 'admin-press-release' %}" method="post" autocomplete="off" enctype="multipart/form-data">
+            <form action="{% url 'admin-advertisement' %}" method="post" autocomplete="off" enctype="multipart/form-data">
                 {% csrf_token %}
             <header class="card-header">
-                <h2 class="card-title">Add Press Release</h2>
+                <h2 class="card-title">Add Advertisement</h2>
             </header>
 
             <div class="card-body">
@@ -90,7 +90,7 @@
                     </div>
                     <div class="form-group">
                         <label for="inputAddress2">Document File (pdf only)</label>
-                        <input type="file" class="form-control" name="file_path" accept="application/pdf">
+                        <input type="file" class="form-control" name="file_path" accept="application/pdf" required>
                     </div>
 
                 </div>
@@ -107,11 +107,11 @@
     </div>
     <div id="modalFormUpdate" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
         <section class="card">
-            <form action="{% url 'admin-press-release' %}" method="post" autocomplete="off" enctype="multipart/form-data">
+            <form action="{% url 'admin-advertisement' %}" method="post" autocomplete="off" enctype="multipart/form-data">
                 {% csrf_token %}
-                <input type="hidden" id="press_release_id" name="press_release_id">
+                <input type="hidden" id="advertisement_code_id" name="advertisement_code_id">
             <header class="card-header">
-                <h2 class="card-title">Update Press Release</h2>
+                <h2 class="card-title">Update Advertisement</h2>
             </header>
 
             <div class="card-body">
@@ -148,15 +148,15 @@
     <!-- end: page -->
     <div id="modalDelete" class="zoom-anim-dialog modal-block modal-block-warning mfp-hide">
         <section class="card">
-            <form action="{% url 'admin-press-release' %}" method="post" autocomplete="off">
+            <form action="{% url 'admin-advertisement' %}" method="post" autocomplete="off">
                 {% csrf_token %}
             <header class="card-header bg-warning">
                 <h2 class="card-title text-white">Confirmation!</h2>
             </header>
 
             <div class="card-body">
-                <input type="hidden" class="form-control" name="press_id" id="press_id">
-                   <p class="text-dark">Are you sure you want to delete press release?</p>
+                <input type="hidden" class="form-control" name="advertisement_id" id="advertisement_id">
+                   <p class="text-dark">Are you sure you want to delete advertisement?</p>
                 </div>
                 <footer class="card-footer">
                     <div class="row">
@@ -231,13 +231,13 @@
      }
     function updateFunction(id,title,description,publish_date)
     {
-        $("#press_release_id").val(id);
+        $("#advertisement_code_id").val(id);
         $("#title").val(title);
         $("#description").val(description);
         $("#publish_date").val(publish_date);
     }
      function deleteFunction(id){
-        $("#press_id").val(id);
+        $("#advertisement_id").val(id);
      }
     </script>
     {% endblock custom_js %}

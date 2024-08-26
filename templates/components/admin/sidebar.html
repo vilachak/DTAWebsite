@@ -22,10 +22,16 @@
                         </a>                        
                     </li>
                     <li class="{{press_release_notification}}">
-                        <a class="nav-link" href="{% url 'admin-press-release' %}">
-                            <i class='bx bxs-news'></i>
-                            <span>Press Release</span>
+                        <a class="nav-link" href="{% url 'admin-notification' %}">
+                            <i class='bx bxs-bell'></i>
+                            <span>Notification</span>
                         </a>                        
+                    </li>
+                    <li class="{{advertisement}}">
+                        <a class="nav-link" href="{% url 'admin-advertisement' %}">
+                            <i class='bx bxs-news'></i>
+                            <span>Advertisement</span>
+                        </a>
                     </li>
                     <li class="{{news_event}}">
                         <a class="nav-link" href="{% url 'admin-news-event' %}">
