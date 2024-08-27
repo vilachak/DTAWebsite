@@ -1,5 +1,5 @@
 
-from administrator.models import Grievance
+from administrator.models import Grievance, DownloadCategory
 
 
 def notification_processor(request):
@@ -19,6 +19,6 @@ def notification_processor(request):
         }
     else:
         return {
-            'count': ''
+            'download_category_list':  DownloadCategory.objects.filter(is_deleted=False)
         }
    

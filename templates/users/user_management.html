@@ -16,6 +16,7 @@
                 <a class="sidebar-right-toggle" data-open=""></a>
             </div>
         </header>
+
         <div class="row">
             <div class="col">
                 <section class="card">
@@ -55,7 +56,7 @@
                                     <td class="text-center">
                                         <a href="#modalFormUpdate"
                                            class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-info"
-                                           onclick="editUser('{{ user.id }}','{{ user.first_name }}','{{ user.last_name }}','{{ user.designation }}','{{ user.mobile_no }}')"><i
+                                           onclick="updateFunction('{{ user.id }}','{{ user.first_name }}','{{ user.last_name }}','{{ user.designation }}','{{ user.mobile_no }}')"><i
                                                 class='bx bx-edit'></i></a>
                                         <a href="#modalDelete"
                                            class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-warning"
@@ -71,8 +72,6 @@
             </div>
         </div>
         <!-- end: page -->
-
-
         <!-- Modal Form -->
         <div id="modalForm" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
             <section class="card">
@@ -176,9 +175,9 @@
         <!-- Modal Form -->
         <div id="modalFormUpdate" class="zoom-anim-dialog modal-block modal-block-primary mfp-hide">
             <section class="card">
-                <form action="{% url 'user-management' %}" method="post" class="tablelist-form" autocomplete="off">
+                <form action="{% url 'user-management' %}" method="post" autocomplete="off">
                     {% csrf_token %}
-                    <input type="hidden" id="code" name="code" class="form-control"/>
+                    <input type="hidden" id="code" name="code">
                     <header class="card-header">
                         <h2 class="card-title">Update User</h2>
                     </header>
@@ -223,6 +222,7 @@
                 </form>
             </section>
         </div>
+        <!-- end: page -->
         <div id="modalDelete" class="zoom-anim-dialog modal-block modal-block-warning mfp-hide">
             <section class="card">
                 <form action="{% url 'user-management' %}" method="post" autocomplete="off">
@@ -232,8 +232,8 @@
                     </header>
 
                     <div class="card-body">
-                        <input type="hidden" id="delete_code" name="code"/>
-                        <p class="text-dark">Are you sure you want to delete users?</p>
+                        <input type="hidden" class="form-control" id="delete_code" name="code">
+                        <p class="text-dark">Are you sure you want to delete user?</p>
                     </div>
                     <footer class="card-footer">
                         <div class="row">
@@ -246,48 +246,47 @@
                 </form>
             </section>
         </div>
+        {% if success %}
+            <div class="modal fade" id="modalSuccess">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header bg-success">
+                            <h2 class="card-title text-white">Confirmation</h2>
+                        </div>
+                        <div class="modal-body">
+                            <p class="text-dark">{{ success }}</p>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <div class="col-md-12 text-end">
+                                <button class="btn btn-success modal-dismiss" onclick="closeModal()">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% if error %}
+            <div class="modal fade" id="modalError">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header bg-warning">
+                            <h2 class="card-title text-white">Attention!</h2>
+                        </div>
+                        <div class="modal-body">
+                            <p class="text-dark">{{ error }}</p>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <div class="col-md-12 text-end">
+                                <button class="btn btn-warning modal-dismiss" onclick="closeModal()">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     </section>
+{% endblock content %}
 
-
-    {% if success %}
-        <div class="modal fade" id="modalSuccess">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header bg-success">
-                        <h2 class="card-title text-white">Confirmation</h2>
-                    </div>
-                    <div class="modal-body">
-                        <p class="text-dark">{{ success }}</p>
-                    </div>
-                    <div class="modal-footer justify-content-between">
-                        <div class="col-md-12 text-end">
-                            <button class="btn btn-success modal-dismiss" onclick="closeModal()">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    {% endif %}
-    {% if error %}
-        <div class="modal fade" id="modalError">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header bg-warning">
-                        <h2 class="card-title text-white">Attention!</h2>
-                    </div>
-                    <div class="modal-body">
-                        <p class="text-dark">{{ error }}</p>
-                    </div>
-                    <div class="modal-footer justify-content-between">
-                        <div class="col-md-12 text-end">
-                            <button class="btn btn-warning modal-dismiss" onclick="closeModal()">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    {% endif %}
-{% endblock %}
 
 {% block custom_js %}
     <script>
@@ -322,21 +321,20 @@
             }
         });
 
-        function editUser(id, firstname, lastname, designation, mobile_no) {
+        function updateFunction(id, firstname, lastname, designation, mobile_no) {
             document.getElementById('code').value = id;
             document.getElementById('first_name').value = firstname;
             document.getElementById('last_name').value = lastname;
             document.getElementById('designation').value = designation;
             document.getElementById('mobile_no').value = mobile_no;
-            $("#modalFormUpdate").modal("show");
+            {#$("#modalFormUpdate").modal("show");#}
         }
 
         function deleteUser(id) {
             document.getElementById('delete_code').value = id;
-            $("#modalDelete").modal("show");
+            {#$("#modalDelete").modal("show");#}
         }
 
     </script>
 {% endblock custom_js %}
-
 

@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-
+</style>
     <section role="main" class="content-body">
     <header class="page-header">
         <h2>Grievance</h2>
@@ -70,13 +70,18 @@
                                     </form>
                                 </td>
                                 <td>
+                                    {% if data.status == "Pending" or data.status == "Active" %}
                                     <a href="#modalDelete"
                                        class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-warning btn-xs"
                                        onclick="deleteFunction('{{ data.id }}')"><i class='bx bx-trash'></i></a>
                                     <a href="#modalFormUpdate"
                                        class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-primary btn-xs"
                                        onclick="updateFunction('{{ data.id }}','{{ data.applicant_name }}','{{ data.ppo_no }}','{{ data.contact_no }}','{{ data.district_id }}', '{{ data.department_id }}','{{ data.treasury_id }}','{{ data.grievance_category_id }}','{{ data.description }}','{{ data.grievance_action }}','{{ data.status }}')"><i
-                                            class='bx bx-edit'></i></a>
+                                            class='bx bx-edit'></i>
+                                    </a>
+                                        {% else %}
+                                        <label>No action</label>
+                                    {% endif %}
                                 </td>
                             </tr>
                         {% endfor %}
@@ -93,9 +98,9 @@
                 </header>
                 <div class="card-body">
                     <h4 class="text-center">Applicant Details</h4>
-                    <table class="table table-striped table-no-more table-bordered mb-0">
+                    <table class="table table-bordered table-striped mb-0">
 
-                        <tbody class="log-viewer">
+                        <tbody class="">
                         <tr>
                             <td data-title="Date" class="pt-3 pb-3">
                                 Recipient Name
@@ -476,7 +481,7 @@
             </div>
         </div>
     {% endif %}
-
+    </section>
 {% endblock content %}
 
 {% block custom_js %}

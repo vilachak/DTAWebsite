@@ -3,55 +3,37 @@
 {% block content %}
     <div role="main" class="main" id="main">
         <div class="owl-carousel owl-carousel-light owl-carousel-light-init-fadeIn owl-theme manual dots-inside dots-horizontal-center show-dots-hover nav-inside nav-inside-plus nav-dark nav-md nav-font-size-md show-nav-hover mb-0"
-             data-plugin-options="{'autoplayTimeout': 7000}"
+             data-plugin-options="{'autoplayTimeout': 5000}"
              data-dynamic-height="['670px','670px','670px','550px','500px']" style="height: 670px;">
             <div class="owl-stage-outer">
                 <div class="owl-stage">
-                    {% for data in slider_list %}
                     <!-- Carousel Slide 1 -->
                     <div class="owl-item position-relative overlay overlay-show overlay-op-8 lazyload"
-                         data-bg-src="media/slider/{{data.image_path}}"
+                         data-bg-src="media/slider/slide_1.jpg"
                          style="background-size: cover; background-position: center;">
                         <div class="container position-relative z-index-3 h-100">
                             <div class="row justify-content-center align-items-center h-100">
                                 <div class="col-lg-6">
                                     <div class="d-flex flex-column align-items-center">
                                         <h3 class="position-relative text-color-light text-5 line-height-5 font-weight-medium px-4 mb-2 appear-animation"
-                                            data-appear-animation="fadeInDownShorter"
-                                            data-plugin-options="{'minWindowWidth': 0}">
-                                            Do you have any grievances?
-                                        </h3>
-                                        <h2 class="text-color-light font-weight-extra-bold text-12 mb-3 appear-animation"
-                                            data-appear-animation="blurIn" data-appear-animation-delay="200"
-                                            data-plugin-options="{'minWindowWidth': 0}"><a href="{% url 'grievance' %}"><button class="btn btn-secondary">Click Here</button></a></h2>
+                                    data-appear-animation="fadeInDownShorter"
+                                    data-plugin-options="{'minWindowWidth': 0}">
+                                    Directorate <span class="position-relative">of </span>
+                                </h3>
+                                <h1 class="text-color-light font-weight-extra-bold text-12 mb-3 appear-animation"
+                                    data-appear-animation="blurIn" data-appear-animation-delay="300"
+                                    data-plugin-options="{'minWindowWidth': 0}">Treasuries & Accounts</h1>
+                                <p class="text-4 text-color-light font-weight-light opacity-7 mb-0"
+                                   data-plugin-animated-letters
+                                   data-plugin-options="{'startDelay': 1000, 'minWindowWidth': 0}">Nagaland</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    {% endfor %}
-                    <!-- <div class="owl-item position-relative overlay overlay-show overlay-op-8 lazyload"
-                         data-bg-src="media/slider/slide2.jpg"
-                         style="background-size: cover; background-position: center;">
-                        <div class="container position-relative z-index-3 h-100">
-                            <div class="row justify-content-center align-items-center h-100">
-                                <div class="col-lg-6">
-                                    <div class="d-flex flex-column align-items-center">
-                                        <h3 class="position-relative text-color-light text-5 line-height-5 font-weight-medium px-4 mb-2 appear-animation"
-                                            data-appear-animation="fadeInDownShorter"
-                                            data-plugin-options="{'minWindowWidth': 0}">
-                                            Do you have any grievances?
-                                        </h3>
-                                        <h2 class="text-color-light font-weight-extra-bold text-12 mb-3 appear-animation"
-                                            data-appear-animation="blurIn" data-appear-animation-delay="200"
-                                            data-plugin-options="{'minWindowWidth': 0}"><a href="{% url 'grievance' %}"><button class="btn btn-secondary">Click Here</button></a></h2>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <!-- Carousel Slide 2 -->
                     <div class="owl-item position-relative overlay overlay-show overlay-op-8 lazyload"
-                         data-bg-src="media/slider/tmpnyd6t_4aslider_1.jpg"
+                         data-bg-src="media/slider/slider_2.jpg"
                          style="background-size: cover; background-position: center;">
                         <div class="container position-relative z-index-3 h-100">
                             <div class="row justify-content-center align-items-center h-100">
@@ -60,16 +42,21 @@
                                         <h3 class="position-relative text-color-light text-5 line-height-5 font-weight-medium px-4 mb-2 appear-animation"
                                             data-appear-animation="fadeInDownShorter"
                                             data-plugin-options="{'minWindowWidth': 0}">
-                                            Do you have any grievances?
+
+                                            Do you have any
+                                            <span class="position-absolute left-100pct top-50pct transform3dy-n50 opacity-3"></span>
+
                                         </h3>
                                         <h2 class="text-color-light font-weight-extra-bold text-12 mb-3 appear-animation"
                                             data-appear-animation="blurIn" data-appear-animation-delay="200"
-                                            data-plugin-options="{'minWindowWidth': 0}"><a href="{% url 'grievance' %}"><button class="btn btn-secondary">Click Here</button></a></h2>
+                                            data-plugin-options="{'minWindowWidth': 0}">Grievances?</h2>
+                                         <a href="{% url 'grievance' %}" class="btn btn-secondary" data-plugin-options="{'startDelay': 100, 'minWindowWidth': 0, 'animationSpeed': 10}">Click Here</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div> -->
+                    </div>
+
                 </div>
             </div>
             <div class="owl-nav">
@@ -79,9 +66,49 @@
             <div class="owl-dots mb-5">
                 <button role="button" class="owl-dot active"><span></span></button>
                 <button role="button" class="owl-dot"><span></span></button>
-                <button role="button" class="owl-dot"><span></span></button>
             </div>
         </div>
+        {#        <div class="owl-carousel owl-carousel-light owl-carousel-light-init-fadeIn owl-theme manual dots-inside dots-horizontal-center show-dots-hover nav-inside nav-inside-plus nav-dark nav-md nav-font-size-md show-nav-hover mb-0"#}
+        {#             data-plugin-options="{'autoplayTimeout': 7000}"#}
+        {#             data-dynamic-height="['670px','670px','670px','550px','500px']" style="height: 670px;">#}
+        {#            <div class="owl-stage-outer">#}
+        {#                <div class="owl-stage">#}
+        {#                    {% for data in slider_list %}#}
+        {#                    <!-- Carousel Slide 1 -->#}
+        {#                    <div class="owl-item position-relative overlay overlay-show overlay-op-8 lazyload"#}
+        {#                         data-bg-src="media/slider/{{data.image_path}}"#}
+        {#                         style="background-size: cover; background-position: center;">#}
+        {#                        <div class="container position-relative z-index-3 h-100">#}
+        {#                            <div class="row justify-content-center align-items-center h-100">#}
+        {#                                <div class="col-lg-6">#}
+        {#                                    <div class="d-flex flex-column align-items-center">#}
+        {#                                        <h3 class="position-relative text-color-light text-5 line-height-5 font-weight-medium px-4 mb-2 appear-animation"#}
+        {#                                            data-appear-animation="fadeInDownShorter"#}
+        {#                                            data-plugin-options="{'minWindowWidth': 0}">#}
+        {#                                            Do you have any grievances?#}
+        {#                                        </h3>#}
+        {#                                        <h2 class="text-color-light font-weight-extra-bold text-12 mb-3 appear-animation"#}
+        {#                                            data-appear-animation="blurIn" data-appear-animation-delay="200"#}
+        {#                                            data-plugin-options="{'minWindowWidth': 0}"><a href="{% url 'grievance' %}"><button class="btn btn-secondary">Click Here</button></a></h2>#}
+        {#                                    </div>#}
+        {#                                </div>#}
+        {#                            </div>#}
+        {#                        </div>#}
+        {#                    </div>#}
+        {#                    {% endfor %}#}
+        {#                    #}
+        {#                </div>#}
+        {#            </div>#}
+        {#            <div class="owl-nav">#}
+        {#                <button type="button" role="presentation" class="owl-prev" aria-label="Previous"></button>#}
+        {#                <button type="button" role="presentation" class="owl-next" aria-label="Next"></button>#}
+        {#            </div>#}
+        {#            <div class="owl-dots mb-5">#}
+        {#                <button role="button" class="owl-dot active"><span></span></button>#}
+        {#                <button role="button" class="owl-dot"><span></span></button>#}
+        {#                <button role="button" class="owl-dot"><span></span></button>#}
+        {#            </div>#}
+        {#        </div>#}
         <div class="home-intro light border border-bottom-0 mb-0">
             <div class="container">
 
@@ -109,24 +136,26 @@
                     <h4 class="mb-4">Notification</h4>
                     <div class="card">
                         <div class="card-body">
-                        {% if notification %}
-                            <ul class="list list-icons list-primary list-borders">
-                                {% for data in notification %}
-                                <li>
-                                    <i class="fas fa-check"></i> <a href="media/notification/{{ data.file_path }}" target="_blank">{{ data.title }}</a>
-                                </li>
-                                {% endfor %}
-                            <li></li>
-                            </ul>
-                            <div style="float: right;">
+                            {% if notification %}
+                                <ul class="list list-icons list-primary list-borders">
+                                    {% for data in notification %}
+                                        <li>
+                                            <i class="fas fa-check"></i> <a
+                                                href="media/notification/{{ data.file_path }}"
+                                                target="_blank">{{ data.title }}</a>
+                                        </li>
+                                    {% endfor %}
+                                    <li></li>
+                                </ul>
+                                <div style="float: right;">
                                 <span class="d-block mt-2"><a href="{% url 'notification' %}"
                                                               class="btn btn-xs btn-primary text-1 text-uppercase">...Read More</a></span>
-                            </div>
-                        {% else %}
-                            <div>
-                            <label>No data available</label>
-                            </div>
-                        {% endif %}
+                                </div>
+                            {% else %}
+                                <div>
+                                    <label>No data available</label>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -135,24 +164,25 @@
                     <h4 class="mb-4">Download</h4>
                     <div class="card">
                         <div class="card-body">
-                        {% if download %}
-                            <ul class="list list-icons list-primary list-borders">
-                                {% for data in download %}
-                                <li>
-                                    <i class="fas fa-check"></i> <a href="media/download/{{ data.file_path }}" target="_blank">{{ data.title }}</a>
-                                </li>
-                                {% endfor %}
-                            <li></li>
-                            </ul>
-                            <div style="float: right;">
+                            {% if download %}
+                                <ul class="list list-icons list-primary list-borders">
+                                    {% for data in download %}
+                                        <li>
+                                            <i class="fas fa-check"></i> <a href="media/download/{{ data.file_path }}"
+                                                                            target="_blank">{{ data.title }}</a>
+                                        </li>
+                                    {% endfor %}
+                                    <li></li>
+                                </ul>
+                                <div style="float: right;">
                                 <span class="d-block mt-2"><a href="{% url 'download' %}?type={{ download_type }}"
                                                               class="btn btn-xs btn-primary text-1 text-uppercase">...Read More</a></span>
-                            </div>
-                        {% else %}
-                            <div>
-                            <label>No data available</label>
-                            </div>
-                        {% endif %}
+                                </div>
+                            {% else %}
+                                <div>
+                                    <label>No data available</label>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -161,24 +191,26 @@
                     <h4 class="mb-4">Advertisement</h4>
                     <div class="card">
                         <div class="card-body">
-                        {% if advertisement %}
-                            <ul class="list list-icons list-primary list-borders">
-                                {% for data in advertisement %}
-                                <li>
-                                    <i class="fas fa-check"></i> <a href="media/advertisement/{{ data.file_path }}" target="_blank">{{ data.title }}</a>
-                                </li>
-                                {% endfor %}
-                            <li></li>
-                            </ul>
-                            <div style="float: right;">
+                            {% if advertisement %}
+                                <ul class="list list-icons list-primary list-borders">
+                                    {% for data in advertisement %}
+                                        <li>
+                                            <i class="fas fa-check"></i> <a
+                                                href="media/advertisement/{{ data.file_path }}"
+                                                target="_blank">{{ data.title }}</a>
+                                        </li>
+                                    {% endfor %}
+                                    <li></li>
+                                </ul>
+                                <div style="float: right;">
                                 <span class="d-block mt-2"><a href="{% url 'advertisement' %}"
                                                               class="btn btn-xs btn-primary text-1 text-uppercase">...Read More</a></span>
-                            </div>
+                                </div>
                             {% else %}
-                            <div>
-                            <label>No data available</label>
-                            </div>
-                        {% endif %}
+                                <div>
+                                    <label>No data available</label>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -264,25 +296,32 @@
                 <div class="owl-carousel owl-theme carousel-center-active-item mb-0"
                      data-plugin-options="{'responsive': {'0': {'items': 1}, '476': {'items': 1}, '768': {'items': 5}, '992': {'items': 7}, '1200': {'items': 7}}, 'margin': 50, 'autoplay': true, 'autoplayTimeout': 3000, 'dots': false}">
                     <div>
-                        <a href="https://digilocker.gov.in/" target="_blank" class="ext-link"><img src="{% static 'img/clients/dl-logo.jpeg' %}" alt="Clients"></a>
+                        <a href="https://digilocker.gov.in/" target="_blank" class="ext-link"><img
+                                src="{% static 'img/clients/dl-logo.jpeg' %}" alt="Clients"></a>
                     </div>
                     <div>
-                        <a href="https://data.gov.in/" target="_blank" class="ext-link"><img src="{% static 'img/clients/data-logo.jpeg' %}" alt="Clients"></a> 
+                        <a href="https://data.gov.in/" target="_blank" class="ext-link"><img
+                                src="{% static 'img/clients/data-logo.jpeg' %}" alt="Clients"></a>
                     </div>
                     <div>
-                        <a href="https://guidelines.india.gov.in" target="_blank" class="ext-link"><img src="{% static 'img/clients/GIGW.jpeg' %}" alt="Clients"></a>
+                        <a href="https://guidelines.india.gov.in" target="_blank" class="ext-link"><img
+                                src="{% static 'img/clients/GIGW.jpeg' %}" alt="Clients"></a>
                     </div>
                     <div>
-                        <a href="https://nagaland.mygov.in" target="_blank" class="ext-link"><img src="{% static 'img/clients/mygov-logo.jpeg' %}" alt="Clients"></a>
+                        <a href="https://nagaland.mygov.in" target="_blank" class="ext-link"><img
+                                src="{% static 'img/clients/mygov-logo.jpeg' %}" alt="Clients"></a>
                     </div>
                     <div>
-                        <a href="https://aarogyasetu.gov.in/" target="_blank" class="ext-link"><img src="{% static 'img/clients/aarogya-logo.jpeg' %}" alt="Clients"></a>
+                        <a href="https://aarogyasetu.gov.in/" target="_blank" class="ext-link"><img
+                                src="{% static 'img/clients/aarogya-logo.jpeg' %}" alt="Clients"></a>
                     </div>
                     <div>
-                        <a href="https://etaal.gov.in/" target="_blank" class="ext-link"><img src="{% static 'img/clients/etaal-logo.jpeg' %}" alt="Clients"></a>
+                        <a href="https://etaal.gov.in/" target="_blank" class="ext-link"><img
+                                src="{% static 'img/clients/etaal-logo.jpeg' %}" alt="Clients"></a>
                     </div>
                     <div>
-                        <a href="https://umang.gov.in/" target="_blank" class="ext-link"><img src="{% static 'img//clients/umang-logo.jpeg' %}" alt="Clients"></a>
+                        <a href="https://umang.gov.in/" target="_blank" class="ext-link"><img
+                                src="{% static 'img//clients/umang-logo.jpeg' %}" alt="Clients"></a>
                     </div>
                 </div>
             </div>

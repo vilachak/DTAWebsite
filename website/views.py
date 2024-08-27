@@ -38,7 +38,7 @@ def about(request):
 def who(request):
     page_title = "DTA, Nagaland | Who's Who"
     context = {
-        "who_who": "active",
+        "about": "active",
         "page_title": page_title,
         "contact_list": Contact.objects.filter(is_deleted=False).order_by('designation')
         }
@@ -58,7 +58,7 @@ def news(request):
     else:
         single_news_events = NewsEvent.objects.filter(id=news_id).first()
     context = {
-        "news_events": "active",
+        "news_event": "active",
         "page_title": page_title,
         "single_news_events": single_news_events,
         "news_events": news_events

@@ -1,5 +1,7 @@
 # Copyright 2022-2023, IT Cell, Directorate of Treasuries & Accounts, Nagaland. All rights reserved.
 import logging
+
+from django.db.models import Count
 from django.shortcuts import render, redirect
 from django.views.generic import FormView
 from django.contrib.auth.forms import PasswordChangeForm
@@ -79,7 +81,30 @@ class AdminManagement:
     def dashboard(self, request):
         page_title = "Directorate of Treasuries & Accounts, Nagaland | Dashboard"
         template = 'pages/admin/dashboard.html'
-        context = {"dashboard": "nav-active", 'page_title': page_title}
+        if request.user.user_type == "ADMIN":
+            grievance_list = Grievance.objects.filter(is_deleted=False)
+        else:
+            grievance_list = Grievance.objects.filter(is_deleted=False, recipient_id=request.user.id)
+        # Get district-wise total grievances
+        grievance_graph = (
+            Grievance.objects.filter(is_deleted=False)
+            .values('district__name')
+            .annotate(total_grievances=Count('id'))
+        )
+
+        # Convert queryset to a list of dictionaries
+        grievance_data = [
+            {'y': item['district__name'], 'a': item['total_grievances']}
+            for item in grievance_graph
+        ]
+        context = {
+            "dashboard": "nav-active",
+            'page_title': page_title,
+            'Pending_grievance': grievance_list.filter(status='Pending').count(),
+            'active_grievance': grievance_list.filter(status='Active').count(),
+            'closed_grievance': grievance_list.filter(status='Closed').count(),
+            'grievance_data': grievance_data
+        }
         return render(request, template, context)
 
     @validate_role
