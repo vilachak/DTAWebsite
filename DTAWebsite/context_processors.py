@@ -15,7 +15,8 @@ def notification_processor(request):
         count = grievances.count()
         return {
             'count': count,
-            'notification': grievances
+            'notification': grievances,
+            'download_category_list': DownloadCategory.objects.filter(is_deleted=False)
         }
     else:
         return {

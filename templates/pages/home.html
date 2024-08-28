@@ -68,47 +68,6 @@
                 <button role="button" class="owl-dot"><span></span></button>
             </div>
         </div>
-        {#        <div class="owl-carousel owl-carousel-light owl-carousel-light-init-fadeIn owl-theme manual dots-inside dots-horizontal-center show-dots-hover nav-inside nav-inside-plus nav-dark nav-md nav-font-size-md show-nav-hover mb-0"#}
-        {#             data-plugin-options="{'autoplayTimeout': 7000}"#}
-        {#             data-dynamic-height="['670px','670px','670px','550px','500px']" style="height: 670px;">#}
-        {#            <div class="owl-stage-outer">#}
-        {#                <div class="owl-stage">#}
-        {#                    {% for data in slider_list %}#}
-        {#                    <!-- Carousel Slide 1 -->#}
-        {#                    <div class="owl-item position-relative overlay overlay-show overlay-op-8 lazyload"#}
-        {#                         data-bg-src="media/slider/{{data.image_path}}"#}
-        {#                         style="background-size: cover; background-position: center;">#}
-        {#                        <div class="container position-relative z-index-3 h-100">#}
-        {#                            <div class="row justify-content-center align-items-center h-100">#}
-        {#                                <div class="col-lg-6">#}
-        {#                                    <div class="d-flex flex-column align-items-center">#}
-        {#                                        <h3 class="position-relative text-color-light text-5 line-height-5 font-weight-medium px-4 mb-2 appear-animation"#}
-        {#                                            data-appear-animation="fadeInDownShorter"#}
-        {#                                            data-plugin-options="{'minWindowWidth': 0}">#}
-        {#                                            Do you have any grievances?#}
-        {#                                        </h3>#}
-        {#                                        <h2 class="text-color-light font-weight-extra-bold text-12 mb-3 appear-animation"#}
-        {#                                            data-appear-animation="blurIn" data-appear-animation-delay="200"#}
-        {#                                            data-plugin-options="{'minWindowWidth': 0}"><a href="{% url 'grievance' %}"><button class="btn btn-secondary">Click Here</button></a></h2>#}
-        {#                                    </div>#}
-        {#                                </div>#}
-        {#                            </div>#}
-        {#                        </div>#}
-        {#                    </div>#}
-        {#                    {% endfor %}#}
-        {#                    #}
-        {#                </div>#}
-        {#            </div>#}
-        {#            <div class="owl-nav">#}
-        {#                <button type="button" role="presentation" class="owl-prev" aria-label="Previous"></button>#}
-        {#                <button type="button" role="presentation" class="owl-next" aria-label="Next"></button>#}
-        {#            </div>#}
-        {#            <div class="owl-dots mb-5">#}
-        {#                <button role="button" class="owl-dot active"><span></span></button>#}
-        {#                <button role="button" class="owl-dot"><span></span></button>#}
-        {#                <button role="button" class="owl-dot"><span></span></button>#}
-        {#            </div>#}
-        {#        </div>#}
         <div class="home-intro light border border-bottom-0 mb-0">
             <div class="container">
 
@@ -232,7 +191,7 @@
                                                 <div class="post-image">
                                                     <a href="{% url 'news-events' %}?id={{ data.id }}">
                                                         <img src="media/news/{{ data.file_path }}"
-                                                             style="height: 60px !important;"
+                                                             style="width: 250px !important; height: 120px !important;"
                                                              class="img-fluid img-thumbnail img-thumbnail-no-borders rounded-0"
                                                              alt="DTA"/>
                                                     </a>

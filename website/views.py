@@ -8,12 +8,12 @@ from administrator.models import Contact, CustomUser, Department, District, Down
 
 def home(request):
     page_title = "DTA, Nagaland | Home"
-    news_events = NewsEvent.objects.filter(is_deleted=False).order_by('-id')[:3]
+    news_events = NewsEvent.objects.filter(is_deleted=False).order_by('-uploaded_date')[:3]
     notification_list = PressRelease.objects.filter(is_deleted=False).order_by('-id')[:5]
     advertisement_list = Advertisement.objects.filter(is_deleted=False).order_by('-id')[:5]
     download_list = Download.objects.filter(is_deleted=False).order_by('-id')[:5]
-    download_type = download_list.first()
     slider_list = SliderImage.objects.filter(is_deleted=False).order_by('slide_no')
+    download_type = DownloadCategory.objects.filter(is_deleted=False).order_by('-id').first()
     context = {
         "home": "active",
         "page_title": page_title,
@@ -21,8 +21,8 @@ def home(request):
         'notification': notification_list,
         'advertisement': advertisement_list,
         'download': download_list,
-        'slider_list':slider_list,
-        'download_type': download_type.download_category.name
+        'slider_list': slider_list,
+        'download_type': download_type.name
         }
     template = 'pages/home.html'
     return render(request, template, context)
@@ -48,13 +48,13 @@ def who(request):
 
 def news(request):
     page_title = "DTA, Nagaland | News & Events"
-    news_events = NewsEvent.objects.filter(is_deleted=False).order_by('-id')[:15]
+    news_events = NewsEvent.objects.filter(is_deleted=False).order_by('-uploaded_date')[:15]
     try:
         news_id = request.GET["id"]
     except:
         news_id = '0'
     if news_id == '0':
-        single_news_events = NewsEvent.objects.filter(is_deleted=False).order_by('-id')[:1].first()
+        single_news_events = NewsEvent.objects.filter(is_deleted=False).order_by('-uploaded_date')[:1].first()
     else:
         single_news_events = NewsEvent.objects.filter(id=news_id).first()
     context = {
