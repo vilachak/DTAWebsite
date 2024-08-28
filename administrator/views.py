@@ -277,14 +277,45 @@ class AdminManagement:
                 }
                 Grievance.objects.filter(id=grievance_id).update(**grievances_kwargs)
                 context['success'] = "Successfully updated."
+
             elif "applicant_detail" in request.POST:
                 applicant_id = request.POST.get('applicant_id')
                 context['grievance_detail'] = Grievance.objects.filter(id=applicant_id).first()
                 context['applicant_detail'] = True
+
             elif "delete" in request.POST:
                 grievance_id = request.POST.get("grievance_id")
                 Grievance.objects.filter(id=grievance_id).update(is_deleted=True)
                 context['success'] = "Successfully Deleted."
+
+            elif "filter" in request.POST:
+                district = request.POST.get("district")
+                treasury = request.POST.get("treasury")
+                
+                if district != "0" and treasury != "0":
+                    if request.user.user_type == "ADMIN":
+                        context['data'] = Grievance.objects.filter(is_deleted=False, district_id=district, treasury_id=treasury).order_by('-date_filing')
+                    else:
+                        context['data'] = Grievance.objects.filter(is_deleted=False,recipient_id=request.user.id, district_id=district, treasury_id=treasury).order_by('-date_filing')
+                elif district == "0" and treasury != "0":
+                    if request.user.user_type == "ADMIN":
+                        context['data'] = Grievance.objects.filter(is_deleted=False, treasury_id=treasury).order_by('-date_filing')
+                    else:
+                        context['data'] = Grievance.objects.filter(is_deleted=False,recipient_id=request.user.id, treasury_id=treasury).order_by('-date_filing')
+                elif district != "0" and treasury == "0":
+                    if request.user.user_type == "ADMIN":
+                        context['data'] = Grievance.objects.filter(is_deleted=False, district_id=district).order_by('-date_filing')
+                    else:
+                        context['data'] = Grievance.objects.filter(is_deleted=False,recipient_id=request.user.id, district_id=district).order_by('-date_filing')
+                else:
+                    if request.user.user_type == "ADMIN":
+                        context['data'] = Grievance.objects.filter(is_deleted=False).order_by('-date_filing')
+                    else:
+                        context['data'] = Grievance.objects.filter(is_deleted=False,recipient_id=request.user.id).order_by('-date_filing')
+                context["district_filter"] = district   
+                context["treasury_filter"] = treasury 
+                return render(request, template, context)
+            
         if request.user.user_type == "ADMIN":
             context['data'] = Grievance.objects.filter(is_deleted=False).order_by('-date_filing')
         else:

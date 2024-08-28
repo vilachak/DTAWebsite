@@ -27,22 +27,63 @@
                         <a class="mb-1 mt-1 me-1 modal-with-zoom-anim ws-normal btn btn-success" href="#modalForm"><i
                                 class='bx bx-plus-circle'></i> Add Grievance Details</a>
                     </div>
-                    {#                     <h2 class="card-title">Grievance Details</h2>#}
                 </header>
                 <div class="card-body">
-                    <table class="table table-bordered table-striped mb-0" id="datatable-tabletools">
+                    <div class="col-lg-12">
+                        <form action="{% url 'admin-grievance' %}" method="post" autocomplete="off">
+                            {% csrf_token %}
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <select class="form-control" name="district">
+                                    <option value="0">--Select District--</option>
+                                    {% for data in district_list %}
+                                    {% if district_filter|add:0 == data.id|add:0 %}
+                                        <option value="{{ data.id }}" selected>{{ data.name }}</option>
+                                    {% else %}
+                                    <option value="{{ data.id }}">{{ data.name }}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-lg-4">
+                                <select class="form-control" name="treasury">
+                                    <option value="0">--Select Treasury--</option>
+                                    {% for data in treasury_list %}
+                                    {% if treasury_filter|add:0 == data.id|add:0 %}
+                                        <option value="{{ data.id }}" selected>{{ data.name }}</option>
+                                    {% else %}
+                                    <option value="{{ data.id }}">{{ data.name }}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-lg-4">
+                                <button type="submit" class="btn btn-primary" name="filter">Search</button>
+                            </div>
+                        </div>
+                        </form>
+                        
+                    </div>
+                    <hr>
+                    <div class="table-responsive">
+                    <table class="table table-bordered table-striped mb-0" style="width: max-content;" id="datatable_grievance">
                         <thead>
                         <tr>
                             <th>Sl No</th>
-                            <th>Applicant Name</th>
-                            <th>PPO Number</th>
-                            <th>Contact Number</th>
-                            <th>Date Filing</th>
-                            <th>Time Filing</th>
-                            <th>Recipient Name</th>
+                            <th>Applicant<br> Name</th>
+                            <th>PPO No</th>
+                            <th>Contact</th>
+                            <th>Date<br> Filing</th>
+                            <th>Time<br> Filing</th>
+                            <th>Recipient<br> Name</th>
                             <th>District</th>
                             <th>Department</th>
                             <th>Treasury</th>
+
+                            <th class="hidden">Grievance category</th>
+                            <th class="hidden">Reason/Grievance</th>
+                            <th class="hidden">Action Taken</th>
+
                             <th>Status</th>
                             <th>View</th>
                             <th>Action</th>
@@ -61,6 +102,11 @@
                                 <td>{{ data.district.name }}</td>
                                 <td>{{ data.department.name }}</td>
                                 <td>{{ data.treasury.name }}</td>
+
+                                <td class="hidden">{{ data.grievance_category.name }}</td>
+                                <td class="hidden">{{ data.description }}</td>
+                                <td class="hidden">{{ data.grievance_action }}</td>
+
                                 <td>{{ data.status }}</td>
                                 <td>
                                     <form action="{% url 'admin-grievance' %}" method="post" autocomplete="off">
@@ -87,6 +133,7 @@
                         {% endfor %}
                         </tbody>
                     </table>
+                </div>
                 </div>
             </section>
         {% else %}
@@ -323,7 +370,6 @@
                 <header class="card-header">
                     <h2 class="card-title">Update Grievance</h2>
                 </header>
-
                 <div class="card-body">
                     <div class="form-group">
                         <div class="col-lg-6">
@@ -485,6 +531,19 @@
 {% endblock content %}
 
 {% block custom_js %}
+<link rel="stylesheet" href="https://cdn.datatables.net/2.1.4/css/dataTables.dataTables.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.1.1/css/buttons.dataTables.css">
+
+<!-- <script src="https://code.jquery.com/jquery-3.7.1.js"></script> -->
+<script src="https://cdn.datatables.net/2.1.4/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.1.1/js/dataTables.buttons.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.1.1/js/buttons.dataTables.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.1.1/js/buttons.html5.min.js"></script>
+
+
     <script>
         $(document).ready(function () {
             var error_msg = '{{error}}' || "";
@@ -496,6 +555,25 @@
                 $('#modalSuccess').modal('show');
             }
 
+            new DataTable('#datatable_grievance', {
+                layout: {
+                    topStart: {
+                        buttons: [
+                            {
+                                extend: 'copyHtml5',
+                                exportOptions: {
+                                    columns: [0, 1, 2,3,4, 5,6,7,8,9,10,11,12,13]
+                                }
+                            },
+                            {
+                                extend: 'excelHtml5',
+                                exportOptions: {
+                                    columns: [0, 1, 2,3,4, 5,6,7,8,9,10,11,12,13]
+                                }
+                            },
+                    ]},
+                }
+            });
         });
 
         function closeModal() {
@@ -520,6 +598,8 @@
         function deleteFunction(id) {
             $("#grievance_id").val(id);
         }
+
+       
     </script>
 {% endblock custom_js %}
 
