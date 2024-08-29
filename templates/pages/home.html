@@ -1,6 +1,63 @@
 {% extends "layout.html" %}
 {% load static %}
 {% block content %}
+
+<style>
+
+    /* begin: marquee */
+    .horizontal-list {
+        list-style-type: circle;
+        padding: 0;
+        margin: 0;
+        display: flex;
+    }
+
+    .horizontal-list li {
+        margin-right: 40px;
+        font-size: 18px;
+        color: #2BAAB1;
+        /* color: #0088CC; */
+    }
+
+    .horizontal-list li:last-child {
+        margin-right: 0;
+    }
+    /* end: marquee */
+
+    .slide-image {
+        background-size: cover;
+        background-position: center;
+        max-height: 500px !important;
+        max-width: 1900px;
+        height: 100%;
+        width: 100%;
+    }
+
+    #news {
+        position: absolute;
+        height: 60px;
+        width: 250px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+    }
+
+    #marquee-custom {
+        width: calc(100% - 250px);
+        float: right;
+    }
+
+    @media (max-width: 1150px) {
+        #news {
+            display: none;
+        }
+        #marquee-custom {
+            width: 100%;
+        }
+    }
+
+</style>
     <div role="main" class="main" id="main">
         <div class="owl-carousel owl-carousel-light owl-carousel-light-init-fadeIn owl-theme manual dots-inside dots-horizontal-center show-dots-hover nav-inside nav-inside-plus nav-dark nav-md nav-font-size-md show-nav-hover mb-0"
              data-plugin-options="{'autoplayTimeout': 5000}"
@@ -68,38 +125,64 @@
                 <button role="button" class="owl-dot"><span></span></button>
             </div>
         </div>
+        <section class="bg-color-grey border-0 m-0" style="height: 60px; position: relative;">
+            <div class="bg-color-primary" id="news">
+                <i class="fa fa-newspaper" style="font-size: 25px; color: whitesmoke;"></i>
+                <span style="color: whitesmoke; font-size: 18px; font-weight: 600;">What's New</span>
+            </div>
+            <marquee id="marquee-custom" direction="left" class="mt-3" scrollamount="8">
+                <ul class="horizontal-list">
+                    {% for data in margue_list %}
+                        <li class="d-flex justify-content-center align-items-center gap-1">
+                            <a href="{% url 'download' %}?type={{data.download_category.name}}" class="text-color-tertiary font-size-custom"><i class="fas fa-caret-right"></i>
+                                {{data.title}}
+                            </a>
+                            <span class="badge badge-secondary rounded-pill text-uppercase px-2 text-center">New</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </marquee>
+        </section>
         <div class="home-intro light border border-bottom-0 mb-0">
             <div class="container">
 
                 <div class="row align-items-center">
-                    <div class="col-lg-10">
+                    <div class="col-lg-12">
                         <p class="font-weight-bold text-color-dark">
                             Directorate of Treasuries & Accounts, <span
                                 class="highlighted-word highlighted-word-animation-1 text-color-primary font-weight-semibold text-5">Nagaland</span>
-                            <span>The department of Treasuries and Accounts play a prominent role in the functioning of all financial matters in the state. The Department of Treasuries and Accounts is the main organ of the State Government that oversee the functioning of various Government departments and set the ordinances and directives...</span>
+                                <br>
+                            <span style="text-align: justify;">The department of Treasuries and Accounts play a prominent role in the functioning of all financial matters in the state. It was created in 1980 emerging as a separate department breaking away as a function under the establishment of the Deputy Commissioner. The department has since then expanded to eleven (11) District Treasuries and twelve (12) Sub-Treasuries. The Department of Treasuries and Accounts is the main organ of the State Government that oversee the functioning of various Government departments and set the ordinances and directives. Accounts officers in various departments administer the financial regulations ...
+                                <a href="{% url 'about' %}"><strong>Learn more </strong> </a>
+                            </span>
                         </p>
+                        
                     </div>
-                    <div class="col-lg-2">
-                        <div class="get-started text-left text-lg-right">
-                            <a href="{% url 'about' %}"
-                               class="btn btn-primary btn-lg text-3 font-weight-semibold btn-py-2 px-4">Learn more</a>
-                        </div>
-                    </div>
+                   
                 </div>
+                <!-- <div class="get-started text-left text-lg-right float-right">
+                    <a href="{% url 'about' %}"
+                       class="btn btn-primary btn-lg text-3 font-weight-semibold btn-py-2 px-4 ">Learn more</a>
+                </div> -->
             </div>
         </div>
+        
         <div class="container py-4">
-            <div class="row mb-5 pb-3">
-                <div class="col-md-6 col-lg-4 mb-5 mb-lg-0 appear-animation" data-appear-animation="fadeInUpShorter"
-                     data-appear-animation-delay="200">
-                    <h4 class="mb-4">Circular Notification</h4>
-                    <div class="card">
-                        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-4">
+                <div class=" appear-animation card p-2" data-appear-animation="fadeInRightShorter" data-appear-animation-delay="100">
+                    <div class="feature-box feature-box-style-2">
+                        <!-- <div class="feature-box-icon">
+                            <i class="icons icon-bell text-color-primary"></i>
+                        </div> -->
+                        <div class="feature-box-info">
+                            <h4 class="font-weight-bold mb-2">Circular Notification</h4>
+                            <hr>
                             {% if notification %}
                                 <ul class="list list-icons list-primary list-borders">
                                     {% for data in notification %}
                                         <li>
-                                            <i class="fas fa-check"></i> <a
+                                            <i class="fas fa-caret-right"></i> <a
                                                 href="media/notification/{{ data.file_path }}"
                                                 target="_blank">{{ data.title }}</a>
                                         </li>
@@ -118,16 +201,21 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-4 mb-5 mb-lg-0 appear-animation" data-appear-animation="fadeInUpShorter"
-                     data-appear-animation-delay="200">
-                    <h4 class="mb-4">Download</h4>
-                    <div class="card">
-                        <div class="card-body">
-                            {% if download %}
+                </div>
+                <div class="col-lg-4">
+                    <div class="appear-animation card p-2" data-appear-animation="fadeInRightShorter" data-appear-animation-delay="100">
+                        <div class="feature-box feature-box-style-2">
+                            <!-- <div class="feature-box-icon">
+                                <i class="icons icon-data text-color-primary"></i>
+                            </div> -->
+                            <div class="feature-box-info">
+                                <h4 class="font-weight-bold mb-2">Download</h4>
+                                <hr>
+                                {% if download %}
                                 <ul class="list list-icons list-primary list-borders">
                                     {% for data in download %}
                                         <li>
-                                            <i class="fas fa-check"></i> <a href="media/download/{{ data.file_path }}"
+                                            <i class="fas fa-caret-right"></i> <a href="media/download/{{ data.file_path }}"
                                                                             target="_blank">{{ data.title }}</a>
                                         </li>
                                     {% endfor %}
@@ -142,27 +230,32 @@
                                     <label>No data available</label>
                                 </div>
                             {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-4 mb-5 mb-lg-0 appear-animation" data-appear-animation="fadeInUpShorter"
-                     data-appear-animation-delay="200">
-                    <h4 class="mb-4">Advertisement</h4>
-                    <div class="card">
-                        <div class="card-body">
-                            {% if advertisement %}
+                <div class="col-lg-4">
+                    <div class="appear-animation card p-2" data-appear-animation="fadeInRightShorter" data-appear-animation-delay="100">
+                        <div class="feature-box feature-box-style-2">
+                            <!-- <div class="feature-box-icon">
+                                <i class="icons icon-news text-color-primary"></i>
+                            </div> -->
+                            <div class="feature-box-info">
+                                <h4 class="font-weight-bold mb-2">Right To Information (RTI)</h4>
+                                <hr>
+                                {% if rti_list %}
                                 <ul class="list list-icons list-primary list-borders">
-                                    {% for data in advertisement %}
+                                    {% for data in rti_list %}
+    
                                         <li>
-                                            <i class="fas fa-check"></i> <a
-                                                href="media/advertisement/{{ data.file_path }}"
-                                                target="_blank">{{ data.title }}</a>
+                                            <i class="fas fa-caret-right"></i> <a href="media/download/{{ data.file_path }}"
+                                                                            target="_blank">{{ data.title }}</a>
                                         </li>
                                     {% endfor %}
                                     <li></li>
                                 </ul>
                                 <div style="float: right;">
-                                <span class="d-block mt-2"><a href="{% url 'advertisement' %}"
+                                <span class="d-block mt-2"><a href="{% url 'download' %}?type=RTI"
                                                               class="btn btn-xs btn-primary text-1 text-uppercase">...Read More</a></span>
                                 </div>
                             {% else %}
@@ -170,14 +263,14 @@
                                     <label>No data available</label>
                                 </div>
                             {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
         <div class="home-intro light border border-bottom-0 mb-0">
-        <div class="container py-4">
+        <div class="container py-6">
             <div class="row">
                 <div class="col">
                     <h4>News & Events</h4>
@@ -223,12 +316,12 @@
             </div>
         </div>
         </div>
-        <section class="section section-height-3 bg-primary border-0 m-0">
+        <section class="section section-height-3 bg-secondary border-0 m-0">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-6 col-xl-7 text-center text-lg-start mb-4 mb-lg-0">
                         <h2 class="text-color-light font-weight-medium text-3-5 line-height-2 line-height-sm-1 ls-0 mb-2 mb-lg-2">
-                            Are there any grievances you'd like to discuss?</h2>
+                            Do you have any grievances you'd like to share?</h2>
                         <!-- <h3 class="font-weight-bold text-color-light text-transform-none text-8 line-height-2 line-height-lg-1 mb-1">Best Mechanics Downtown Los Angeles CA</h3> -->
                         <p class="font-weight-bold text-color-light text-4 opacity-7 mb-0">Submit Your Grievance With
                             Our Online Form</p>
@@ -254,7 +347,7 @@
         </section>
         <div class="container container-xl">
             <div class="row text-center py-4 my-5">
-                <div class="owl-carousel owl-theme carousel-center-active-item mb-0"
+                <div class="owl-carousel owl-theme  mb-0"
                      data-plugin-options="{'responsive': {'0': {'items': 1}, '476': {'items': 1}, '768': {'items': 5}, '992': {'items': 7}, '1200': {'items': 7}}, 'margin': 50, 'autoplay': true, 'autoplayTimeout': 3000, 'dots': false}">
                     <div>
                         <a href="https://digilocker.gov.in/" target="_blank" class="ext-link"><img

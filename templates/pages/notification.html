@@ -39,12 +39,18 @@
                         <aside class="sidebar">
                             <h5 class="font-weight-bold"><strong>Filter</strong> By</h5>
                             <ul class="nav nav-list flex-column sort-source mb-5">
-                                <li class="nav-item"><a class="nav-link active text-color-primary"
-                                                        href="{% url 'notification' %}">Notification</a>
-                                </li>
-                                <li class="nav-item"><a class="nav-link"
+                                <li class="nav-item"><a class="nav-link active text-color-primary" href="{% url 'notification' %}">Notification</a> </li>
+                                <li class="nav-item"><a class="nav-link" href="{% url 'download' %}?type=RTI">RTI</a> </li>
+                                {% for data in download_category_list %}
+                                {% if data.name == file_type %}
+                                <li class="nav-item"><a class="nav-link active text-color-primary" href="{% url 'download' %}?type={{data.name}}">{{data.name}}</a></li>
+                                {% else %}
+                                <li class="nav-item"><a class="nav-link" href="{% url 'download' %}?type={{data.name}}">{{data.name}}</a></li>
+                                {% endif %}
+                                {% endfor %}
+                                <!-- <li class="nav-item"><a class="nav-link"
                                                         href="{% url 'advertisement' %}">Advertisement</a>
-                                </li>
+                                </li> -->
 
                             </ul>
                         </aside>

@@ -11,9 +11,11 @@ def home(request):
     news_events = NewsEvent.objects.filter(is_deleted=False).order_by('-uploaded_date')[:3]
     notification_list = PressRelease.objects.filter(is_deleted=False).order_by('-id')[:5]
     advertisement_list = Advertisement.objects.filter(is_deleted=False).order_by('-id')[:5]
-    download_list = Download.objects.filter(is_deleted=False).order_by('-id')[:5]
+    download_list = Download.objects.filter(is_deleted=False).exclude(download_category__name='RTI').order_by('-id')[:5]
+    rti_list = Download.objects.filter(is_deleted=False, download_category__name='RTI').order_by('-id')[:5]
     slider_list = SliderImage.objects.filter(is_deleted=False).order_by('slide_no')
     download_type = DownloadCategory.objects.filter(is_deleted=False).order_by('-id').first()
+    margue_list = Download.objects.filter(is_deleted=False).order_by('-id')[:3]
     context = {
         "home": "active",
         "page_title": page_title,
@@ -21,8 +23,10 @@ def home(request):
         'notification': notification_list,
         'advertisement': advertisement_list,
         'download': download_list,
+        'rti_list': rti_list,
         'slider_list': slider_list,
-        'download_type': download_type.name
+        'download_type': download_type.name,
+        'margue_list': margue_list
         }
     template = 'pages/home.html'
     return render(request, template, context)
@@ -38,7 +42,7 @@ def about(request):
 def who(request):
     page_title = "DTA, Nagaland | Who's Who"
     context = {
-        "about": "active",
+        "who": "active",
         "page_title": page_title,
         "contact_list": Contact.objects.filter(is_deleted=False).order_by('designation')
         }
@@ -113,7 +117,9 @@ def download(request):
     download_list = Download.objects.filter(is_deleted=False, download_category_id=download_id)
     context = {"download": "active", "page_title": page_title, 'file_type': file_type, 'download_list': download_list, 'download_category': download_category}
     template = 'pages/download.html'
-
+    if file_type == "RTI":
+        context['rti'] = "active"
+        context['download'] = ""
     return render(request, template, context)
 
 

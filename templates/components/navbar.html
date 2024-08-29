@@ -76,23 +76,20 @@
                                 <nav class="collapse">
                                     <ul class="nav nav-pills" id="mainNav">
                                         <li><a href="{% url 'home' %}" class="nav-link {{home}}">Home</a></li>
-                                        <li class="dropdown">
-                                            <a href="#" class="nav-link dropdown-toggle {{about}}">About</a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="{% url 'about' %}" class="dropdown-item">About Us</a></li>
-                                                <li><a href="{% url 'who' %}" class="dropdown-item">Who's Who</a></li>
-                                            </ul>
-                                        </li>
+                                        <li><a href="{% url 'about' %}" class="nav-link {{about}}">About Us</a></li>
+                                        <li><a href="{% url 'who' %}" class="nav-link {{who}}">Who's Who</a></li>
                                         <li><a href="{% url 'notification' %}" class="nav-link {{notification}}">Notification</a></li>
-                                        <li><a href="{% url 'advertisement' %}" class="nav-link {{advertisement}}">Advertisement</a></li>
+                                        <!-- <li><a href="{% url 'advertisement' %}" class="nav-link {{advertisement}}">Advertisement</a></li> -->
                                         <li><a href="{% url 'news-events' %}" class="nav-link {{news_event}}">News & Events</a></li>
-                                        <li class="dropdown">
+                                        <li><a href="{% url 'download' %}?type=RTI" class="nav-link {{rti}}">RTI</a></li>
+                                        <!-- <li class="dropdown">
                                             <a href="#" class="nav-link dropdown-toggle {{gallery}}">Gallery</a>
                                             <ul class="dropdown-menu">
                                                 <li><a href="{% url 'photo-gallery' %}" class="dropdown-item">Photo Gallery</a></li>
                                                 <li><a href="{% url 'video-gallery' %}" class="dropdown-item">Video Gallery</a></li>
                                             </ul>
-                                        </li>
+                                        </li> -->
+                                        <li><a href="{% url 'photo-gallery' %}" class="nav-link {{gallery}}">Gallery</a></li>
                                         <li class="dropdown">
                                             <a href="#" class="nav-link dropdown-toggle {{download}}">Downlaods</a>
                                             <ul class="dropdown-menu">

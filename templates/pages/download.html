@@ -37,6 +37,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {% if download_list %}
                                     {% for data in download_list %}
                                     <tr>
                                         <td> {{forloop.counter}}</td>
@@ -45,6 +46,11 @@
                                         <td><a href="media/download/{{data.file_path}}" target="_blank"><i class='fa fa-download text-color-secondary'></i></a></td>
                                     </tr>
                                     {% endfor %}
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="4" class="text-center">No Data Available</td>
+                                    </tr>
+                                    {% endif %}
                                 </tbody>
                             </table>
                         </div>

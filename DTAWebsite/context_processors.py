@@ -16,10 +16,10 @@ def notification_processor(request):
         return {
             'count': count,
             'notification': grievances,
-            'download_category_list': DownloadCategory.objects.filter(is_deleted=False)
+            'download_category_list': DownloadCategory.objects.filter(is_deleted=False).exclude(name="RTI")
         }
     else:
         return {
-            'download_category_list':  DownloadCategory.objects.filter(is_deleted=False)
+            'download_category_list':  DownloadCategory.objects.filter(is_deleted=False).exclude(name="RTI")
         }
    
