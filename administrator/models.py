@@ -32,7 +32,7 @@ class GrievanceCategory(TimeStamped):
 class CustomUser(AbstractUser):
     user_type = models.CharField(max_length=20, default="ADMIN")
     mobile_no = models.CharField(max_length=10, null=True)
-    designation = models.CharField(max_length=10, null=True)
+    designation = models.CharField(max_length=150, null=True)
     district = models.ForeignKey(District, on_delete=models.PROTECT, related_name='custom_user', null=True)
     treasury = models.ForeignKey(Treasury, on_delete=models.PROTECT, related_name='custom_user', null=True)
 
