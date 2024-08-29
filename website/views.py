@@ -73,7 +73,7 @@ def photogallery(request):
         "gallery": "active",
         "page_title": page_title,
         "photo_gallery": "active",
-        "photo_data": PhotoGallery.objects.filter(is_deleted=False)
+        "photo_data": PhotoGallery.objects.filter(is_deleted=False).order_by('-id')
         }
     template = 'pages/photo_gallery.html'
     return render(request, template, context)

@@ -104,18 +104,18 @@
                             <div class="col-lg-6">
                                 <label class="form-label">Contact No</label>
                                 <input type="number" max="9999999999" name="mobile_no" class="form-control"
-                                       placeholder="Enter Contact No" required/>
+                                       placeholder="Enter Contact No" />
                             </div>
                         </div>
                         <br>
                         <div class="form-group row">
                             <div class="col-lg-6">
-                                <label class="form-label">User Name</label>
+                                <label class="form-label">User Name<span class="text-danger">*</span></label>
                                 <input type="text" name="username" class="form-control"
                                        placeholder="Enter username" required/>
                             </div>
                             <div class="col-lg-6">
-                                <label class="form-label">User Type</label>
+                                <label class="form-label">User Type<span class="text-danger">*</span></label>
                                 <select class="form-control" name="user_type" id="user_type" required>
                                     <option value="">Select user type</option>
                                     <option value="ADMIN">Admin</option>
@@ -126,7 +126,7 @@
                         <br>
                         <div class="form-group row" id="district_div" style="display: none;">
                             <div class="col-lg-6">
-                                <label class="form-label">District</label>
+                                <label class="form-label">District<span class="text-danger">*</span></label>
                                 <select class="form-control" name="district" id="district_id">
                                     <option value="">Select District</option>
                                     {% for data in district_list %}
@@ -135,7 +135,7 @@
                                 </select>
                             </div>
                             <div class="col-lg-6">
-                                <label class="form-label">Treasury</label>
+                                <label class="form-label">Treasury<span class="text-danger">*</span></label>
                                 <select class="form-control" name="treasury" id="treasury_id">
                                     <option value="">Select Treasury</option>
                                     {% for data in treasury_list %}
@@ -148,12 +148,12 @@
 
                         <div class="form-group row">
                             <div class="col-lg-6">
-                                <label class="form-label">Password</label>
+                                <label class="form-label">Password<span class="text-danger">*</span></label>
                                 <input type="password" name="password" class="form-control"
                                        placeholder="Enter Password" required/>
                             </div>
                             <div class="col-lg-6">
-                                <label class="form-label">Confirm Password</label>
+                                <label class="form-label">Confirm Password<span class="text-danger">*</span></label>
                                 <input type="password" name="Confirm_password" class="form-control"
                                        placeholder="Enter Confirm Password" required/>
                             </div>
@@ -206,7 +206,7 @@
                                 <label class="form-label">Contact No</label>
                                 <input type="number" max="9999999999" name="mobile_no" id="mobile_no"
                                        class="form-control"
-                                       placeholder="Enter Contact No" required/>
+                                       placeholder="Enter Contact No"/>
                             </div>
                         </div>
                         <br>

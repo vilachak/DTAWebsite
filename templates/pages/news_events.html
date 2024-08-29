@@ -28,8 +28,9 @@
                                         <img src="media/news/{{single_news_events.file_path}}" class="img-fluid img-thumbnail img-thumbnail-no-borders rounded-0" alt="Photo"/>
                                     </a>
                                 </div>
+                                    <br>
                                 {% endif %}
-                                <h2 class="font-weight-bold"><a href="#">{{single_news_events.title}}</a></h2>
+                                <h4 class="font-weight-bold"><a href="#">{{single_news_events.title}}</a></h4>
 
                                 <div class="post-meta">
                                     <span><i class="far fa-calendar"></i> Publish Date - <a href="#">{{single_news_events.uploaded_date|date:'d-m-Y'}}</a> </span>
@@ -43,9 +44,9 @@
                 <div class="col-md-4">
                     <aside class="sidebar">
                         <h5 class="font-weight-bold"><strong>News & Events</strong></h5>
-                        <ul class="nav nav-list flex-column sort-source mb-5">
+                        <ul class="nav nav-list flex-column sort-source mb-6">
                             {% for data in news_events %}
-                            <li class="nav-item"><a class="nav-link active text-color-primary" href="{% url 'news-events' %}?id={{data.id}}">{{data.title}}</a></li>
+                            <li class="nav-item"><a class="nav-link active text-color-primary text-3" href="{% url 'news-events' %}?id={{data.id}}">{{data.title}}</a></li>
                             {% endfor %}
                         </ul>
                     </aside>

@@ -92,7 +92,7 @@
             <div class="row mb-5 pb-3">
                 <div class="col-md-6 col-lg-4 mb-5 mb-lg-0 appear-animation" data-appear-animation="fadeInUpShorter"
                      data-appear-animation-delay="200">
-                    <h4 class="mb-4">Notification</h4>
+                    <h4 class="mb-4">Circular Notification</h4>
                     <div class="card">
                         <div class="card-body">
                             {% if notification %}
@@ -176,6 +176,7 @@
 
             </div>
         </div>
+        <div class="home-intro light border border-bottom-0 mb-0">
         <div class="container py-4">
             <div class="row">
                 <div class="col">
@@ -199,14 +200,14 @@
                                             {% endif %}
                                             <div class="post-content">
 
-                                                <h2 class="font-weight-semibold text-5 line-height-6 mt-3 mb-2"><a
+                                                <h3 class="font-weight-semibold text-3 line-height-6 mt-3 mb-2"><a
                                                         href="{% url 'news-events' %}?id={{ data.id }}">{{ data.title }}</a>
-                                                </h2>
+                                                </h3>
                                                 <div class="post-meta">
                                                     <span><i class="far fa-calendar"></i> Uploaded Date: <a
                                                             href="#">{{ data.uploaded_date|date:'d-m-Y' }}</a> </span>
                                                 </div>
-                                                <p style="text-align: justify;">{{ data.description|truncatechars:150 }}</p>
+                                                <p class="text-3" style="text-align: justify;">{{ data.description|truncatechars:150 }}</p>
                                             </div>
                                         </article>
                                     </div>
@@ -220,6 +221,7 @@
                     </div>
                 </div>
             </div>
+        </div>
         </div>
         <section class="section section-height-3 bg-primary border-0 m-0">
             <div class="container">
